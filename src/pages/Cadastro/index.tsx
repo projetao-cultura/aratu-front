@@ -1,51 +1,49 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Use aspas simples ou duplas aqui
 
 export default function Login() {
-    const navigation = useNavigation();
     return(
         
         <View style={styles.container}>
-           
-            <Image 
+           <Image 
             source={require('../../assets/loginAratu.png')}
             style={{width:'110%', height: `55%`}}
             />
             <Image 
             source={require('../../assets/logo1.png')}
-            style={{ marginTop: -100, width: 168, height: 175,  resizeMode: 'contain' }}
-            />
+            style={{ marginTop: -140, width: 168, height: 175,  resizeMode: 'contain' }}
+            /> 
             <Text style={styles.containerHeader}>ARATU</Text>
-            <Text style={styles.title}> </Text>
+
+            <TextInput
+            placeholder='Digite seu nome'
+            style={styles.input}/>
+
             <TextInput
             placeholder='Digite seu email'
             style={styles.input}/>
 
-            <Text style={styles.title}> </Text>
             <TextInput
             placeholder='Digite sua senha'
             style={styles.input}/>
 
             <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>Acessar</Text>
+                <Text style={styles.buttonText}>Cadastrar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonR} onPress = {() => navigation.navigate('Cadastro')} >
-                <Text >Não possui uma conta? 
-                Cadastre-se</Text>
-            </TouchableOpacity>
+            
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container:{
-        position: 'relative', // Garante que o posicionamento dos filhos seja relativo a este container
+
         alignItems:'center',
         flex:1,
         backgroundColor:'#DB9F36',
     },
+
     containerHeader:{
          marginTop: -6,
         marginBottom: '3%',
@@ -53,9 +51,14 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight:'bold'
     },
-
+    title:{
+        marginTop: 6,
+       fontSize: 20,
+       paddingRight: 210
+    },
 
     input:{
+        marginBottom:9,
         alignItems:'center',
         backgroundColor: '#FFF',
         borderRadius:25,
