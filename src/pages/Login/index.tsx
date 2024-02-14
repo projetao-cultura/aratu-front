@@ -14,15 +14,15 @@ export default function Login() {
             />
             <Image 
             source={require('../../assets/logo1.png')}
-            style={{ marginTop: -100, width: 168, height: 175,  resizeMode: 'contain' }}
+            style={{ marginTop: -140, width: 168, height: 175,  resizeMode: 'contain' }}
             />
-            <Text style={styles.containerHeader}>ARATU</Text>
-            <Text style={styles.title}> </Text>
+            <Text style={styles.containerHeader}>aratu</Text>
+            <Text > </Text>
             <TextInput
             placeholder='Digite seu email'
             style={styles.input}/>
 
-            <Text style={styles.title}> </Text>
+            <Text > </Text>
             <TextInput
             placeholder='Digite sua senha'
             style={styles.input}/>
@@ -47,11 +47,11 @@ const styles = StyleSheet.create({
         backgroundColor:'#DB9F36',
     },
     containerHeader:{
-         marginTop: -6,
+        fontFamily:'Gazebo',
+         marginTop: -17,
         marginBottom: '3%',
         color:'#FFF',
-        fontSize: 28,
-        fontWeight:'bold'
+        fontSize: 55,
     },
 
 
