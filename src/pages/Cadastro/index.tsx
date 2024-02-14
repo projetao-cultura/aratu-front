@@ -13,7 +13,7 @@ export default function Login() {
             source={require('../../assets/logo1.png')}
             style={{ marginTop: -140, width: 168, height: 175,  resizeMode: 'contain' }}
             /> 
-            <Text style={styles.containerHeader}>ARATU</Text>
+            <Text style={styles.containerHeader}>aratu</Text>
 
             <TextInput
             placeholder='Digite seu nome'
@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
     },
 
     containerHeader:{
-         marginTop: -6,
+        fontFamily:'Gazebo',
+         marginTop: -17,
         marginBottom: '3%',
         color:'#FFF',
-        fontSize: 28,
-        fontWeight:'bold'
+        fontSize: 55,
     },
     title:{
         marginTop: 6,
