@@ -1,3 +1,6 @@
+// source={require('../../assets/fotoperfil.jpg')}
+
+
 // Perfil - já fui
 
 // position: relative;
