@@ -35,6 +35,10 @@ export default function Login() {
                 <Text >Não possui uma conta? 
                 Cadastre-se</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.buttonR} onPress = {() => navigation.navigate('Perfil')} >
+                <Text >Link para perfil</Text>
+            </TouchableOpacity>
         </View>
     )
 }
