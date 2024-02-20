@@ -4,77 +4,129 @@ import { View, Text, Image, StyleSheet} from 'react-native';
 export default function Perfil() {
     return(
         
-        <View style={styles.container}>
-       
-        <View style={styles.profileRectangle}>
- <View style={styles.topNavbar}>
-      </View>
-        <Image
-          source={require('../../assets/fotoperfil.jpg')} style={styles.profileImage}
-        />
-        <Text style={styles.username}>João de Andrade</Text>
-        <Text style={styles.description}>@joao_andrade</Text>
-        <Text style={styles.bio}>Apaixonada por todas as cores que a arte pode oferecer. 🎭✨</Text>
-         <View style={styles.containerStats}>
-        <View style={styles.item}>
-        <Text style={styles.number}>20</Text>
-        <Text style={styles.text}>quero ir</Text>
+<View style={styles.container}>
+  <View style={styles.profileRectangle}>
+    <View style={styles.topNavbar}>
+      <Image source={'http://clipart-library.com/images/ziX5zyxxT.png'} style={styles.arrowIcon} />
+    <Text style={styles.logo}>Aratu</Text>
+    <Image source={'https://static-00.iconduck.com/assets.00/settings-icon-1964x2048-8nigtrtt.png'} style={styles.gearIcon} />
+    </View>
+    <View style={styles.profileInfo}>
+      <Image source={
+      'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} style={styles.profileImage} />
+      <Text style={styles.username}>
+        João de Andrade
+      </Text>
+      <Text style={styles.description}>
+        @joao_andrade
+      </Text>
+      <Text style={styles.bio}>
+        Apaixonado por todas as cores que a arte pode oferecer. 🎭✨
+      </Text>
+    </View>
+    <View style={styles.containerStats}>
+      <View style={styles.item}>
+        <Text style={styles.number}>
+          20
+        </Text>
+        <Text style={styles.text}>
+          quero ir
+        </Text>
       </View>
       <View style={styles.item}>
-      <Text style={styles.number}>378</Text>
-        <Text style={styles.text}>já fui</Text>
+        <Text style={styles.number}>
+          378
+        </Text>
+        <Text style={styles.text}>
+          já fui
+        </Text>
       </View>
       <View style={styles.item}>
-      <Text style={styles.number}>99</Text>
-        <Text style={styles.text}>gostei</Text>
+        <Text style={styles.number}>
+          99
+        </Text>
+        <Text style={styles.text}>
+          gostei
+        </Text>
       </View>
-      </View>
-
-      </View>
-      <View style={styles.segmentedControlStructure}>
-      <View style={styles.segmentedControlLeft}>
-        <Text style={styles.buttonControlText}>Quero ir</Text>
-      </View>
-      <View style={styles.segmentedControlRight}>
-        <Text style={styles.buttonControlTextSelected}>Já fui</Text>
-      </View>
-      </View>
-
-
-          <View style={styles.contentBlock}>
-      <View style={styles.contentBlockImage}>
-        <Image source={require('../../assets/fotoperfil.jpg')} style={styles.image} />
-      </View>
-      <Text style={styles.headerContentBlock}>Forte das Cinco Pontas</Text>
-      <Text style={styles.timeContentBlock}>8m ago</Text>
-      <Text style={styles.descriptionContentBlock}>
-        Muito massa, po. Gostei, mas esse texto não vai existir.
+    </View>
+  </View>
+  <View style={styles.segmentedControlStructure}>
+    <View style={styles.segmentedControlLeft}>
+      <Text style={styles.buttonControlText}>
+        Quero ir
       </Text>
-      <View style={styles.dividerLineContentBlock} />
     </View>
-    <View style={styles.contentBlock}>
-      <View style={styles.contentBlockImage}>
-        <Image source={require('../../assets/fotoperfil.jpg')} style={styles.image} />
-      </View>
-      <Text style={styles.headerContentBlock}>STU Nacional</Text>
-      <Text style={styles.timeContentBlock}>8m ago</Text>
-      <Text style={styles.descriptionContentBlock}>
-        Provavelmente vai ser a avaliação aqui.
+    <View style={styles.segmentedControlRight}>
+      <Text style={styles.buttonControlTextSelected}>
+        Já fui
       </Text>
-      <View style={styles.dividerLineContentBlock} />
     </View>
-    <View style={styles.contentBlock}>
-      <View style={styles.contentBlockImage}>
-        <Image source={require('../../assets/fotoperfil.jpg')} style={styles.image} />
+  </View>
+  <View style={styles.contentBlock}>
+    <View style={styles.contentBlockImage}>
+      <Image source={
+      'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} style={styles.image} />
+    </View>
+    <Text style={styles.headerContentBlock}>
+      Quinta do Galo
+    </Text>
+    <Text style={styles.timeContentBlock}>
+      3 dias
+    </Text>
+    <Text style={styles.descriptionContentBlock}>
+      ⭐⭐⭐⭐⭐
+    </Text>
+    <View style={styles.dividerLineContentBlock} />
+  </View>
+  <View style={styles.contentBlock}>
+    <View style={styles.contentBlockImage}>
+      <Image source={
+      'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} style={styles.image} />
+    </View>
+    <Text style={styles.headerContentBlock}>
+      STU Nacional
+    </Text>
+    <Text style={styles.timeContentBlock}>
+      7 dias
+    </Text>
+    <Text style={styles.descriptionContentBlock}>
+      ⭐⭐⭐
+    </Text>
+    <View style={styles.dividerLineContentBlock} />
+  </View>
+  <View style={styles.contentBlock}>
+    <View style={styles.contentBlockImage}>
+      <Image source={
+      'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} style={styles.image} />
+    </View>
+    <Text style={styles.headerContentBlock}>
+      Show Priscilla Senna
+    </Text>
+    <Text style={styles.timeContentBlock}>
+      14 dias
+    </Text>
+    <Text style={styles.descriptionContentBlock}>
+      ⭐⭐⭐⭐
+    </Text>
+    <View style={styles.dividerLineContentBlock} />
+  </View>
+    <View style={styles.bottomNavbar}>
+      <View style={styles.bottomNavCircle}>
+        <Image source={{uri: 'http://cdn.onlinewebfonts.com/svg/img_287006.png'}} style={styles.imageInsideCircle} resizeMode="contain" />
       </View>
-      <Text style={styles.headerContentBlock}>Teatro do Parque</Text>
-      <Text style={styles.timeContentBlock}>8m ago</Text>
-      <Text style={styles.descriptionContentBlock}>
-        Provavelmente vai ser a avaliação aqui.
-      </Text>
-      <View style={styles.dividerLineContentBlock} />
+      <View style={styles.bottomNavCircle}>
+        <Image source={{uri: 'http://www.pngall.com/wp-content/uploads/2017/03/Compass-PNG-HD.png'}} style={styles.imageInsideCircle} resizeMode="contain" />
+      </View>
+      <View style={styles.bottomNavCircle}>
+        <Image source={{uri: 'https://webstockreview.net/images/hearts-vector-png-7.png'}} style={styles.imageInsideCircle} resizeMode="contain" />
+      </View>
+      <View style={[styles.bottomNavCircle, styles.bottomNavSelected]}>
+        <Image source={{uri: 'https://pluspng.com/img-png/png-user-icon-customer-icon-1600.png'}} style={styles.imageInsideCircle} resizeMode="contain" />
+      </View>
     </View>
-    </View>
+
+</View>
 
     
     )
@@ -87,14 +139,62 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'flex-start',
     },
+  topNavbar: {
+    position: 'absolute',
+    width: '100%',
+    height: 52,
+    top: 0,
+    backgroundColor: '#ECDDC7',
+    flexDirection: 'row', // Make the children align horizontally
+    alignItems: 'center',
+    justifyContent: 'space-between', // Spread the children apart
+    paddingHorizontal: 16, // Add some padding
+},
 
-    profileImage: {
+arrowIcon: {
+    width: 20,
+    height:20,
+},
+
+gearIcon: {
+    width: 20,
+    height: 20,
+},
+logo:{
+    fontFamily: 'Inter', // Mudar para fonte certa da logo
+    fontStyle: 'normal',
+    fontWeight: '500',
+    fontSize: 20,
+    lineHeight: 24,
+    color: '#000000',
+},
+profileRectangle: {
+    position: 'absolute',
+    height: 250,
+    width: '100%',
+    backgroundColor: '#DB9F36',
+    left: 0,
+    right: 0,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+},
+profileInfo: {
+    width: 350,
+    position: 'relative',
+    height: 130,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    top: 60,
+},
+profileImage: {
     boxSizing: 'border-box',
     position: 'absolute',
-    width: 103,
-    height: 101,
+    width: 95,
+    height: 95,
     left: 22,
-    top: 79,
+    marginTop: '10px',
     backgroundColor: 'url(.png)',
     borderColor: '#FFFFFF',
     borderWidth: 4,
@@ -108,8 +208,8 @@ const styles = StyleSheet.create({
       position: 'absolute',
     width: 220,
     height: 24,
-    left: 153,
-    top: 89,
+    left:140,
+    top: 20,
     fontFamily: 'Inter',
     fontStyle: 'normal',
     fontWeight: '500',
@@ -121,8 +221,8 @@ const styles = StyleSheet.create({
       position: 'absolute',
     width: 129,
     height: 17,
-    left: 153,
-    top: 114,
+    left: 140,
+    top: 50,
     fontFamily: 'Inter',
     fontStyle: 'normal',
     fontWeight: '700',
@@ -134,24 +234,16 @@ const styles = StyleSheet.create({
      position: 'absolute',
     width: 197,
     height: 32,
-    left: 149,
-    top: 144,
+    left: 140,
+    top: 75,
     fontFamily: 'Inter',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: 13,
     lineHeight: 16,
-    textAlign: 'center',
     color: '#000000',
     },
-    profileRectangle: {
-      position: 'absolute',
-      height: 250,
-      width: '100%',
-      top: '21px',
-      backgroundColor: '#DB9F36',
-    },
- containerStats: {
+containerStats: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -161,9 +253,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: 320,
     height: 56,
-    left: 20,
+    left: 0,
+    right: 0, 
+    marginLeft: 'auto',
+    marginRight: 'auto',
     top: 195,
-  },
+},
   item: {
     marginHorizontal: 'auto',
     width: 106.67,
@@ -204,13 +299,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#000000',
   },
-  topNavbar: {
-    position: 'absolute',
-    width: '100%',
-    height: 52,
-    top: 0,
-    backgroundColor: '#ECDDC7',
-  },
+
   segmentedControlStructure: {
     position: 'absolute',
     height: 50,
@@ -218,6 +307,7 @@ const styles = StyleSheet.create({
     right: 8,
     top: 280,
     backgroundColor: '#F6F6F6',
+    
     borderRadius: 100, 
   },
   segmentedControlLeft: {
@@ -325,5 +415,32 @@ contentBlock: {
     bottom: 0,
     borderWidth: 1,
     borderColor: '#BDC5CD',
+  },
+bottomNavbar: {
+    position: 'absolute',
+    width: '100%',
+    height: 50,
+    left: 0,
+    bottom: 0,
+    backgroundColor: '#FFFFFF',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  bottomNavCircle: {
+    height: 30,
+    width: 30,
+    borderRadius: 100,
+    backgroundColor: '#D9D9D9',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bottomNavSelected: {
+    backgroundColor: '#DB9F36',
+  },
+  imageInsideCircle: {
+    width: 20, 
+    height: 20, 
+    opacity: '75%',
   },
   });
