@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Use aspas simples ou duplas aqui
-
+import { useNavigation } from '@react-navigation/native'; 
 export default function Login() {
     const navigation = useNavigation();
     return(
