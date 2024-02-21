@@ -7,13 +7,13 @@ export default function Perfil() {
 <View style={styles.container}>
   <View style={styles.profileRectangle}>
     <View style={styles.topNavbar}>
-      <Image source={'http://clipart-library.com/images/ziX5zyxxT.png'} style={styles.arrowIcon} />
+      <Image source={{uri:'http://clipart-library.com/images/ziX5zyxxT.png'}} style={styles.arrowIcon} />
     <Text style={styles.logo}>Aratu</Text>
-    <Image source={'https://static-00.iconduck.com/assets.00/settings-icon-1964x2048-8nigtrtt.png'} style={styles.gearIcon} />
+    <Image source={{uri:'https://static-00.iconduck.com/assets.00/settings-icon-1964x2048-8nigtrtt.png'}} style={styles.gearIcon} />
     </View>
     <View style={styles.profileInfo}>
-      <Image source={
-      'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} style={styles.profileImage} />
+      <Image source={{ uri:
+      'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}} style={styles.profileImage} />
       <Text style={styles.username}>
         João de Andrade
       </Text>
@@ -65,8 +65,8 @@ export default function Perfil() {
   </View>
   <View style={styles.contentBlock}>
     <View style={styles.contentBlockImage}>
-      <Image source={
-      'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} style={styles.image} />
+      <Image source={{uri:
+      'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}} style={styles.image} />
     </View>
     <Text style={styles.headerContentBlock}>
       Quinta do Galo
@@ -81,8 +81,8 @@ export default function Perfil() {
   </View>
   <View style={styles.contentBlock}>
     <View style={styles.contentBlockImage}>
-      <Image source={
-      'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} style={styles.image} />
+      <Image source={{ uri:
+      'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}} style={styles.image} />
     </View>
     <Text style={styles.headerContentBlock}>
       STU Nacional
@@ -97,8 +97,8 @@ export default function Perfil() {
   </View>
   <View style={styles.contentBlock}>
     <View style={styles.contentBlockImage}>
-      <Image source={
-      'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} style={styles.image} />
+      <Image source={{uri:
+      'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} }style={styles.image} />
     </View>
     <Text style={styles.headerContentBlock}>
       Show Priscilla Senna
@@ -189,21 +189,21 @@ profileInfo: {
     top: 60,
 },
 profileImage: {
-    boxSizing: 'border-box',
-    position: 'absolute',
-    width: 95,
-    height: 95,
-    left: 22,
-    marginTop: '10px',
-    backgroundColor: 'url(.png)',
-    borderColor: '#FFFFFF',
-    borderWidth: 4,
-    borderRadius: 103 / 2, // To make it a circle
-    shadowColor: '#656565',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 20,
-    },
+  position: 'absolute',
+  width: 95,
+  height: 95,
+  left: 22,
+  marginTop: 10,
+  borderColor: '#FFFFFF',
+  borderWidth: 4,
+  borderRadius: 103 / 2, // Para torná-lo um círculo
+  shadowColor: '#656565',
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.15,
+  shadowRadius: 20,
+  // Adicione 'elevation' aqui se precisar de sombra no Android
+},
+
     username: {
       position: 'absolute',
     width: 220,
@@ -441,6 +441,6 @@ bottomNavbar: {
   imageInsideCircle: {
     width: 20, 
     height: 20, 
-    opacity: '75%',
+    opacity: 75,
   },
   });
