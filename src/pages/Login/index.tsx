@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Use aspas simples ou duplas aqui
-
+import { useNavigation } from '@react-navigation/native'; 
 export default function Login() {
     const navigation = useNavigation();
     return(
@@ -34,6 +33,10 @@ export default function Login() {
             <TouchableOpacity style={styles.buttonR} onPress = {() => navigation.navigate('Cadastro')} >
                 <Text >Não possui uma conta? 
                 Cadastre-se</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.buttonR} onPress = {() => navigation.navigate('Perfil')} >
+                <Text >Link para perfil</Text>
             </TouchableOpacity>
         </View>
     )
