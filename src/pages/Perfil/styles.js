@@ -15,16 +15,15 @@ const styles = StyleSheet.create({
     height: 52,
     top: 0,
     backgroundColor: colors.aratuBeige,
-    flexDirection: 'row', // Make the children align horizontally
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between', // Spread the children apart
-    paddingHorizontal: 16, // Add some padding
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
   },
   arrowIcon: {
     width: 20,
     height: 20,
   },
-
   gearIcon: {
     width: 20,
     height: 20,
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   profileContainer: {
-    marginTop: 52, // Adjust this value according to your topNavbar height
+    marginTop: 52,
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
@@ -67,12 +66,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderColor: '#FFFFFF',
     borderWidth: 4,
-    borderRadius: 103 / 2, // Para torná-lo um círculo
+    borderRadius: 103 / 2,
     shadowColor: '#656565',
     shadowOffset: {width: 0, height: 4},
     shadowOpacity: 0.15,
     shadowRadius: 20,
-    // Adicione 'elevation' aqui se precisar de sombra no Android
   },
   username: {
     position: 'absolute',
@@ -119,7 +117,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 23,
     width: 320,
-    marginTop: 5, // Add marginTop to create space between profileInfo and containerStats
+    marginTop: 5,
   },
   item: {
     marginHorizontal: 'auto',
@@ -161,7 +159,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#000000',
   },
-
   segmentedControlStructure: {
     position: 'absolute',
     height: 50,
@@ -177,12 +174,21 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '50%',
     backgroundColor: colors.aratuLightGray,
-    borderTopLeftRadius: 25, // Half of height
-    borderBottomLeftRadius: 25, // Half of height
+    borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center', // Center text vertically
   },
   segmentedControlRight: {
+    position: 'absolute',
+    right: 0,
+    height: '100%',
+    width: '50%',
+    backgroundColor: colors.aratuLightGray,
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center', // Center text vertically
+  },
+  segmentedControlSelected: {
     position: 'absolute',
     right: 0,
     height: '100%',
@@ -265,11 +271,13 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 14,
     lineHeight: 17,
-    backgroundColor: colors.aratuBlack,
     flexDirection: 'row',
     alignItems: 'center',
     padding: 5, // Adjust the padding value as needed
+  },
+  starIcon: {
     color: colors.aratuYellow,
+    marginRight: 5,
   },
   dividerLineContentBlock: {
     position: 'absolute',
@@ -278,7 +286,7 @@ const styles = StyleSheet.create({
     right: 34,
     bottom: 0,
     borderWidth: 1,
-    backgroundColor: colors.aratuGray,
+    borderColor: colors.aratuGray,
   },
   bottomNavbar: {
     position: 'absolute',
