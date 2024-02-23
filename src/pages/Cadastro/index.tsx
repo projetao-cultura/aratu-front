@@ -1,7 +1,10 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; 
+
 
 export default function Login() {
+    const navigation = useNavigation();
     return(
         
         <View style={styles.container}>
@@ -11,7 +14,7 @@ export default function Login() {
             />
             <Image 
             source={require('../../assets/logo1.png')}
-            style={{ marginTop: -140, width: 168, height: 175,  resizeMode: 'contain' }}
+            style={{ marginTop: -170, width: 168, height: 175,  resizeMode: 'contain' }}
             /> 
             <Text style={styles.containerHeader}>aratu</Text>
 
@@ -24,10 +27,14 @@ export default function Login() {
             style={styles.input}/>
 
             <TextInput
+            placeholder='Digite seu número'
+            style={styles.input}/>
+
+            <TextInput
             placeholder='Digite sua senha'
             style={styles.input}/>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Interesse')}>
                 <Text style={styles.buttonText}>Cadastrar</Text>
             </TouchableOpacity>
 
