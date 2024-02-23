@@ -6,5 +6,7 @@ export default {
   aratuGreen: '#216F3F',
   aratuYellow: '#DB9F36',
   aratuBeige: '#ECDDC7',
-  aratuRed: 'A41623',
+  aratuRed: '#A41623',
+  aratuGray: '#BDBDBD',
+  aratuLightGray: '#F6F6F6',
 };

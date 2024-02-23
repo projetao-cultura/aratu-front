@@ -14,13 +14,12 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 52,
     top: 0,
-    backgroundColor: '#ECDDC7',
+    backgroundColor: colors.aratuBeige,
     flexDirection: 'row', // Make the children align horizontally
     alignItems: 'center',
     justifyContent: 'space-between', // Spread the children apart
     paddingHorizontal: 16, // Add some padding
   },
-
   arrowIcon: {
     width: 20,
     height: 20,
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   logo: {
-    fontFamily: 'Inter', // Mudar para fonte certa da logo
+    fontFamily: 'Gazebo',
     fontStyle: 'normal',
     fontWeight: '500',
     fontSize: 20,
@@ -50,13 +49,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
   },
-  profileInfo: {
-    width: 350,
-    position: 'relative',
-    height: 130,
+  profileContainer: {
+    marginTop: 52, // Adjust this value according to your topNavbar height
     alignItems: 'center',
     justifyContent: 'flex-start',
-    top: 60,
+  },
+  profileInfo: {
+    width: 350,
+    height: 130,
+    top: 10,
   },
   profileImage: {
     position: 'absolute',
@@ -113,20 +114,12 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   containerStats: {
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 0,
     paddingHorizontal: 23,
-    position: 'absolute',
     width: 320,
-    height: 56,
-    left: 0,
-    right: 0,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    top: 195,
+    marginTop: 5, // Add marginTop to create space between profileInfo and containerStats
   },
   item: {
     marginHorizontal: 'auto',
@@ -175,8 +168,7 @@ const styles = StyleSheet.create({
     left: 9,
     right: 8,
     top: 280,
-    backgroundColor: '#F6F6F6',
-
+    backgroundColor: colors.aratuLightGray,
     borderRadius: 100,
   },
   segmentedControlLeft: {
@@ -184,7 +176,7 @@ const styles = StyleSheet.create({
     left: 0,
     height: '100%',
     width: '50%',
-    backgroundColor: '#F6F6F6',
+    backgroundColor: colors.aratuLightGray,
     borderTopLeftRadius: 25, // Half of height
     borderBottomLeftRadius: 25, // Half of height
     alignItems: 'center',
@@ -195,7 +187,7 @@ const styles = StyleSheet.create({
     right: 0,
     height: '100%',
     width: '50%',
-    backgroundColor: 'white',
+    backgroundColor: colors.aratuWhite,
     borderWidth: 1,
     borderColor: '#E8E8E8',
     borderRadius: 100,
@@ -208,7 +200,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 16,
     lineHeight: 19,
-    color: '#BDBDBD',
+    color: colors.aratuGray,
   },
   buttonControlTextSelected: {
     position: 'absolute',
@@ -216,7 +208,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     fontSize: 16,
     lineHeight: 19,
-    color: '#A41623',
+    color: colors.aratuRed,
   },
   contentBlock: {
     position: 'relative',
@@ -232,7 +224,6 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     borderRadius: 8,
-    backgroundColor: 'pink',
   },
   image: {
     width: '100%',
@@ -249,7 +240,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
     lineHeight: 19,
-    color: '#000000',
+    color: colors.aratuBlack,
   },
   timeContentBlock: {
     position: 'absolute',
@@ -262,7 +253,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 17,
     textAlign: 'right',
-    color: '#A41623',
+    color: colors.aratuRed,
   },
   descriptionContentBlock: {
     position: 'absolute',
@@ -274,7 +265,11 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontSize: 14,
     lineHeight: 17,
-    color: '#000000',
+    backgroundColor: colors.aratuBlack,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5, // Adjust the padding value as needed
+    color: colors.aratuYellow,
   },
   dividerLineContentBlock: {
     position: 'absolute',
@@ -283,7 +278,7 @@ const styles = StyleSheet.create({
     right: 34,
     bottom: 0,
     borderWidth: 1,
-    borderColor: '#BDC5CD',
+    backgroundColor: colors.aratuGray,
   },
   bottomNavbar: {
     position: 'absolute',
@@ -291,7 +286,7 @@ const styles = StyleSheet.create({
     height: 50,
     left: 0,
     bottom: 0,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.aratuWhite,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
@@ -300,12 +295,12 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 100,
-    backgroundColor: '#D9D9D9',
+    backgroundColor: colors.aratuGray,
     alignItems: 'center',
     justifyContent: 'center',
   },
   bottomNavSelected: {
-    backgroundColor: '#DB9F36',
+    backgroundColor: colors.aratuYellow,
   },
   imageInsideCircle: {
     width: 20,

@@ -7,16 +7,17 @@ import styles from './styles';
 
 export default function Perfil() {
     return(
-        
 <View style={styles.container}>
-  <View style={styles.profileRectangle}>
-    <View style={styles.topNavbar}>
-    <Icon name="arrow-back" size={30} color="#000" />
-    <Text style={styles.logo}>Aratu</Text>
-    <Icon name="build-outline" size={30} color="#000" />
+<View style={styles.profileRectangle}>
+  <View style={styles.topNavbar}>
+      <Icon name="arrow-back" size={30} color="#000" />
+      <Text style={styles.logo}>Aratu</Text>
+      <Icon name="build-outline" size={30} color="#000" />
     </View>
+  
+  <View style={styles.profileContainer}>
     <View style={styles.profileInfo}>
-      <Image source={require('../../assets/fotoPerfil.png')} style={styles.profileImage} />
+    <Image source={require('../../assets/fotoPerfil.png')} style={styles.profileImage} />
       <Text style={styles.username}>
         João de Andrade
       </Text>
@@ -27,6 +28,7 @@ export default function Perfil() {
         Apaixonado por todas as cores que a arte pode oferecer. 🎭✨
       </Text>
     </View>
+    
     <View style={styles.containerStats}>
       <View style={styles.item}>
         <Text style={styles.number}>
@@ -54,6 +56,7 @@ export default function Perfil() {
       </View>
     </View>
   </View>
+</View>
   <View style={styles.segmentedControlStructure}>
     <View style={styles.segmentedControlLeft}>
       <Text style={styles.buttonControlText}>
@@ -76,9 +79,13 @@ export default function Perfil() {
     <Text style={styles.timeContentBlock}>
       3 dias
     </Text>
-    <Text style={styles.descriptionContentBlock}>
-      <Icon name="star"/><Icon name="star"/><Icon name="star"/><Icon name="star"/>
-    </Text>
+
+    <View style={styles.descriptionContentBlock}>
+      <Icon name="star" />
+      <Icon name="star" />
+      <Icon name="star" />
+      <Icon name="star" />
+    </View>
     <View style={styles.dividerLineContentBlock} />
   </View>
   <View style={styles.contentBlock}>
