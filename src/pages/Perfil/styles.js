@@ -4,7 +4,7 @@ import colors from '../../assets/colors/colors.js';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.aratuBeige,
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,

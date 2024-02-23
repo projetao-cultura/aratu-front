@@ -11,9 +11,9 @@ export default function Perfil() {
 <View style={styles.container}>
   <View style={styles.profileRectangle}>
     <View style={styles.topNavbar}>
-      <Icon name="arrow-back-outline" style={styles.arrowIcon} />
+    <Icon name="arrow-back" size={30} color="#000" />
     <Text style={styles.logo}>Aratu</Text>
-      <Icon name="build-outline" style={styles.gearIcon} />
+    <Icon name="build-outline" size={30} color="#000" />
     </View>
     <View style={styles.profileInfo}>
       <Image source={require('../../assets/fotoPerfil.png')} style={styles.profileImage} />
@@ -114,16 +114,16 @@ export default function Perfil() {
   </View>
     <View style={styles.bottomNavbar}>
       <View style={styles.bottomNavCircle}>
-        <Icon name="home-outline" style={styles.imageInsideCircle} />
+      <Icon name="home-outline" size={20} color="#000" />
       </View>
       <View style={styles.bottomNavCircle}>
-        <Icon name="compass-outline" style={styles.imageInsideCircle} />
+      <Icon name="compass-outline" size={20} color="#000" />
       </View>
       <View style={styles.bottomNavCircle}>
-        <Icon name="heart-outline" style={styles.imageInsideCircle} />
+      <Icon name="heart-outline" size={20} color="#000" />
       </View>
       <View style={[styles.bottomNavCircle, styles.bottomNavSelected]}>
-        <Icon name="person-outline" style={styles.imageInsideCircle} />
+      <Icon name="person-outline" size={20} color="#000" />
       </View>
     </View>
 
