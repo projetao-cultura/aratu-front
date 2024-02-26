@@ -38,6 +38,10 @@ export default function Login() {
             <TouchableOpacity style={styles.buttonR} onPress = {() => navigation.navigate('Perfil')} >
                 <Text >Link para perfil</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity style={styles.buttonR} onPress = {() => navigation.navigate('Feed')} >
+                <Text >Link para feed</Text>
+            </TouchableOpacity>
         </View>
     )
 }
