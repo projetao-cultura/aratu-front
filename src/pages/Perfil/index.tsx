@@ -20,7 +20,7 @@ export default function Perfil() {
       <View style={styles.profileRectangle}>
         <View style={styles.topNavbar}>
           <Icon name="arrow-back" size={30} color="#000" />
-          <Text style={styles.logo}>Aratu</Text>
+          <Text style={styles.logo}>aratu</Text>
           <Icon name="build-outline" size={30} color="#000" />
         </View>
 

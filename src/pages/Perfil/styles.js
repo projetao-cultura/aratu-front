@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 52,
     top: 0,
-    backgroundColor: colors.aratuBeige,
+    backgroundColor: colors.aratuDarkBeige,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
