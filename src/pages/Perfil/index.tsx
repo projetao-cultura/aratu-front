@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
+import { useNavigation } from '@react-navigation/native'; 
 
 export default function Perfil() {
+
+  const navigation = useNavigation();
 
   const [activeButton, setActiveButton] = useState('queroIr'); // State to track active button
 
@@ -141,19 +144,19 @@ export default function Perfil() {
       </>
       )}
 
-<View style={styles.bottomNavbar}>
-        <View style={styles.bottomNavCircle}>
+<View style={styles.bottomNavbar}>  
+        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
           <Icon name="home-outline" size={20} color="#000" />
-        </View>
-        <View style={styles.bottomNavCircle}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
           <Icon name="compass-outline" size={20} color="#000" />
-        </View>
-        <View style={styles.bottomNavCircle}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
           <Icon name="heart-outline" size={20} color="#000" />
-        </View>
-        <View style={[styles.bottomNavCircle, styles.bottomNavSelected]}>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.bottomNavCircle, styles.bottomNavSelected]} onPress = {() => navigation.navigate('Perfil')}>
           <Icon name="person-outline" size={20} color="#000" />
-        </View>
+        </TouchableOpacity>
       </View>
 
       

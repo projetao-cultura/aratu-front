@@ -26,7 +26,7 @@ export default function Login() {
             placeholder='Digite sua senha'
             style={styles.input}/>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress = {() => navigation.navigate('Feed')}>
                 <Text style={styles.buttonText}>Acessar</Text>
             </TouchableOpacity>
 
@@ -37,10 +37,6 @@ export default function Login() {
 
             <TouchableOpacity style={styles.buttonR} onPress = {() => navigation.navigate('Perfil')} >
                 <Text >Link para perfil</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.buttonR} onPress = {() => navigation.navigate('Feed')} >
-                <Text >Link para feed</Text>
             </TouchableOpacity>
         </View>
     )

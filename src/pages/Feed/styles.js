@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     width: 222,
     height: 18,
     left: 0, // Aligns text to the left
-    top: 50, // Adjust top value as needed
+    top: 39, // Adjust top value as needed
     fontFamily: 'Inter',
     fontStyle: 'normal',
     fontWeight: '400',
@@ -100,10 +100,10 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     fontFamily: 'Inter',
     fontStyle: 'normal',
-    fontWeight: '600',
+    fontWeight: '800',
     fontSize: 16,
     lineHeight: 22,
-    color: '#A41623',
+    color: colors.aratuRed,
   },
   scrollView: {
     width: '100%',
