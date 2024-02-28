@@ -1,10 +1,20 @@
-import React from 'react';
-import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; 
-
+import React, { useState } from 'react';
+import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { handleCadastro } from './handle';
 
 export default function Login() {
     const navigation = useNavigation();
+
+    const [nome, setNome] = useState('');
+    const [email, setEmail] = useState('');
+    const [numero, setNumero] = useState('');
+    const [senha, setSenha] = useState('');
+
+    const handleCadastroPress = async () => {
+        await handleCadastro(nome, email, numero, senha, navigation);
+    };
+
     return(
         
         <View style={styles.container}>
@@ -20,21 +30,34 @@ export default function Login() {
 
             <TextInput
             placeholder='Digite seu nome'
-            style={styles.input}/>
+            style={styles.input}
+            value={nome}
+            onChangeText={text => setNome(text)}
+            />
 
             <TextInput
             placeholder='Digite seu email'
-            style={styles.input}/>
+            style={styles.input}
+            value={email}
+            onChangeText={text => setEmail(text)}
+            />
 
             <TextInput
             placeholder='Digite seu número'
-            style={styles.input}/>
+            style={styles.input}
+            value={numero}
+            onChangeText={text => setNumero(text)}
+            />
 
             <TextInput
             placeholder='Digite sua senha'
-            style={styles.input}/>
+            style={styles.input}
+            secureTextEntry={true}
+            value={senha}
+            onChangeText={text => setSenha(text)}
+            />
 
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Interesse')}>
+            <TouchableOpacity style={styles.button} onPress={handleCadastroPress}>
                 <Text style={styles.buttonText}>Cadastrar</Text>
             </TouchableOpacity>
 
@@ -45,7 +68,6 @@ export default function Login() {
 
 const styles = StyleSheet.create({
     container:{
-
         alignItems:'center',
         flex:1,
         backgroundColor:'#DB9F36',
@@ -57,11 +79,6 @@ const styles = StyleSheet.create({
         marginBottom: '3%',
         color:'#FFF',
         fontSize: 55,
-    },
-    title:{
-        marginTop: 6,
-       fontSize: 20,
-       paddingRight: 210
     },
 
     input:{
@@ -84,12 +101,4 @@ const styles = StyleSheet.create({
         color: "#FFF",
         fontWeight:'bold'
     },
-    buttonR:{
-        marginTop:14,
-        alignSelf:'center'
-    },
-
-    
-    
-    
 })
