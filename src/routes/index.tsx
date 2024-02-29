@@ -4,6 +4,7 @@ import Lgin from '../pages/Login/index';
 import Cadastro from '../pages/Cadastro/index';
 import Perfil from '../pages/Perfil/index';
 import Interesse from '../pages/Interesse/index';
+import Feed from '../pages/Feed/index';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,10 +19,13 @@ export default function Routes(){
             name='Cadastro'
             component={Cadastro}
             options={{headerShown: false}}/>
-       
         <Stack.Screen
             name='Perfil'
             component={Perfil}
+            options={{headerShown: false}}/>
+        <Stack.Screen
+            name='Feed'
+            component={Feed}
             options={{headerShown: false}}/>
         <Stack.Screen
             name='Interesse'

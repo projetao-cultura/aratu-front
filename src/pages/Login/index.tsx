@@ -26,7 +26,7 @@ export default function Login() {
             placeholder='Digite sua senha'
             style={styles.input}/>
 
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress = {() => navigation.navigate('Feed')}>
                 <Text style={styles.buttonText}>Acessar</Text>
             </TouchableOpacity>
 

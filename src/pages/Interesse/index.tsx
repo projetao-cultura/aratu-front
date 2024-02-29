@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useNavigation } from '@react-navigation/native'; 
 
+const navigation = useNavigation();
 
 // Define os tipos para o estado das categorias selecionadas
 interface SelectedCategories {
@@ -61,7 +63,7 @@ const Interesse = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <TouchableOpacity style={styles.continueButton}>
+      <TouchableOpacity style={styles.continueButton} onPress = {() => navigation.navigate('Feed')}>
         <Text style={styles.continueButtonText}>Continuar</Text>
       </TouchableOpacity>
     </View>
