@@ -1,10 +1,68 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; 
+import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Alert, PermissionsAndroid, Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import Contacts from 'react-native-contacts';
 
 
 export default function Login() {
     const navigation = useNavigation();
+
+    const showPermissionAlert = () => {
+        Alert.alert(
+            "Permissão Necessária",
+            "Este aplicativo precisa de acesso aos seus contatos para continuar.",
+            [
+                {
+                    text: "Não Permitir",
+                    onPress: () => {console.log("Permissão negada"); navigation.navigate('Interesse');},
+                    style: "cancel"
+                },
+                { text: "Permitir", onPress: () => requestContactsPermission() }
+            ]
+        );
+    };
+
+    const requestContactsPermission = async () => {
+        if (Platform.OS === 'android') {
+            try {
+                const granted = await PermissionsAndroid.request(
+                    PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+                    {
+                        title: "Permissão para Acessar Contatos",
+                        message: "Este aplicativo precisa acessar seus contatos.",
+                        buttonNegative: "Cancelar",
+                        buttonPositive: "OK"
+                    }
+                );
+                if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                    console.log("Você pode acessar os contatos");
+                    loadContacts();
+                } else {
+                    navigation.navigate('Interesse');
+                    console.log("Permissão para acessar contatos negada");
+                    
+                }
+            } catch (err) {
+                navigation.navigate('Interesse');
+                console.warn(err);
+            }
+        } else {
+            // Para iOS, o alerta de permissão é gerenciado pelo sistema
+            loadContacts();
+        }
+    };
+
+    const loadContacts = async () => {
+        try {
+            const contacts = await Contacts.getAll();
+            navigation.navigate('Interesse');
+            console.log(contacts);
+            // Aqui você pode fazer algo com os contatos, como atualizar o estado ou navegar para outra tela
+        } catch (error) {
+            navigation.navigate('Interesse');
+            console.warn('Erro ao acessar contatos:', error);
+        }
+    };
     return(
         
         <View style={styles.container}>
@@ -14,7 +72,7 @@ export default function Login() {
             />
             <Image 
             source={require('../../assets/logo1.png')}
-            style={{ marginTop: -170, width: 168, height: 175,  resizeMode: 'contain' }}
+            style={{ marginTop: -190, width: 168, height: 175,  resizeMode: 'contain' }}
             /> 
             <Text style={styles.containerHeader}>aratu</Text>
 
@@ -34,10 +92,14 @@ export default function Login() {
             placeholder='Digite sua senha'
             style={styles.input}/>
 
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Interesse')}>
+            <TouchableOpacity style={styles.button} onPress={showPermissionAlert}>
                 <Text style={styles.buttonText}>Cadastrar</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity style={styles.buttonR} onPress = {() => navigation.navigate('Login')} >
+                <Text >Já possui uma conta? 
+                login</Text>
+            </TouchableOpacity>
             
         </View>
     )
