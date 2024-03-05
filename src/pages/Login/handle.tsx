@@ -3,18 +3,16 @@
 
 import { Alert } from 'react-native';
 import api from '../../services/APIServices';
-
+const qs = require('qs')
+import { Buffer } from "buffer";
 
 export const handleLogin = async (email: string, senha: string, navigation: any) => {
     try {
-        const response = await api.post('/usuarios/token', {
-            email: email,
-            senha: senha,
-        });
-
-
+        const response = await api.post('/usuarios/token', qs.stringify({ 'username': email, 'password': senha}));
+        const userinfo = Buffer.from(response.data['access_token'], 'base64').toString('utf-8');
+        
         // Lógica para verificar se o login foi bem-sucedido
-        if (response.data.token) {
+        if (userinfo) {
             // Salve o token de autenticação onde for necessário (por exemplo, AsyncStorage)
             // Redirecione o usuário para a tela desejada após o login bem-sucedido
             navigation.navigate('Feed');
