@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Permissão existente para Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Adicione esta linha para a permissão de ler contatos -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
       android:name=".MainApplication"

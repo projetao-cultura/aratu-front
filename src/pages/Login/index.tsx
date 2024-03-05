@@ -24,9 +24,10 @@ export default function Login() {
                 source={require('../../assets/loginAratu.png')}
                 style={{width:'110%', height: `55%`}}
             />
-            <Image
-                source={require('../../assets/logo1.png')}
-                style={{ marginTop: -140, width: 168, height: 175,  resizeMode: 'contain' }}
+
+            <Image 
+            source={require('../../assets/logo1.png')}
+            style={{ marginTop: -190, width: 168, height: 175,  resizeMode: 'contain' }}
             />
             <Text style={styles.containerHeader}>aratu</Text>
             <Text > </Text>
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 35,
         paddingVertical: 8,
-        marginTop: 10
+        marginTop: 30
     },
     buttonText:{
         color: "#FFF",
