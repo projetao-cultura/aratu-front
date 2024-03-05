@@ -1,55 +1,99 @@
-import React from 'react';
-import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; 
+import React, { useState } from 'react';
+import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { handleCadastro } from './handle';
 
 
-export default function Login() {
+export default function Cadastro() {
     const navigation = useNavigation();
+
+
+    const [nome, setNome] = useState('');
+    const [email, setEmail] = useState('');
+    const [numero, setNumero] = useState('');
+    const [senha, setSenha] = useState('');
+
+
+    const handleCadastroPress = async () => {
+        // Armazena as informações do usuário no estado global ou em um contexto
+        global.userInformation = {
+            nome: nome,
+            email: email,
+            numero: numero,
+            senha: senha,
+        };
+
+
+        // Redireciona o usuário para a tela de interesses
+        navigation.navigate('Interesse');
+    };
+
+
     return(
-        
+       
         <View style={styles.container}>
-           <Image 
+           <Image
             source={require('../../assets/loginAratu.png')}
             style={{width:'110%', height: `55%`}}
             />
-            <Image 
+            <Image
             source={require('../../assets/logo1.png')}
             style={{ marginTop: -170, width: 168, height: 175,  resizeMode: 'contain' }}
-            /> 
+            />
             <Text style={styles.containerHeader}>aratu</Text>
+
 
             <TextInput
             placeholder='Digite seu nome'
-            style={styles.input}/>
+            style={styles.input}
+            value={nome}
+            onChangeText={text => setNome(text)}
+            />
+
 
             <TextInput
             placeholder='Digite seu email'
-            style={styles.input}/>
+            style={styles.input}
+            value={email}
+            onChangeText={text => setEmail(text)}
+            />
+
 
             <TextInput
             placeholder='Digite seu número'
-            style={styles.input}/>
+            style={styles.input}
+            value={numero}
+            onChangeText={text => setNumero(text)}
+            />
+
 
             <TextInput
             placeholder='Digite sua senha'
-            style={styles.input}/>
+            style={styles.input}
+            secureTextEntry={true}
+            value={senha}
+            onChangeText={text => setSenha(text)}
+            />
 
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Interesse')}>
+
+            <TouchableOpacity style={styles.button} onPress={handleCadastroPress}>
                 <Text style={styles.buttonText}>Cadastrar</Text>
             </TouchableOpacity>
 
-            
+
+           
         </View>
     )
 }
 
+
 const styles = StyleSheet.create({
     container:{
-
         alignItems:'center',
         flex:1,
         backgroundColor:'#DB9F36',
     },
+
 
     containerHeader:{
         fontFamily:'Gazebo',
@@ -58,11 +102,7 @@ const styles = StyleSheet.create({
         color:'#FFF',
         fontSize: 55,
     },
-    title:{
-        marginTop: 6,
-       fontSize: 20,
-       paddingRight: 210
-    },
+
 
     input:{
         marginBottom:9,
@@ -84,12 +124,4 @@ const styles = StyleSheet.create({
         color: "#FFF",
         fontWeight:'bold'
     },
-    buttonR:{
-        marginTop:14,
-        alignSelf:'center'
-    },
-
-    
-    
-    
 })
