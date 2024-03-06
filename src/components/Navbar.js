@@ -27,14 +27,14 @@ class Navbar extends Component {
         <TouchableOpacity 
           style={[styles.bottomNavCircle, 
                   selectedScreen === 'Likes' && { backgroundColor: colors.aratuRed }]} 
-          onPress={() => navigation.navigate('Likes')}
+          onPress={() => navigation.navigate('Atividade')}
         >
           <Icon name="heart-outline" size={20} color={selectedScreen === 'Likes' ? 'white' : 'black'} />
         </TouchableOpacity>
         <TouchableOpacity 
           style={[styles.bottomNavCircle, 
                   selectedScreen === 'Profile' && { backgroundColor: colors.aratuYellow }]} 
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() => navigation.navigate('Perfil')}
         >
           <Icon name="person-outline" size={20} color={selectedScreen === 'Profile' ? 'white' : 'black'} />
         </TouchableOpacity>
