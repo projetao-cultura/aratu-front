@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native'; 
+
+import Navbar from '../../components/Navbar.js';
 
 export default function Perfil() {
 
@@ -144,20 +145,8 @@ export default function Perfil() {
       </>
       )}
 
-<View style={styles.bottomNavbar}>  
-        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
-          <Icon name="home-outline" size={20} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
-          <Icon name="compass-outline" size={20} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
-          <Icon name="heart-outline" size={20} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.bottomNavCircle, styles.bottomNavSelected]} onPress = {() => navigation.navigate('Perfil')}>
-          <Icon name="person-outline" size={20} color="#000" />
-        </TouchableOpacity>
-      </View>
+<Navbar selectedScreen={'Profile'} navigation={navigation} />
+
 
       
     </View>
