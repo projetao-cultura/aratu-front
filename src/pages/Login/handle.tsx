@@ -10,6 +10,8 @@ export const handleLogin = async (email: string, senha: string, navigation: any)
     try {
         const response = await api.post('/usuarios/token', qs.stringify({ 'username': email, 'password': senha}));
         const userinfo = Buffer.from(response.data['access_token'], 'base64').toString('utf-8');
+
+        console.log(userinfo[a]);
         
         // Lógica para verificar se o login foi bem-sucedido
         if (userinfo) {

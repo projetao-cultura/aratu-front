@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native'; 
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import Navbar from '../../components/Navbar.js';
 
