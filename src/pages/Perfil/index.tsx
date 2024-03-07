@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import Navbar from '../../components/Navbar.js';
 
+import CardPerfil from '../../components/CardPerfil.js';
+
 export default function Perfil() {
 
   const navigation = useNavigation();
@@ -74,84 +76,32 @@ export default function Perfil() {
 
       {activeButton === 'queroIr' && (
         <>
-        <View style={styles.contentBlock}>
-        <View style={styles.contentBlockImage}>
-          <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.image} />
-        </View>
-        <Text style={styles.headerContentBlock}>Carvalheira na Ladeira</Text>
-        <Text style={styles.timeContentBlock}>4 horas</Text>
-        <View style={styles.descriptionContentBlock}/>
-        <View style={styles.dividerLineContentBlock} />
-      </View>
+        <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                        name="Homem da Madrugada" time="2024-03-01"
+                                    />
+        <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                        name="Home" time="2024-03-01" rating="null"
+                                    />
 
-      <View style={styles.contentBlock}>
-        <View style={styles.contentBlockImage}>
-          <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.image} />
-        </View>
-        <Text style={styles.headerContentBlock}>Homem da Madrugada</Text>
-        <Text style={styles.timeContentBlock}>1 dia</Text>
-        <View style={styles.descriptionContentBlock}/>
-        <View style={styles.dividerLineContentBlock} />
-      </View>
+        <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                        name="Home" time="2024-03-01" rating="null"
+                                    />
 
-      <View style={styles.contentBlock}>
-        <View style={styles.contentBlockImage}>
-          <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.image} />
-        </View>
-        <Text style={styles.headerContentBlock}>Outra coisa</Text>
-        <Text style={styles.timeContentBlock}>3 dias</Text>
-        <View style={styles.descriptionContentBlock}/>
-        <View style={styles.dividerLineContentBlock} />
-      </View>
       </>
       )}
 
       {activeButton === 'jaFui' && (
         <>
-        <View style={styles.contentBlock}>
-        <View style={styles.contentBlockImage}>
-          <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.image} />
-        </View>
-        <Text style={styles.headerContentBlock}>Quinta do Galo</Text>
-        <Text style={styles.timeContentBlock}>3 dias</Text>
-        <View style={styles.descriptionContentBlock}>
-          <Icon name="star" style={styles.starIcon} />
-          <Icon name="star" style={styles.starIcon} />
-          <Icon name="star" style={styles.starIcon} />
-          <Icon name="star" style={styles.starIcon} />
-        </View>
-        <View style={styles.dividerLineContentBlock} />
-      </View>
+        <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                        name="Homem da Madrugada" time="2024-03-01" rating="5"
+                                    />
+        <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                        name="Home" time="2024-03-01" rating="3"
+                                    />
 
-      <View style={styles.contentBlock}>
-        <View style={styles.contentBlockImage}>
-          <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.image} />
-        </View>
-        <Text style={styles.headerContentBlock}>STU Nacional</Text>
-        <Text style={styles.timeContentBlock}>7 dias</Text>
-        <View style={styles.descriptionContentBlock}>
-          <Icon name="star" style={styles.starIcon} />
-          <Icon name="star" style={styles.starIcon} />
-          <Icon name="star" style={styles.starIcon} />
-        </View>
-        <View style={styles.dividerLineContentBlock} />
-      </View>
-
-      <View style={styles.contentBlock}>
-        <View style={styles.contentBlockImage}>
-          <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.image} />
-        </View>
-        <Text style={styles.headerContentBlock}>Show Priscilla Senna</Text>
-        <Text style={styles.timeContentBlock}>14 dias</Text>
-        <View style={styles.descriptionContentBlock}>
-          <Icon name="star" style={styles.starIcon} />
-          <Icon name="star" style={styles.starIcon} />
-          <Icon name="star" style={styles.starIcon} />
-          <Icon name="star" style={styles.starIcon} />
-          <Icon name="star" style={styles.starIcon} />
-        </View>
-        <View style={styles.dividerLineContentBlock} />
-      </View>
+        <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                        name="Home" time="2024-03-01" rating="4"
+                                    />
       </>
       )}
 
