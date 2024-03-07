@@ -11,13 +11,14 @@ export default function Perfil() {
   const navigation = useNavigation();
 
   const [activeButton, setActiveButton] = useState('queroIr'); // State to track active button
+  const [activeButtonTab, setActiveButtonTab] = useState('atividades'); // State to track active button
 
-  const handleQueroIrClick = () => {
-    setActiveButton('queroIr');
+  const handleAtividadeClick = (atividade) => {
+    setActiveButton(atividade);
   };
 
-  const handleJaFuiClick = () => {
-    setActiveButton('jaFui');
+  const handleTabClick = (tab) => {
+    setActiveButtonTab(tab);
   };
 
   return (
@@ -31,34 +32,42 @@ export default function Perfil() {
 
         <View style={styles.profileContainer}>
           <View style={styles.profileInfo}>
-            <Image source={require('../../assets/fotoPerfil.png')} style={styles.profileImage} />
+            <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.profileImage} />
             <Text style={styles.username}>João de Andrade</Text>
-            <Text style={styles.description}>@joao_andrade</Text>
             <Text style={styles.bio}>Apaixonado por todas as cores que a arte pode oferecer. 🎭✨</Text>
           </View>
 
           <View style={styles.containerStats}>
-            <View style={styles.item}>
+            <TouchableOpacity onPress={() => {
+              handleTabClick('atividades');
+              handleAtividadeClick('queroIr');
+            }} style={styles.item}>
               <Text style={styles.number}>20</Text>
               <Text style={styles.text}>quero ir</Text>
-            </View>
-            <View style={styles.item}>
+            </TouchableOpacity>    
+            <TouchableOpacity onPress={() => {
+              handleTabClick('atividades');
+              handleAtividadeClick('jaFui');
+            }} style={styles.item}>
               <Text style={styles.number}>378</Text>
               <Text style={styles.text}>já fui</Text>
-            </View>
-            <View style={styles.item}>
-              <Text style={styles.number}>99</Text>
-              <Text style={styles.text}>gostei</Text>
-            </View>
+            </TouchableOpacity>    
+            <TouchableOpacity onPress={() => handleTabClick('amigos')} style={styles.item}>
+              <Text style={styles.numberAmigo}>3</Text>
+              <Text style={styles.textAmigo}>amigos</Text>
+            </TouchableOpacity>           
           </View>
         </View>
       </View>
 
+{activeButtonTab === 'atividades' && (
+      <>
+
       <View style={styles.segmentedControlStructure}>
-        <TouchableOpacity onPress={handleQueroIrClick} style={[styles.segmentedControlLeft, activeButton === 'queroIr' && styles.segmentedControlSelected]}>
+        <TouchableOpacity onPress={() => handleAtividadeClick('queroIr')} style={[styles.segmentedControlLeft, activeButton === 'queroIr' && styles.segmentedControlSelected]}>
           <Text style={[styles.buttonControlText, activeButton === 'queroIr' && styles.buttonControlTextSelected]}>Quero ir</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleJaFuiClick} style={[styles.segmentedControlRight, activeButton === 'jaFui' && styles.segmentedControlSelected]}>
+        <TouchableOpacity onPress={() => handleAtividadeClick('jaFui')} style={[styles.segmentedControlRight, activeButton === 'jaFui' && styles.segmentedControlSelected]}>
           <Text style={[styles.buttonControlText, activeButton === 'jaFui' && styles.buttonControlTextSelected]}>Já fui</Text>
         </TouchableOpacity>
       </View>
@@ -145,6 +154,8 @@ export default function Perfil() {
       </View>
       </>
       )}
+
+      </>)}
 
 <Navbar selectedScreen={'Profile'} navigation={navigation} />
 

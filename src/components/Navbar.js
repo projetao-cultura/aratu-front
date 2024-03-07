@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     borderRadius: 100,
-    backgroundColor: 'gray',
+    backgroundColor: colors.aratuNavbarGray,
     alignItems: 'center',
     justifyContent: 'center',
   },
