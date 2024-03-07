@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Navbar from '../../components/Navbar.js';
 
 import CardPerfil from '../../components/CardPerfil.js';
+import CardAmigos from '../../components/CardAmigos.js';
 
 export default function Perfil() {
 
@@ -15,11 +16,11 @@ export default function Perfil() {
   const [activeButton, setActiveButton] = useState('queroIr'); // State to track active button
   const [activeButtonTab, setActiveButtonTab] = useState('atividades'); // State to track active button
 
-  const handleAtividadeClick = (atividade) => {
+  const handleAtividadeClick = (atividade: string) => {
     setActiveButton(atividade);
   };
-
-  const handleTabClick = (tab) => {
+  
+  const handleTabClick = (tab: string) => {
     setActiveButtonTab(tab);
   };
 
@@ -77,8 +78,8 @@ export default function Perfil() {
       {activeButton === 'queroIr' && (
         <>
         <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                        name="Homem da Madrugada" time="2024-03-01"
-                                    />
+                                        name="Homem da Madrugada" time="2024-03-01" rating="null"
+                                    /> 
         <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Home" time="2024-03-01" rating="null"
                                     />
@@ -104,6 +105,23 @@ export default function Perfil() {
                                     />
       </>
       )}
+
+      </>)}
+
+
+      {activeButtonTab === 'amigos' && (
+      <>
+
+        <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                        name="Rodrigo Medeiros" follow="true"
+                                    />
+        <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                        name="Thiago Botelho Pinto" follow="true"
+                                    />
+
+        <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                        name="Isabela Boscov" follow="true"
+                                    />
 
       </>)}
 
