@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import colors from '../assets/colors/colors.js';
 
 class CardPerfil extends Component {
   renderStars = rating => {
@@ -23,15 +24,20 @@ class CardPerfil extends Component {
   };
 
   render() {
+    const { imageUri, name, time, rating } = this.props;
     return (
+      <View style={styles.container}>
       <View style={styles.contentBlock}>
         <View style={styles.contentBlockImage}>
-          <Image source={{uri: this.props.imageUri}} style={styles.image} />
+          <Image source={{uri: imageUri}} style={styles.image} />
         </View>
-        <Text style={styles.headerContentBlock}>{this.props.name}</Text>
-        <Text style={styles.timeContentBlock}>{this.props.time}</Text>
-        <View style={styles.descriptionContentBlock}>
-          {this.renderStars(this.props.rating)}
+        <View style={styles.headerContentBlock}>
+          <Text style={{ fontFamily: 'Inter', fontWeight: 'bold' }}>{name}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 5 }}>
+            {this.renderStars(rating)}
+          </View>
+        </View>
+        <Text style={styles.timeContentBlock}>{this.formatTime(time)}</Text>
         </View>
         <View style={styles.dividerLineContentBlock} />
       </View>
@@ -41,20 +47,23 @@ class CardPerfil extends Component {
 export default CardPerfil;
 
 const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+    width: '85%',
+  },
   contentBlock: {
+    marginVertical: '2%',
     position: 'relative',
     height: 77,
-    width: '85%',
-    top: 360,
-    marginBottom: 25,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
   contentBlockImage: {
-    position: 'absolute',
     width: 50,
     height: 50,
-    left: 0,
-    top: 0,
-    borderRadius: 8,
+    borderRadius: 100,
+    marginRight: 15,
   },
   image: {
     width: '100%',
@@ -62,55 +71,23 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   headerContentBlock: {
-    position: 'absolute',
-    width: 180,
-    height: 19,
-    left: 66,
-    top: 0,
+    flex: 1,
     fontFamily: 'Inter',
-    fontWeight: '600',
     fontSize: 16,
-    lineHeight: 19,
     color: colors.aratuBlack,
   },
   timeContentBlock: {
-    position: 'absolute',
-    width: 68,
-    height: 17,
-    right: 0,
-    top: 2,
     fontFamily: 'Inter',
     fontWeight: '400',
     fontSize: 14,
-    lineHeight: 17,
-    textAlign: 'right',
     color: colors.aratuRed,
-  },
-  descriptionContentBlock: {
-    position: 'absolute',
-    height: 17,
-    left: 66,
-    right: 8,
-    top: 27,
-    fontFamily: 'Inter',
-    fontWeight: '400',
-    fontSize: 14,
-    lineHeight: 17,
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 5, // Adjust the padding value as needed
   },
   starIcon: {
     color: colors.aratuYellow,
     marginRight: 5,
   },
-  dividerLineContentBlock: {
-    position: 'absolute',
-    height: 0,
-    left: 32,
-    right: 34,
-    bottom: 0,
-    borderWidth: 1,
-    borderColor: colors.aratuGray,
+   dividerLineContentBlock: {
+    height: 1,
+    backgroundColor: colors.aratuGray,
   },
 });

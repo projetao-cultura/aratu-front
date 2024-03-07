@@ -7,6 +7,7 @@ import Interesse from '../pages/Interesse/index';
 import Feed from '../pages/Feed/index';
 import Explore from '../pages/Explore/index';
 import Atividade from '../pages/Atividade/index';
+import PerfilOutro from '../pages/PerfilOutro/index';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,10 @@ export default function Routes(){
         <Stack.Screen
             name='Atividade'
             component={Atividade}
+            options={{headerShown: false}}/>
+        <Stack.Screen
+            name='PerfilOutro'
+            component={PerfilOutro}
             options={{headerShown: false}}/>
         </Stack.Navigator>
     )

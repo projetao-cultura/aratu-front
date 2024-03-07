@@ -1,21 +1,45 @@
 import React, {Component} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image,TouchableOpacity, StyleSheet} from 'react-native';
+import colors from '../assets/colors/colors.js';
+import { useNavigation } from '@react-navigation/native';
 
 class CardAmigos extends Component {
+
+  
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      follow: this.props.follow,
+    };
+  }
+
+  handleButtonClick = () => {
+    this.setState((prevState) => ({
+      follow: !prevState.follow,
+    }));
+  };
+
   render() {
+    const navigation = useNavigation();
+     const { imageUri, name } = this.props;
+    const { follow } = this.state;
     return (
-      <View style={styles.contentBlock}>
-        <View style={styles.contentBlockImage}>
-          <Image source={{uri: this.props.imageUri}} style={styles.image} />
+      <View style={styles.container}>
+        <View style={styles.contentBlock}>
+          <View style={styles.contentBlockImage}>
+            <Image source={{ uri: imageUri }} style={styles.image} />
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('PerfilOutro')} style={styles.headerContentBlock}>{name}</TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.followContentBlock, { backgroundColor: follow ? colors.aratuBlue : colors.aratuRed }]}
+            onPress={this.handleButtonClick}
+          >
+            <Text style={styles.followText}>
+              {follow ? 'Seguindo' : 'Seguir'}
+            </Text>
+          </TouchableOpacity>
         </View>
-        <Text style={styles.headerContentBlock}>{this.props.name}</Text>
-        <TouchableOpacity
-          style={styles.followContentBlock}
-          onPress={handleButtonClick}>
-          <Text style={styles.text}>
-            {this.props.follow ? 'Seguindo' : 'Seguir'}
-          </Text>
-        </TouchableOpacity>
         <View style={styles.dividerLineContentBlock} />
       </View>
     );
@@ -24,58 +48,49 @@ class CardAmigos extends Component {
 export default CardAmigos;
 
 const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+    width: '85%',
+  },
   contentBlock: {
+    marginVertical: '2%',
     position: 'relative',
     height: 77,
-    width: '85%',
-    top: 360,
-    marginBottom: 25,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
   },
   contentBlockImage: {
-    position: 'absolute',
     width: 50,
     height: 50,
-    left: 0,
-    top: 0,
-    borderRadius: 8,
+    borderRadius: 100,
+    marginRight: 15,
   },
   image: {
     width: '100%',
     height: '100%',
-    borderRadius: 8,
+    borderRadius: 100,
   },
   headerContentBlock: {
-    position: 'absolute',
-    width: 180,
-    height: 19,
-    left: 66,
-    top: 0,
+    flex: 1,
     fontFamily: 'Inter',
     fontWeight: '600',
     fontSize: 16,
-    lineHeight: 19,
     color: colors.aratuBlack,
   },
   followContentBlock: {
-    position: 'absolute',
-    width: 68,
-    height: 17,
-    right: 0,
-    top: 2,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+  },
+  followText: {
     fontFamily: 'Inter',
     fontWeight: '400',
     fontSize: 14,
-    lineHeight: 17,
-    textAlign: 'right',
-    color: colors.aratuRed,
+    color: colors.aratuWhite,
   },
   dividerLineContentBlock: {
-    position: 'absolute',
-    height: 0,
-    left: 32,
-    right: 34,
-    bottom: 0,
-    borderWidth: 1,
-    borderColor: colors.aratuGray,
+    height: 1,
+    backgroundColor: colors.aratuGray,
   },
 });

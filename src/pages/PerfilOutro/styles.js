@@ -214,6 +214,23 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     color: colors.aratuRed,
   },
+  friendFollowButton: {
+    height: '5%',
+    width: '60%',
+    marginHorizontal: 9,
+    marginTop: '7%',
+    borderRadius: 100,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  friendFollowButtonText: {
+    fontFamily: 'Inter',
+    fontWeight: '500',
+    fontSize: 16,
+    lineHeight: 19,
+    color: colors.aratuWhite,
+  },
 });
 
 export default styles;

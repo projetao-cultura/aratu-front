@@ -7,10 +7,17 @@ import Navbar from '../../components/Navbar.js';
 import CardPerfil from '../../components/CardPerfil.js';
 import CardAmigos from '../../components/CardAmigos.js';
 
-export default function Perfil() {
+import colors from '../../assets/colors/colors.js';
 
+export default function PerfilOutro() {
+
+  const [following, setFollowing] = useState(true); // State to track if following or not
+
+  // Function to handle button click
+  const handleButtonClick = () => {
+    setFollowing(!following); // Toggle the following state
+  };
   const navigation = useNavigation();
-
     const [activeButton, setActiveButton] = useState('queroIr'); // State to track active button
     const [activeButtonTab, setActiveButtonTab] = useState('atividades'); // State to track active button
   
@@ -34,8 +41,8 @@ export default function Perfil() {
           <View style={styles.profileContainer}>
             <View style={styles.profileInfo}>
               <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.profileImage} />
-              <Text style={styles.username}>João de Andrade</Text>
-              <Text style={styles.bio}>Apaixonado por todas as cores que a arte pode oferecer. 🎭✨</Text>
+              <Text style={styles.username}>Thiago Botelho</Text>
+              <Text style={styles.bio}>Aii que delicia</Text>
             </View>
   
             <View style={styles.containerStats}>
@@ -59,6 +66,16 @@ export default function Perfil() {
               </TouchableOpacity>           
             </View>
           </View>
+        </View>
+
+        <View style={[styles.friendFollowButton, { backgroundColor: following ? colors.aratuBlue : colors.aratuRed }]}>
+        <TouchableOpacity
+          onPress={handleButtonClick} // Pass the handleButtonClick function to onPress
+        >
+          <Text style={styles.friendFollowButtonText}>
+            {following ? 'Seguindo' : 'Seguir'} {/* Display the text based on the following state */}
+          </Text>
+        </TouchableOpacity>
         </View>
   
   {activeButtonTab === 'atividades' && (
@@ -114,7 +131,7 @@ export default function Perfil() {
                                           name="Rodrigo Medeiros" follow="true"
                                       />
           <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Thiago Botelho Pinto" follow="true"
+                                          name="Maria Andrade" follow="true"
                                       />
   
           <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
@@ -123,7 +140,7 @@ export default function Perfil() {
   
         </>)}
   
-  <Navbar selectedScreen={'Profile'} navigation={navigation} />
+  <Navbar selectedScreen={'Explore'} navigation={navigation} />
   
   
         
