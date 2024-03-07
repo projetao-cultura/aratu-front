@@ -5,8 +5,11 @@ import Cadastro from '../pages/Cadastro/index';
 import Perfil from '../pages/Perfil/index';
 import Interesse from '../pages/Interesse/index';
 import Feed from '../pages/Feed/index';
-import Detalhamento from '../pages/Detalhamento Evento/index'
 import Atividade from '../pages/Atividade/index';
+import Explore from '../pages/Explore/index'
+import Pesquisa from '../pages/Pesquisa/index'
+import Detalhamento from '../pages/Detalhamento Evento/index'
+import DetalhamentoFui from '../pages/Detalhamento Evento/indexFui'
 
 
 const Stack = createNativeStackNavigator();
@@ -15,21 +18,32 @@ export default function Routes(){
     return (
         <Stack.Navigator>  
         <Stack.Screen
-            name='Atividade'
-            component={Atividade}
-            options={{headerShown: false}}/>
-        <Stack.Screen
             name='Login'
             component={Lgin}
             options={{headerShown: false}}/>
         <Stack.Screen
-            name='Feed'
-            component={Feed}
+            name='DetalhamentoFui'
+            component={DetalhamentoFui}
             options={{headerShown: false}}/>  
         <Stack.Screen
             name='Detalhamento'
             component={Detalhamento}
             options={{headerShown: false}}/>
+          
+        <Stack.Screen
+            name='Pesquisa'
+            component={Pesquisa}
+            options={{headerShown: false}}/>    
+        <Stack.Screen
+            name='Atividade'
+            component={Atividade}
+            options={{headerShown: false}}/>   
+        
+        <Stack.Screen
+            name='Feed'
+            component={Feed}
+            options={{headerShown: false}}/>  
+        
         
         <Stack.Screen
             name='Cadastro'

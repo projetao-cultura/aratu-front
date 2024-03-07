@@ -3,7 +3,6 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native'; 
-import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Perfil() {
 
@@ -99,10 +98,13 @@ export default function Perfil() {
       {activeButton === 'jaFui' && (
         <>
         <View style={styles.contentBlock}>
+         <TouchableOpacity onPress = {() => navigation.navigate('DetalhamentoFui')}>
         <View style={styles.contentBlockImage}>
           <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.image} />
         </View>
+       
         <Text style={styles.headerContentBlock}>Quinta do Galo</Text>
+        </TouchableOpacity>
         <Text style={styles.timeContentBlock}>3 dias</Text>
         <View style={styles.descriptionContentBlock}>
           <Icon name="star" style={styles.starIcon} />
@@ -149,10 +151,10 @@ export default function Perfil() {
         <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
           <Icon name="home-outline" size={20} color="#000" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
+        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Explore')}>
           <Icon name="compass-outline" size={20} color="#000" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
+        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Atividade')}>
           <Icon name="heart-outline" size={20} color="#000" />
         </TouchableOpacity>
         <TouchableOpacity style={[styles.bottomNavCircle, styles.bottomNavSelected]} onPress = {() => navigation.navigate('Perfil')}>

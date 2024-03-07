@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../../components/Navbar.js';
 import {
   View,
   Text,
@@ -10,7 +11,7 @@ import {
 } from 'react-native';
 import colors from '../../assets/colors/colors.js';
 import ClockImage from '../../assets/Clock.png';
-import NewImage from '../../assets/check.png';
+import NewImage from '../../assets/Clock1.png';
 import { useNavigation } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -20,13 +21,84 @@ const EventDetailsScreen = () => {
   // Suponha que estas são suas URLs de imagem, você vai substituir com as reais
   const navigation = useNavigation();
 
+  const img  = require('../../assets/ImgEvent.png') 
+
+  const [evento] = useState([
+    {
+      titulo: 'Carvalheira na Ladeira',
+      tag: ['CARNAVAL', 'SHOW'],
+      hora: '01/03/2025 • 13:00 à 04/03/2025 • 23:59',
+      local: 'Parque Memorial Arcoverde, Olinda - PE',
+      banner: img, // Substitua pela sua imagem de banner local
+      descricao: 'Depois de quatro dias no nosso lugar mágico, e uma vontade danada de viver tudo novamente, só existe um jeito de fazer essa tristeza de quarta-feira passar: deixando a sua presença no #CarvalheiraNaLadeira2025 mais que CERTA',
+      ing: 'https://www.sympla.com.br/evento/carvalheira-na-ladeira-2025/2339071',
+      contato: 'contato@carvalheira.com.br',
+    },
+    // ... outros objetos de evento
+  ]);
+
+  const imgQueremIr  = require('../../assets/fotoPerfil.png') 
+
+  const [queremIr] = useState([
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    }
+  ])
+
+
+  const bannerSimilarEvent = { uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+
+  const [eventParecido] = useState([
+    {
+      banner: bannerSimilarEvent,
+      nomeEvento: 'Evento X'
+    },
+    {
+      banner: bannerSimilarEvent,
+      nomeEvento: 'Evento X'
+    },
+    {
+      banner: bannerSimilarEvent,
+      nomeEvento: 'Evento X'
+    },
+    {
+      banner: bannerSimilarEvent,
+      nomeEvento: 'Evento X'
+    },
+    {
+      banner: bannerSimilarEvent,
+      nomeEvento: 'Evento X'
+    },
+  ])
+
 
   const onPressContact = () => {
-    Linking.openURL('mailto:contato@carvalheira.com.br');
+    Linking.openURL('mailto:${evento[0].contato}');
   };
 
   const onPressTickets = () => {
-    Linking.openURL('https://www.sympla.com.br/evento/carvalheira-na-ladeira-2025/2339071?referrer=www.google.com');
+    Linking.openURL(evento[0].ing);
   };
 
   
@@ -41,24 +113,25 @@ const EventDetailsScreen = () => {
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.container}>
-        <Image source={require('../../assets/ImgEvent.png')} style={styles.eventImage} />
+        <Image source={evento[0].banner} style={styles.eventImage} />
         
         <View style={styles.content}>
-          <Text style={styles.eventTitle}>Carvalheira na Ladeira</Text>
+          <Text style={styles.eventTitle}>{evento[0].titulo}</Text>
           
           <View style={styles.tagContainer}>
-            <Text style={styles.tag}>CARNAVAL</Text>
-            <Text style={styles.tag2}>SHOW</Text>
-          </View>
+          {evento[0].tag.map((tag, index) => (
+            <Text key={index} style={styles.tag}>{tag}</Text>
+          ))}
+        </View>
 
           <View style={styles.dateLocationContainer}>
             <Image source={require('../../assets/Clock2.png')} style={styles.clockImg} />
-            <Text style={styles.dateText}>01/03/2025 • 13:00 à 04/03/2025 • 23:59</Text>
+            <Text style={styles.dateText}>{evento[0].hora}</Text>
             
           </View>
           <View style={styles.dateLocationContainer}>
             <Image source={require('../../assets/Location.png')} style={styles.clockImg} />
-            <Text style={styles.locationText}>Parque Memorial Arcoverde, Olinda - PE</Text>
+            <Text style={styles.locationText}>{evento[0].local}</Text>
           </View>
 
           <TouchableOpacity
@@ -70,12 +143,8 @@ const EventDetailsScreen = () => {
         </TouchableOpacity>
 
           <Text style={styles.sectionTitle}>Descrição</Text>
-          <Text style={styles.descriptionText}>
-              Depois de quatro dias no nosso lugar mágico, e uma vontade danada de
-              viver tudo novamente, só existe um jeito de fazer essa tristeza de
-              quarta-feira passar: deixando a sua presença no
-              #CarvalheiraNaLadeira2025 mais que CERTA!
-          </Text>
+          <Text style={styles.descriptionText}>{evento[0].descricao}</Text>
+
 
           <View style={styles.ticketsContainer}>
             <Text style={styles.ticketsText}>INGRESSOS</Text>
@@ -102,94 +171,36 @@ const EventDetailsScreen = () => {
         <View style={styles.queremIrContainer}>
             <Text style={styles.sectionTitle2}>QUEREM IR</Text>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
-            <Image
-              style={styles.imageIcon}
-              resizeMode="cover"
-              source={require('../../assets/fotoPerfil.png')}
-            />
-            <Image
-              style={styles.imageIcon}
-              resizeMode="cover"
-              source={require('../../assets/fotoPerfil.png')}          />
-            <Image
-              style={styles.imageIcon}
-              resizeMode="cover"
-              source={require('../../assets/fotoPerfil.png')}          />
-            <Image
-              style={styles.imageIcon}
-              resizeMode="cover"
-              source={require('../../assets/fotoPerfil.png')}          />
-            <Image
-              style={styles.imageIcon}
-              resizeMode="cover"
-              source={require('../../assets/fotoPerfil.png')}          />
-              <Image
-              style={styles.imageIcon}
-              resizeMode="cover"
-              source={require('../../assets/fotoPerfil.png')}          />
-              <Image
-              style={styles.imageIcon}
-              resizeMode="cover"
-              source={require('../../assets/fotoPerfil.png')}          />
-              <Image
-              style={styles.imageIcon}
-              resizeMode="cover"
-              source={require('../../assets/fotoPerfil.png')}          />
+              {queremIr.map((item, index) => (
+                <Image
+                  key={index} // É importante usar uma key única para cada elemento na lista para ajudar o React a identificar quais itens mudaram.
+                  style={styles.imageIcon}
+                  resizeMode="cover"
+                  source={item.querIr}
+                />
+              ))}
             </ScrollView>
+
           </View>
           
           <Text style={styles.sectionTitle3}>Eventos parecidos</Text>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
-            <View style={styles.event}>
-              <Image
+            {eventParecido.map((evento, index) => (
+              <View key={index} style={styles.event}>
+                <Image
                   style={styles.imageIcon2}
                   resizeMode="cover"
-                  source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }}
+                  source={evento.banner}
                 />
-                <Text style={styles.eventText}> evento x </Text>
+                <Text style={styles.eventText}>{evento.nomeEvento}</Text>
               </View>
-              <View style={styles.event}>
-              <Image
-                  style={styles.imageIcon2}
-                  resizeMode="cover"
-                  source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }}
-                />
-                <Text style={styles.eventText}> evento x </Text>
-              </View>
-              <View style={styles.event}>
-              <Image
-                  style={styles.imageIcon2}
-                  resizeMode="cover"
-                  source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }}
-                />
-                <Text style={styles.eventText}> evento x </Text>
-              </View>
-              <View style={styles.event}>
-              <Image
-                  style={styles.imageIcon2}
-                  resizeMode="cover"
-                  source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }}
-                />
-                <Text style={styles.eventText}> evento x </Text>
-              </View>
+            ))}
           </ScrollView>
 
           
       </ScrollView>
-      <View style={styles.bottomNavbar}>  
-          <TouchableOpacity style={[styles.bottomNavCircle, styles.bottomNavSelected]} onPress = {() => navigation.navigate('Feed')}>
-            <Icon name="home-outline" size={20} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
-            <Icon name="compass-outline" size={20} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
-            <Icon name="heart-outline" size={20} color="#000" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Perfil')}>
-            <Icon name="person-outline" size={20} color="#000" />
-          </TouchableOpacity>
-        </View>
+      <Navbar  navigation={navigation} />
+
       </View>
   );
 };
@@ -345,6 +356,7 @@ const styles = StyleSheet.create({
   },
   horizontalScroll: {
     marginBottom: 10,
+    marginLeft:5,
   },
 
   sectionTitle2: {
