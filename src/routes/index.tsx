@@ -6,13 +6,19 @@ import Perfil from '../pages/Perfil/index';
 import Interesse from '../pages/Interesse/index';
 import Feed from '../pages/Feed/index';
 import Detalhamento from '../pages/Detalhamento Evento/index'
+import Atividade from '../pages/Atividade/index';
+
 
 const Stack = createNativeStackNavigator();
 
 export default function Routes(){
     return (
-        <Stack.Navigator>
-         <Stack.Screen
+        <Stack.Navigator>  
+        <Stack.Screen
+            name='Atividade'
+            component={Atividade}
+            options={{headerShown: false}}/>
+        <Stack.Screen
             name='Login'
             component={Lgin}
             options={{headerShown: false}}/>
@@ -38,6 +44,11 @@ export default function Routes(){
             name='Interesse'
             component={Interesse}
             options={{headerShown: false}}/>
+        <Stack.Screen
+            name='Explore'
+            component={Explore}
+            options={{headerShown: false}}/>
+        
         </Stack.Navigator>
     )
 }

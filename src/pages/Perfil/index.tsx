@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native'; 
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Perfil() {
 

@@ -101,7 +101,7 @@ export default function Feed() {
         <TouchableOpacity style={[styles.bottomNavCircle, styles.bottomNavSelected]} onPress = {() => navigation.navigate('Feed')}>
           <Icon name="home-outline" size={20} color="#000" />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
+        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Explore')}>
           <Icon name="compass-outline" size={20} color="#000" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>

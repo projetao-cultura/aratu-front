@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 
 interface SelectedCategories {
@@ -24,8 +25,10 @@ const categories = [
 
 
 const Interesse = () => {
+  
   const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>({});
 
+  const navigation = useNavigation();
 
   const toggleCategory = (key: string) => {
     setSelectedCategories((prevState) => ({
@@ -39,6 +42,7 @@ const Interesse = () => {
     const userInformation = global.userInformation;
     console.log('Informações do Usuário:', userInformation);
     console.log('Categorias Selecionadas:', selectedCategories);
+
   };
 
 
@@ -60,7 +64,10 @@ const Interesse = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <TouchableOpacity style={styles.continueButton} onPress={enviarInformacoes}>
+      <TouchableOpacity style={styles.continueButton} onPress={() => {
+    enviarInformacoes();
+    navigation.navigate('Feed');
+  }}>
         <Text style={styles.continueButtonText}>Continuar</Text>
       </TouchableOpacity>
     </View>
