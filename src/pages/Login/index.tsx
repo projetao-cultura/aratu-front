@@ -22,7 +22,7 @@ export default function Login() {
             {/* ... (outros elementos da tela de login) */}
             <Image
                 source={require('../../assets/loginAratu.png')}
-                style={{width:'110%', height: `55%`}}
+                style={{width:'110%', height: '55%'}}
             />
 
             <Image 

@@ -1,27 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Alert, PermissionsAndroid, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useUser } from '../../UserContext'; // Ajuste o caminho conforme a estrutura do seu projeto
-import { handleCadastro } from './handle';
+import { useUser } from '../../UserContext';
 import Contacts from 'react-native-contacts';
 
 export default function Cadastro() {
   const navigation = useNavigation();
-  const { setUser } = useUser();
-
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [numero, setNumero] = useState('');
-  const [senha, setSenha] = useState('');
+  const { user, setUser } = useUser();
 
   const handleCadastroPress = async () => {
     // Armazena as informações do usuário no contexto
-    setUser({
-      nome: nome,
-      email: email,
-      numero: numero,
-      senha: senha,
-    });
+    setUser((prevUser) => ({
+      ...prevUser,
+      senha: user.senha,
+    }));
 
     // Chama a função para solicitar permissão de contatos
     showPermissionAlert();
@@ -93,17 +85,16 @@ export default function Cadastro() {
     }
   };
 
-
   return (
     <View style={styles.container}>
       <Image source={require('../../assets/loginAratu.png')} style={{ width: '110%', height: '55%' }} />
       <Image source={require('../../assets/logo1.png')} style={{ marginTop: -190, width: 168, height: 175, resizeMode: 'contain' }} />
       <Text style={styles.containerHeader}>aratu</Text>
 
-      <TextInput placeholder='Digite seu nome' style={styles.input} value={nome} onChangeText={text => setNome(text)} />
-      <TextInput placeholder='Digite seu email' style={styles.input} value={email} onChangeText={text => setEmail(text)} />
-      <TextInput placeholder='Digite seu número' style={styles.input} value={numero} onChangeText={text => setNumero(text)} />
-      <TextInput placeholder='Digite sua senha' style={styles.input} secureTextEntry={true} value={senha} onChangeText={text => setSenha(text)} />
+      <TextInput placeholder='Digite seu nome' style={styles.input} value={user.nome} onChangeText={text => setUser(prevUser => ({ ...prevUser, nome: text }))} />
+      <TextInput placeholder='Digite seu email' style={styles.input} value={user.email} onChangeText={text => setUser(prevUser => ({ ...prevUser, email: text }))} />
+      <TextInput placeholder='Digite seu número' style={styles.input} value={user.numero} onChangeText={text => setUser(prevUser => ({ ...prevUser, numero: text }))} />
+      <TextInput placeholder='Digite sua senha' style={styles.input} secureTextEntry={true} value={user.senha} onChangeText={text => setUser(prevUser => ({ ...prevUser, senha: text }))} />
 
       <TouchableOpacity style={styles.button} onPress={handleCadastroPress}>
         <Text style={styles.buttonText}>Cadastrar</Text>
