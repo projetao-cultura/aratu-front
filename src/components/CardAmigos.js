@@ -1,50 +1,41 @@
-import React, {Component} from 'react';
-import {View, Text, Image,TouchableOpacity, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import colors from '../assets/colors/colors.js';
 import { useNavigation } from '@react-navigation/native';
 
-class CardAmigos extends Component {
+const CardAmigos = ({ imageUri, name, follow }) => {
+  const navigation = useNavigation();
+  const [isFollowing, setIsFollowing] = useState(follow);
 
-  
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      follow: this.props.follow,
-    };
-  }
-
-  handleButtonClick = () => {
-    this.setState((prevState) => ({
-      follow: !prevState.follow,
-    }));
+  const handleButtonClick = () => {
+    setIsFollowing(!isFollowing);
   };
 
-  render() {
-    const navigation = useNavigation();
-     const { imageUri, name } = this.props;
-    const { follow } = this.state;
-    return (
-      <View style={styles.container}>
-        <View style={styles.contentBlock}>
-          <View style={styles.contentBlockImage}>
-            <Image source={{ uri: imageUri }} style={styles.image} />
-          </View>
-          <TouchableOpacity onPress={() => navigation.navigate('PerfilOutro')} style={styles.headerContentBlock}>{name}</TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.followContentBlock, { backgroundColor: follow ? colors.aratuBlue : colors.aratuRed }]}
-            onPress={this.handleButtonClick}
-          >
-            <Text style={styles.followText}>
-              {follow ? 'Seguindo' : 'Seguir'}
-            </Text>
-          </TouchableOpacity>
+  return (
+    <View style={styles.container}>
+      <View style={styles.contentBlock}>
+        <View style={styles.contentBlockImage}>
+          <Image source={{ uri: imageUri }} style={styles.image} />
         </View>
-        <View style={styles.dividerLineContentBlock} />
+        <TouchableOpacity onPress={() => navigation.navigate('PerfilOutro')} style={styles.headerContentBlock}>
+          <Text>
+            {name}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.followContentBlock, { backgroundColor: isFollowing ? colors.aratuBlue : colors.aratuRed }]}
+          onPress={handleButtonClick}
+        >
+          <Text style={styles.followText}>
+            {isFollowing ? 'Seguindo' : 'Seguir'}
+          </Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
-}
+      <View style={styles.dividerLineContentBlock} />
+    </View>
+  );
+};
+
 export default CardAmigos;
 
 const styles = StyleSheet.create({

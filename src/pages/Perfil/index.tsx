@@ -13,7 +13,7 @@ export default function Perfil() {
 
     const [activeButton, setActiveButton] = useState('queroIr'); // State to track active button
     const [activeButtonTab, setActiveButtonTab] = useState('atividades'); // State to track active button
-  
+
     const handleAtividadeClick = (atividade: string) => {
       setActiveButton(atividade);
     };
@@ -56,7 +56,7 @@ export default function Perfil() {
               <TouchableOpacity onPress={() => handleTabClick('amigos')} style={styles.item}>
                 <Text style={styles.numberAmigo}>3</Text>
                 <Text style={styles.textAmigo}>amigos</Text>
-              </TouchableOpacity>           
+              </TouchableOpacity>          
             </View>
           </View>
         </View>
