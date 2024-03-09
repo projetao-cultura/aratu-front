@@ -1,7 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '../../UserContext';
+import { Alert } from 'react-native';
+import api from '../../services/APIServices';
 
 interface Category {
   key: string;
@@ -37,8 +39,32 @@ const Interesse = () => {
     }));
   };
 
-  const enviarInformacoes = () => {
-    console.log('Informações do Usuário:', user);
+  const enviarInformacoes = async () => {
+    try {
+      const response = await api.post('/usuarios/', {
+        nome: user.nome,
+        email: user.email,
+        biografia: "string",
+        telefone: user.numero,
+        ativo: true,
+        foto_perfil: "https://i.imgur.com/JUf7jx3.jpeg",
+        senha: user.senha,
+        categorias_interesse: Object.keys(user.categorias || {}).filter(key => user.categorias?.[key]),
+      });
+      
+      // Exiba uma mensagem de sucesso ou trate conforme necessário
+      console.log('Dados enviados com sucesso:', response.data.id);
+      
+      Alert.alert('Usuário cadastrado com sucesso!');
+      // Redirecione o usuário para a próxima tela, se aplicável
+      // navigation.navigate('Feed');
+    } catch (error) {
+      // Lida com os erros da solicitação
+      console.error('Erro ao enviar dados para a API:', error);
+  
+      // Exibe uma mensagem de erro para o usuário
+      Alert.alert('Erro ao enviar dados para a API. Tente novamente mais tarde.');
+    }
   };
 
   return (
