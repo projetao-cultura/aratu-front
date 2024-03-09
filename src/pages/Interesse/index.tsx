@@ -54,9 +54,10 @@ const Interesse = () => {
       
       // Exiba uma mensagem de sucesso ou trate conforme necessário
       console.log('Dados enviados com sucesso:', response.data.id);
-  
+      
+      Alert.alert('Usuário cadastrado com sucesso!');
       // Redirecione o usuário para a próxima tela, se aplicável
-      navigation.navigate('Feed');
+      // navigation.navigate('Feed');
     } catch (error) {
       // Lida com os erros da solicitação
       console.error('Erro ao enviar dados para a API:', error);
