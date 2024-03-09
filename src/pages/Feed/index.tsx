@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
-import Category from './Category.js';
-
+import CardFeed from '../../components/CardFeed.js';
+import Navbar from '../../components/Navbar.js';
 import { useNavigation } from '@react-navigation/native'; 
+
 export default function Feed() {
     const navigation = useNavigation();
 
@@ -37,13 +37,13 @@ export default function Feed() {
             </Text>
               <View style={{ height: 130 }}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-                                    <Category imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                    <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Home"
                                     />
-                                    <Category imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                    <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Experiences"
                                     />
-                                    <Category imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                    <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Resturant"
                                     />
                 </ScrollView>
@@ -55,13 +55,13 @@ export default function Feed() {
             </Text>
               <View style={{ height: 130 }}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-                                    <Category imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                    <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Home"
                                     />
-                                    <Category imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                    <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Experiences"
                                     />
-                                    <Category imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                    <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Resturant"
                                     />
                 </ScrollView>
@@ -73,13 +73,13 @@ export default function Feed() {
             </Text>
               <View style={{ height: 130 }}>
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-                                    <Category imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                    <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Home"
                                     />
-                                    <Category imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                    <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Experiences"
                                     />
-                                    <Category imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+                                    <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Resturant"
                                     />
                 </ScrollView>
@@ -88,20 +88,7 @@ export default function Feed() {
           </ScrollView>
         </View>
 
-      <View style={styles.bottomNavbar}>  
-        <TouchableOpacity style={[styles.bottomNavCircle, styles.bottomNavSelected]} onPress = {() => navigation.navigate('Feed')}>
-          <Icon name="home-outline" size={20} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
-          <Icon name="compass-outline" size={20} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Feed')}>
-          <Icon name="heart-outline" size={20} color="#000" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.bottomNavCircle} onPress = {() => navigation.navigate('Perfil')}>
-          <Icon name="person-outline" size={20} color="#000" />
-        </TouchableOpacity>
-      </View>
+        <Navbar selectedScreen={'Feed'} navigation={navigation} />
 
       
     </View>

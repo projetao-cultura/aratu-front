@@ -9,46 +9,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
-  modalView:{
-    backgroundColor: 'rgba(255, 255, 255, 0.6)',
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center',
-  },
-  modalOptions:{
-    backgroundColor: colors.aratuDarkBeige,
-    justifyContent: 'center', 
-    alignItems: 'center',
-    width: '70%',
-    height: '35%',
-    borderRadius: 20,
-  },
-  modalBotao: {
-    width: '60%',
-    height: '15%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    fontFamily: 'Inter',
-    fontStyle: 'normal',
-    fontSize: 18,
-    lineHeight: 19,
-    color: colors.aratuWhite,
-    margin: 10,
-  },
-  modalButtonText: {
-    fontFamily: 'Inter',
-    fontStyle: 'normal',
-    fontSize: 18,
-    lineHeight: 19,
-    color: colors.aratuWhite
-  },
-  modalIcon: {
-    position: 'absolute', // Alterado de 'relative' para 'absolute'
-    top: 0,
-    right: 0,
-    padding: 10, // Adicionado padding para o ícone ficar um pouco afastado das bordas
-  },
   topNavbar: {
     position: 'absolute',
     width: '100%',
@@ -59,7 +19,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    zIndex: 5000,
   },
   arrowIcon: {
     width: 20,
@@ -254,6 +213,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: colors.aratuRed,
+  },
+  friendFollowButton: {
+    height: '5%',
+    width: '60%',
+    marginHorizontal: 9,
+    marginTop: '7%',
+    borderRadius: 100,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  friendFollowButtonText: {
+    fontFamily: 'Inter',
+    fontWeight: '500',
+    fontSize: 16,
+    lineHeight: 19,
+    color: colors.aratuWhite,
   },
 });
 
