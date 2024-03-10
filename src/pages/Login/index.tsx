@@ -2,18 +2,28 @@ import React, { useState } from 'react';
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { handleLogin } from './handle'; // Importe a função de login
-
+import { useUser } from '../../UserContext';
 
 export default function Login() {
     const navigation = useNavigation();
-
+    const { setUser } = useUser();
 
     const [email, setEmail] = useState<string>('');
     const [senha, setSenha] = useState<string>('');
 
 
     const handleLoginPress = async () => {
-        await handleLogin(email, senha, navigation);
+        const user = await handleLogin(email, senha, navigation);
+        
+        setUser({
+            id: user.id,
+            nome: user.nome,
+            email: email,
+            numero: user.telefone,
+            senha: senha,
+            categorias: user.categorias_interesse
+        });
+
     };
 
 
@@ -22,7 +32,7 @@ export default function Login() {
             {/* ... (outros elementos da tela de login) */}
             <Image
                 source={require('../../assets/loginAratu.png')}
-                style={{width:'110%', height: '55%'}}
+                style={{width:'110%', height: `55%`}}
             />
 
             <Image 
