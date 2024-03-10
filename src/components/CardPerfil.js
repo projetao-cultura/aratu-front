@@ -48,6 +48,7 @@ export default CardPerfil;
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
     position: 'relative',
     width: '85%',
   },
