@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, Modal, Button } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, TouchableOpacity, Modal, Button, FlatList } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -7,10 +7,25 @@ import Navbar from '../../components/Navbar.js';
 import CardPerfil from '../../components/CardPerfil.js';
 import CardAmigos from '../../components/CardAmigos.js';
 import colors from '../../assets/colors/colors.js';
+import { useUser } from '../../UserContext'; 
+import { getEventosEAmigos } from './api';
 
 export default function Perfil() {
 
   const navigation = useNavigation();
+  const { user } = useUser();
+  const [usuario, setUsuario] = useState();
+
+  useEffect(() => {
+    // Substitua 'usuarioId' pelo ID do usuário logado
+    const usuarioId = user.id;
+    // Carregar eventos por interesse do usuário
+    getEventosEAmigos(usuarioId)
+      .then((userInfo) => setUsuario(userInfo))
+      .catch((error) => console.error('Erro ao carregar usuário:', error));
+  }, []);
+
+  console.log(usuario);
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -45,10 +60,10 @@ export default function Perfil() {
           <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.modalIcon}>
             <Icon name="close-outline" size={30} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.modalBotao, { backgroundColor: colors.aratuBlue }]} onPress={() => navigation.navigate('PerfilEditar')}>
+          <TouchableOpacity style={[styles.modalBotao, { backgroundColor: colors.aratuBlue }]} onPress={() => {setModalVisible(false); navigation.navigate('PerfilEditar');}}>
             <Text style={styles.modalButtonText}>Editar perfil</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.modalBotao, { backgroundColor: colors.aratuGreen }]} onPress={() => navigation.navigate('PerfilAlterarSenha')}>
+          <TouchableOpacity style={[styles.modalBotao, { backgroundColor: colors.aratuGreen }]} onPress={() => {setModalVisible(false); navigation.navigate('PerfilAlterarSenha');}}>
             <Text style={styles.modalButtonText}>Alterar senha</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.modalBotao, { backgroundColor: colors.aratuRed }]}>
@@ -62,9 +77,9 @@ export default function Perfil() {
   
           <View style={styles.profileContainer}>
             <View style={styles.profileInfo}>
-              <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.profileImage} />
-              <Text style={styles.username}>João de Andrade</Text>
-              <Text style={styles.bio}>Apaixonado por todas as cores que a arte pode oferecer. 🎭✨</Text>
+              <Image source={{ uri: usuario ? usuario.foto_perfil : "https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2020/03/Chico-Science.jpg" }} style={styles.profileImage} />
+              <Text style={styles.username}>{usuario ? usuario.nome : "undefined"}</Text>
+              <Text style={styles.bio}>{usuario ? usuario.biografia? usuario.biografia : "" : "undefined"}</Text>
             </View>
   
             <View style={styles.containerStats}>
@@ -72,18 +87,18 @@ export default function Perfil() {
                 handleTabClick('atividades');
                 handleAtividadeClick('queroIr');
               }} style={styles.item}>
-                <Text style={styles.number}>20</Text>
+                <Text style={styles.number}>{usuario ? usuario.eventos_fui.length : 0}</Text>
                 <Text style={styles.text}>quero ir</Text>
               </TouchableOpacity>    
               <TouchableOpacity onPress={() => {
                 handleTabClick('atividades');
                 handleAtividadeClick('jaFui');
               }} style={styles.item}>
-                <Text style={styles.number}>378</Text>
+                <Text style={styles.number}>{usuario ? usuario.eventos_quero_ir.length : 0}</Text>
                 <Text style={styles.text}>já fui</Text>
               </TouchableOpacity>    
               <TouchableOpacity onPress={() => handleTabClick('amigos')} style={styles.item}>
-                <Text style={styles.numberAmigo}>3</Text>
+                <Text style={styles.numberAmigo}>{usuario ? usuario.amigos.length : 0}</Text>
                 <Text style={styles.textAmigo}>amigos</Text>
               </TouchableOpacity>          
             </View>
@@ -104,37 +119,43 @@ export default function Perfil() {
   
         {activeButton === 'queroIr' && (
           <>
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Homem da Madrugada" time="2024-03-01" rating="null"
-                                      /> 
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Home" time="2024-03-01" rating="null"
-                                      />
-  
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Home" time="2024-03-01" rating="null"
-                                      />
-  
+
+          {usuario &&
+          usuario.eventos_quero_ir.map((evento) => (
+            <TouchableOpacity
+              key={evento.id}
+              onPress={() => navigation.navigate('Detalhamento')}
+            >
+              <CardPerfil
+                imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} // Substitua 'evento.imagem' pelo caminho correto da imagem
+                name={evento.nome}
+                time={evento.data_hora}
+                rating={null} // Substitua 'evento.avaliacao' pela avaliação real do evento
+                local={evento.local}
+              />
+            </TouchableOpacity>
+          ))}
+         
         </>
         )}
   
         {activeButton === 'jaFui' && (
           <>
-          <TouchableOpacity onPress = {() => navigation.navigate('DetalhamentoFui')} style={styles.buttonCard}>
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Homem da Madrugada" time="2024-03-01" rating="5"
-                                      />
-          </TouchableOpacity>
-          <TouchableOpacity onPress = {() => navigation.navigate('DetalhamentoFui')}>
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Homem da Madrugada" time="2024-03-01" rating="5"
-                                      />
-          </TouchableOpacity>
-          <TouchableOpacity onPress = {() => navigation.navigate('DetalhamentoFui')}>
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Homem da Madrugada" time="2024-03-01" rating="5"
-                                      />
-          </TouchableOpacity>
+          {usuario &&
+          usuario.eventos_fui.map((evento) => (
+            <TouchableOpacity
+              key={evento.id}
+              onPress={() => navigation.navigate('DetalhamentoFui')}
+            >
+              <CardPerfil
+                imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} // Substitua 'evento.imagem' pelo caminho correto da imagem
+                name={evento.nome}
+                time={evento.data_hora}
+                rating={5} // Substitua 'evento.avaliacao' pela avaliação real do evento
+                local={evento.local}
+              />
+            </TouchableOpacity>
+          ))}
         </>
         )}
   
@@ -143,17 +164,15 @@ export default function Perfil() {
   
         {activeButtonTab === 'amigos' && (
         <>
-  
-          <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Rodrigo Medeiros" follow="true"
-                                      />
-          <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Thiago Botelho Pinto" follow="true"
-                                      />
-  
-          <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Isabela Boscov" follow="true"
-                                      />
+
+{usuario &&
+  usuario.amigos.map((amigo) => (
+    <CardAmigos
+      key={amigo.id}
+      id={amigo.id}
+    />
+  ))
+}
   
         </>)}
   

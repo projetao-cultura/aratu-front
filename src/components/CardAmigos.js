@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import colors from '../assets/colors/colors.js';
 import { useNavigation } from '@react-navigation/native';
+import { getAmigo } from '../pages/PerfilOutro/api';
 
-const CardAmigos = ({ imageUri, name, follow }) => {
+const CardAmigos = ({ id }) => {
   const navigation = useNavigation();
-  const [isFollowing, setIsFollowing] = useState(follow);
+  const [isFollowing, setIsFollowing] = useState(true);
+
+  const [amigo, setAmigo] = useState();
+
+  useEffect(() => {
+    getAmigo(id)
+      .then((userInfo) => setAmigo(userInfo))
+      .catch((error) => console.error('Erro ao carregar usuário:', error));
+  }, []);
 
   const handleButtonClick = () => {
     setIsFollowing(!isFollowing);
@@ -15,11 +24,11 @@ const CardAmigos = ({ imageUri, name, follow }) => {
     <View style={styles.container}>
       <View style={styles.contentBlock}>
         <View style={styles.contentBlockImage}>
-          <Image source={{ uri: imageUri }} style={styles.image} />
+          <Image source={{ uri: amigo ? amigo.foto_perfil : "https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2020/03/Chico-Science.jpg" }} style={styles.image} />
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('PerfilOutro')} style={styles.headerContentBlock}>
+        <TouchableOpacity onPress={() => navigation.navigate('PerfilOutro', { id: id })} style={styles.headerContentBlock}>
           <Text>
-            {name}
+          {amigo ? amigo.nome : "Amigo"}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

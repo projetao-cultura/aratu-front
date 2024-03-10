@@ -15,16 +15,59 @@ class CardPerfil extends Component {
   };
 
   formatTime = time => {
-    const parts = time.split('-'); // Split the date string by '-'
-    const day = parts[2]; // Extract day part
-    const month = parts[1]; // Extract month part
-    const year = parts[0]; // Extract year part
-
-    return `${day}/${month}/${year}`; // Return formatted date string
+    const dataEvento = new Date(time);
+    const hoje = new Date();
+  
+    if (dataEvento > hoje) {
+      // Evento no futuro
+      const diferencaEmMilissegundos = dataEvento - hoje;
+      const diferencaEmDias = Math.floor(diferencaEmMilissegundos / (1000 * 60 * 60 * 24));
+  
+      if (diferencaEmDias === 0) {
+        return 'Hoje';
+      } else if (diferencaEmDias === 1) {
+        return 'Amanhã';
+      } else if (diferencaEmDias < 7) {
+        return `em ${diferencaEmDias}d`;
+      } else if (diferencaEmDias < 30) {
+        const semanas = Math.floor(diferencaEmDias / 7);
+        return `em ${semanas}s`;
+      } else if (diferencaEmDias < 365) {
+        const meses = Math.floor(diferencaEmDias / 30);
+        return `em ${meses}m`;
+      } else {
+        const anos = Math.floor(diferencaEmDias / 365);
+        return `em ${anos}a`;
+      }
+    } else {
+      // Evento no passado
+      const diferencaEmMilissegundos = hoje - dataEvento;
+      const diferencaEmDias = Math.floor(diferencaEmMilissegundos / (1000 * 60 * 60 * 24));
+  
+      if (diferencaEmDias === 0) {
+        return 'Hoje';
+      } else if (diferencaEmDias === 1) {
+        return 'Ontem';
+      } else if (diferencaEmDias < 7) {
+        return `há ${diferencaEmDias}d`;
+      } else if (diferencaEmDias < 30) {
+        const semanas = Math.floor(diferencaEmDias / 7);
+        return `há ${semanas}s`;
+      } else if (diferencaEmDias < 365) {
+        const meses = Math.floor(diferencaEmDias / 30);
+        return `há ${meses}m`;
+      } else {
+        const anos = Math.floor(diferencaEmDias / 365);
+        return `há ${anos}a`;
+      }
+    }
   };
+  
+
 
   render() {
-    const { imageUri, name, time, rating } = this.props;
+    const { imageUri, name, time, rating, local } = this.props;
+
     return (
       <View style={styles.container}>
       <View style={styles.contentBlock}>
@@ -32,9 +75,9 @@ class CardPerfil extends Component {
           <Image source={{uri: imageUri}} style={styles.image} />
         </View>
         <View style={styles.headerContentBlock}>
-          <Text style={{ fontFamily: 'Inter', fontWeight: 'bold' }}>{name}</Text>
+          <Text style={{ fontFamily: 'Inter', fontWeight: 'bold', color: 'black' }}>{name}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 5 }}>
-            {this.renderStars(rating)}
+            {rating? this.renderStars(rating) : <Text style={{ fontFamily: 'Inter', color: 'gray' }}>{local}</Text>}
           </View>
         </View>
         <Text style={styles.timeContentBlock}>{this.formatTime(time)}</Text>
