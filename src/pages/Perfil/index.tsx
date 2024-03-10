@@ -120,16 +120,21 @@ export default function Perfil() {
   
         {activeButton === 'jaFui' && (
           <>
+          <TouchableOpacity onPress = {() => navigation.navigate('DetalhamentoFui')} style={styles.buttonCard}>
           <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                           name="Homem da Madrugada" time="2024-03-01" rating="5"
                                       />
+          </TouchableOpacity>
+          <TouchableOpacity onPress = {() => navigation.navigate('DetalhamentoFui')}>
           <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Home" time="2024-03-01" rating="3"
+                                          name="Homem da Madrugada" time="2024-03-01" rating="5"
                                       />
-  
+          </TouchableOpacity>
+          <TouchableOpacity onPress = {() => navigation.navigate('DetalhamentoFui')}>
           <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Home" time="2024-03-01" rating="4"
+                                          name="Homem da Madrugada" time="2024-03-01" rating="5"
                                       />
+          </TouchableOpacity>
         </>
         )}
   

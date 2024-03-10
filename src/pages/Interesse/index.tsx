@@ -85,7 +85,10 @@ const Interesse = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <TouchableOpacity style={styles.continueButton} onPress={enviarInformacoes}>
+      <TouchableOpacity style={styles.continueButton} onPress={() => {
+    enviarInformacoes();
+    navigation.navigate('Feed');
+  }}>
         <Text style={styles.continueButtonText}>Continuar</Text>
       </TouchableOpacity>
     </View>

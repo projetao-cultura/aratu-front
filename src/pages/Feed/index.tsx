@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView } from 'react-native';
 import styles from './styles';
 import CardFeed from '../../components/CardFeed.js';
 import Navbar from '../../components/Navbar.js';
@@ -39,12 +39,15 @@ export default function Feed() {
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                                     <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Home"
+                                        onPress = {() => navigation.navigate('Detalhamento')}
                                     />
                                     <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Experiences"
+                                        onPress = {() => navigation.navigate('Detalhamento')}
                                     />
                                     <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Resturant"
+                                        onPress = {() => navigation.navigate('Detalhamento')}
                                     />
                 </ScrollView>
               </View>
@@ -57,12 +60,15 @@ export default function Feed() {
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                                     <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Home"
+                                        onPress = {() => navigation.navigate('Detalhamento')}
                                     />
                                     <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Experiences"
+                                        onPress = {() => navigation.navigate('Detalhamento')}
                                     />
                                     <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Resturant"
+                                        onPress = {() => navigation.navigate('Detalhamento')}
                                     />
                 </ScrollView>
               </View>
@@ -75,12 +81,15 @@ export default function Feed() {
                 <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
                                     <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Home"
+                                        onPress = {() => navigation.navigate('Detalhamento')}
                                     />
                                     <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Experiences"
+                                        onPress = {() => navigation.navigate('Detalhamento')}
                                     />
                                     <CardFeed imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                         name="Resturant"
+                                        onPress = {() => navigation.navigate('Detalhamento')}
                                     />
                 </ScrollView>
               </View>
