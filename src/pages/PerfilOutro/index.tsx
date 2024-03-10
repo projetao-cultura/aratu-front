@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, Modal, Button } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/Ionicons';
 import Navbar from '../../components/Navbar.js';
 import CardPerfil from '../../components/CardPerfil.js';
 import CardAmigos from '../../components/CardAmigos.js';
+
 import colors from '../../assets/colors/colors.js';
 
-export default function Perfil() {
+export default function PerfilOutro() {
 
+  const [following, setFollowing] = useState(true); // State to track if following or not
+
+  // Function to handle button click
+  const handleButtonClick = () => {
+    setFollowing(!following); // Toggle the following state
+  };
   const navigation = useNavigation();
-
-    const [modalVisible, setModalVisible] = useState(false);
-
     const [activeButton, setActiveButton] = useState('queroIr'); // State to track active button
     const [activeButtonTab, setActiveButtonTab] = useState('atividades'); // State to track active button
-
+  
     const handleAtividadeClick = (atividade: string) => {
       setActiveButton(atividade);
     };
@@ -27,44 +31,18 @@ export default function Perfil() {
   
     return (
       <View style={styles.container}>
-        <View style={styles.topNavbar}>
+        <View style={styles.profileRectangle}>
+          <View style={styles.topNavbar}>
             <Icon name="arrow-back" size={30} color="#000" />
             <Text style={styles.logo}>aratu</Text>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <Icon name="build-outline" size={30} color="#000" />
-            </TouchableOpacity>
+            <Icon name="build-outline" size={30} color="#000" />
           </View>
-        <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalView}>
-          <View style={styles.modalOptions}>
-          <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.modalIcon}>
-            <Icon name="close-outline" size={30} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.modalBotao, { backgroundColor: colors.aratuBlue }]} onPress={() => navigation.navigate('PerfilEditar')}>
-            <Text style={styles.modalButtonText}>Editar perfil</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.modalBotao, { backgroundColor: colors.aratuGreen }]} onPress={() => navigation.navigate('PerfilAlterarSenha')}>
-            <Text style={styles.modalButtonText}>Alterar senha</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.modalBotao, { backgroundColor: colors.aratuRed }]}>
-            <Text style={styles.modalButtonText}>Sair da conta</Text>
-          </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-        <View style={styles.profileRectangle}>
-          
   
           <View style={styles.profileContainer}>
             <View style={styles.profileInfo}>
               <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.profileImage} />
-              <Text style={styles.username}>João de Andrade</Text>
-              <Text style={styles.bio}>Apaixonado por todas as cores que a arte pode oferecer. 🎭✨</Text>
+              <Text style={styles.username}>Thiago Botelho</Text>
+              <Text style={styles.bio}>Aii que delicia</Text>
             </View>
   
             <View style={styles.containerStats}>
@@ -85,9 +63,19 @@ export default function Perfil() {
               <TouchableOpacity onPress={() => handleTabClick('amigos')} style={styles.item}>
                 <Text style={styles.numberAmigo}>3</Text>
                 <Text style={styles.textAmigo}>amigos</Text>
-              </TouchableOpacity>          
+              </TouchableOpacity>           
             </View>
           </View>
+        </View>
+
+        <View style={[styles.friendFollowButton, { backgroundColor: following ? colors.aratuBlue : colors.aratuRed }]}>
+        <TouchableOpacity
+          onPress={handleButtonClick} // Pass the handleButtonClick function to onPress
+        >
+          <Text style={styles.friendFollowButtonText}>
+            {following ? 'Seguindo' : 'Seguir'} {/* Display the text based on the following state */}
+          </Text>
+        </TouchableOpacity>
         </View>
   
   {activeButtonTab === 'atividades' && (
@@ -120,21 +108,16 @@ export default function Perfil() {
   
         {activeButton === 'jaFui' && (
           <>
-          <TouchableOpacity onPress = {() => navigation.navigate('DetalhamentoFui')} style={styles.buttonCard}>
           <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
                                           name="Homem da Madrugada" time="2024-03-01" rating="5"
                                       />
-          </TouchableOpacity>
-          <TouchableOpacity onPress = {() => navigation.navigate('DetalhamentoFui')}>
           <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Homem da Madrugada" time="2024-03-01" rating="5"
+                                          name="Home" time="2024-03-01" rating="3"
                                       />
-          </TouchableOpacity>
-          <TouchableOpacity onPress = {() => navigation.navigate('DetalhamentoFui')}>
+  
           <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Homem da Madrugada" time="2024-03-01" rating="5"
+                                          name="Home" time="2024-03-01" rating="4"
                                       />
-          </TouchableOpacity>
         </>
         )}
   
@@ -148,7 +131,7 @@ export default function Perfil() {
                                           name="Rodrigo Medeiros" follow="true"
                                       />
           <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Thiago Botelho Pinto" follow="true"
+                                          name="Maria Andrade" follow="true"
                                       />
   
           <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
@@ -157,7 +140,7 @@ export default function Perfil() {
   
         </>)}
   
-  <Navbar selectedScreen={'Profile'} navigation={navigation} />
+  <Navbar selectedScreen={'Explore'} navigation={navigation} />
   
   
         

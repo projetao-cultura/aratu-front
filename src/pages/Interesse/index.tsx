@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useUser } from '../../UserContext';
+import { Alert } from 'react-native';
+import api from '../../services/APIServices';
 
-
-interface SelectedCategories {
-  [key: string]: boolean;
+interface Category {
+  key: string;
+  link: string;
 }
 
-
-const categories = [
+const categories: Category[] = [
   { key: 'Carnaval', link: 'https://static-00.iconduck.com/assets.00/party-popper-emoji-2045x2048-3cdxvcsw.png' },
   { key: 'Infantil', link: 'https://symbl-world.akamaized.net/i/webp/4f/c36fa4d73da1fcc3952556fe34055d.webp' },
   { key: 'Teatro', link: 'https://images.emojiterra.com/google/android-12l/512px/1f3ad.png' },
@@ -23,28 +25,47 @@ const categories = [
   { key: 'Artes', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png' },
 ];
 
-
 const Interesse = () => {
-  
-  const [selectedCategories, setSelectedCategories] = useState<SelectedCategories>({});
-
   const navigation = useNavigation();
+  const { user, setUser } = useUser();
 
   const toggleCategory = (key: string) => {
-    setSelectedCategories((prevState) => ({
-      ...prevState,
-      [key]: !prevState[key],
+    setUser((prevUser) => ({
+      ...prevUser,
+      categorias: {
+        ...prevUser.categorias,
+        [key]: !prevUser.categorias?.[key],
+      },
     }));
   };
 
-
-  const enviarInformacoes = () => {
-    const userInformation = global.userInformation;
-    console.log('Informações do Usuário:', userInformation);
-    console.log('Categorias Selecionadas:', selectedCategories);
-
+  const enviarInformacoes = async () => {
+    try {
+      const response = await api.post('/usuarios/', {
+        nome: user.nome,
+        email: user.email,
+        biografia: "string",
+        telefone: user.numero,
+        ativo: true,
+        foto_perfil: "https://i.imgur.com/JUf7jx3.jpeg",
+        senha: user.senha,
+        categorias_interesse: Object.keys(user.categorias || {}).filter(key => user.categorias?.[key]),
+      });
+      
+      // Exiba uma mensagem de sucesso ou trate conforme necessário
+      console.log('Dados enviados com sucesso:', response.data.id);
+      
+      Alert.alert('Usuário cadastrado com sucesso!');
+      // Redirecione o usuário para a próxima tela, se aplicável
+      // navigation.navigate('Feed');
+    } catch (error) {
+      // Lida com os erros da solicitação
+      console.error('Erro ao enviar dados para a API:', error);
+  
+      // Exibe uma mensagem de erro para o usuário
+      Alert.alert('Erro ao enviar dados para a API. Tente novamente mais tarde.');
+    }
   };
-
 
   return (
     <View style={styles.container}>
@@ -55,7 +76,7 @@ const Interesse = () => {
             key={category.key}
             style={[
               styles.categoryButton,
-              selectedCategories[category.key] ? styles.selectedCategory : {},
+              user.categorias?.[category.key] ? styles.selectedCategory : {},
             ]}
             onPress={() => toggleCategory(category.key)}
           >
@@ -73,7 +94,6 @@ const Interesse = () => {
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -133,6 +153,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
 
 export default Interesse;

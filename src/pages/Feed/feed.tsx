@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles from './styles';
-import Category from './Category.js';
+import Category from '../../components/CardFeed.js';
 import { useNavigation } from '@react-navigation/native';
 import { getEventosPorInteresse, getEventosProvisorio } from './api';
 

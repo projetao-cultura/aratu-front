@@ -10,4 +10,5 @@ export default {
   aratuRed: '#A41623',
   aratuGray: '#BDBDBD',
   aratuLightGray: '#F6F6F6',
+  aratuNavbarGray: '#d9d9d9',
 };

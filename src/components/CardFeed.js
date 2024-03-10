@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 
-class Category extends Component {
+class CardFeed extends Component {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress} style={{ height: 130, width: 140, marginLeft: 20 }}>
@@ -18,4 +18,4 @@ class Category extends Component {
     );
   }
 }
-export default Category;
+export default CardFeed;
