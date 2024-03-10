@@ -4,9 +4,14 @@ import styles from './styles';
 import CardFeed from '../../components/CardFeed.js';
 import Navbar from '../../components/Navbar.js';
 import { useNavigation } from '@react-navigation/native'; 
+import { useUser } from '../../UserContext';
 
 export default function Feed() {
     const navigation = useNavigation();
+    const { user, setUser } = useUser();
+
+    console.log("contexto no feed");
+    console.log(user);
 
   return (
     <View style={styles.container}>

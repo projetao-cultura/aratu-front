@@ -39,25 +39,37 @@ const Interesse = () => {
     }));
   };
 
+  const saveID = (key: number) => {
+    setUser((prevUser) => ({
+      ...prevUser,
+      id: key,
+    }));
+  };
+
   const enviarInformacoes = async () => {
     try {
       const response = await api.post('/usuarios/', {
         nome: user.nome,
         email: user.email,
-        biografia: "string",
+        biografia: "",
         telefone: user.numero,
         ativo: true,
         foto_perfil: "https://i.imgur.com/JUf7jx3.jpeg",
         senha: user.senha,
         categorias_interesse: Object.keys(user.categorias || {}).filter(key => user.categorias?.[key]),
       });
+
+      console.log('Dados vindos do post:');
+      console.log(response.data);
       
       // Exiba uma mensagem de sucesso ou trate conforme necessário
       console.log('Dados enviados com sucesso:', response.data.id);
+
+      saveID(response.data.id);
       
       Alert.alert('Usuário cadastrado com sucesso!');
       // Redirecione o usuário para a próxima tela, se aplicável
-      // navigation.navigate('Feed');
+      navigation.navigate('Feed');
     } catch (error) {
       // Lida com os erros da solicitação
       console.error('Erro ao enviar dados para a API:', error);

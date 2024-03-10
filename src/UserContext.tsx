@@ -10,6 +10,7 @@ interface UserProviderProps {
 }
 
 interface UserData {
+  id: number;
   nome: string;
   email: string;
   numero: string;
@@ -25,6 +26,7 @@ const UserContext = createContext<UserContextData>({} as UserContextData);
 
 export function UserProvider({ children }: UserProviderProps) {
   const [user, setUser] = useState<UserData>({
+    id: 0,
     nome: '',
     email: '',
     numero: '',
