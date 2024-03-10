@@ -3,6 +3,7 @@ import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, Alert } fro
 import { useNavigation } from '@react-navigation/native';
 import { handleLogin } from './handle'; // Importe a função de login
 import { useUser } from '../../UserContext';
+import { handleExplorer } from '../Explore/handle';
 
 export default function Login() {
     const navigation = useNavigation();

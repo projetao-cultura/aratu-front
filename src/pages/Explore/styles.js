@@ -1,4 +1,4 @@
-import {StyleSheet, Platform, StatusBar} from 'react-native';
+import { StyleSheet, Platform, StatusBar } from 'react-native';
 import colors from '../../assets/colors/colors.js';
 
 const styles = StyleSheet.create({
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     marginTop: '7%',
     alignItems: 'flex-end',
     justifyContent: 'center',
-    height: '25%',
+    height: '30%',
     width: '95%',
     backgroundColor: colors.aratuDarkBeige,
     borderRadius: 50,
@@ -48,19 +48,60 @@ const styles = StyleSheet.create({
     top: '17%',
     height: '5%',
     justifyContent: 'center',
-
   },
-  filtrosText:{
+  filtrosText: {
     fontSize: 12,
     lineHeight: 24,
     color: '#000000',
     marginStart: '5%'
   },
-  filtrosTextSelect:{
+  filtrosTextSelect: {
     fontSize: 12,
     lineHeight: 24,
     fontWeight: 'bold',
     color: colors.aratuRed,
+  },
+  // Estilos para o popup de filtro
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    marginBottom: 10
+  },
+  buttonClose: {
+    backgroundColor: colors.aratuYellow,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center'
   }
 });
 
