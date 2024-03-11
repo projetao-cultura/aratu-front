@@ -1,95 +1,137 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, SafeAreaView, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  View, Text, FlatList, StyleSheet, Image,
+  TouchableOpacity, SafeAreaView, TextInput
+} from 'react-native';
+import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Navbar from '../../components/Navbar.js';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
+import { useUser } from '../../UserContext';
+
 
 const ActivityScreen = () => {
-
+  const { user } = useUser();
   const navigation = useNavigation();
+  const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const img = require('../../assets/foto2Perfil.png');
+  const [friends, setFriends] = useState(new Set()); 
 
-    const img  = require('../../assets/fotoPerfil.png') 
 
-    const [users, setUsers] = useState([
-      { id: '1', name: 'Rodrigo', avatar: img, following: true },
-      { id: '2', name: 'Thiago', avatar: img, following: true },
-      { id: '3', name: 'João', avatar: img, following: false },
-      { id: '4', name: 'Mônica', avatar: img, following: false },
-      { id: '5', name: 'Giovanna', avatar: img, following: false },
-      // ... outros usuários
-    ]);
+  useEffect(() => {
+    // Define a função que busca detalhes do usuário logado, incluindo amigos
+    const fetchUserDetails = async () => {
+      try {
+        const userDetailsResponse = await axios.get(`https://aratu-api.fly.dev/usuarios/${user.id}/expand`);
+        const friendsIds = new Set(userDetailsResponse.data.amigos.map((friend) => String(friend.id)));
+        setFriends(friendsIds); // setFriends é um novo estado que você precisa criar para armazenar os IDs dos amigos
+      } catch (error) {
+        console.error('Erro ao buscar detalhes do usuário:', error);
+      }
+    };
   
-    // Função para manipular o estado de seguir
-    const toggleFollow = (userId) => {
-      const newUsers = users.map((user) => {
+    fetchUserDetails(); // Chama a função definida acima
+  }, [user.id]); // Dependência para que seja executado somente quando o usuário logado mudar
+  
+  const fetchUsers = async (query) => {
+    if (!query.trim()) {
+      console.log('Query vazia, requisição não realizada.');
+      return;
+    }
+    try {
+      const usersResponse = await axios.get(`https://aratu-api.fly.dev/usuarios/buscar/${query}`);
+      const transformedAndFilteredUsers = usersResponse.data
+        .filter((u) => String(u.id) !== String(user.id)) // Filtra o usuário logado
+        .map((u) => ({
+          id: String(u.id),
+          name: u.nome,
+          avatar: u.foto_perfil && u.foto_perfil !== '' ? { uri: u.foto_perfil } : img,
+          following: friends.has(String(u.id)), // Usa 'friends' para determinar se 'following' deve ser true
+        }));
+      setUsers(transformedAndFilteredUsers); // Atualiza o estado dos usuários com a nova lista, excluindo o usuário logado
+    } catch (error) {
+      console.error('Erro ao buscar usuários:', error);
+    }
+  };
+  
+
+  // Função para manipular o estado de seguir
+  const toggleFollow = async (userId) => {
+    // Encontra o usuário no estado
+    const userToToggle = users.find((user) => user.id === userId);
+  
+    // Se o usuário já estiver sendo seguido, envia uma requisição para deixar de seguir
+    // Caso contrário, envia uma requisição para seguir
+    const method = 'POST';//const method = userToToggle.following ? 'DELETE' : 'POST';
+    const url = `https://aratu-api.fly.dev/usuarios/${user.id}/amigos/${userId}`;
+  
+    try {
+      await axios({ method, url });
+      // Se a requisição for bem-sucedida, atualiza o estado
+      setUsers(users.map((user) => {
         if (user.id === userId) {
           return { ...user, following: !user.following };
         }
         return user;
-      });
-      setUsers(newUsers);
-    };
-
-    const [searchQuery, setSearchQuery] = useState('');
-
-    // Função para filtrar usuários com base na pesquisa
-    const filterUsers = (query) => {
-        if (!query) {
-        return users; // Se não houver consulta, retorne a lista inteira
-        }
-        return users.filter((user) =>
-        user.name.toLowerCase().includes(query.toLowerCase())
-        );
-    };
+      }));
+    } catch (error) {
+      console.error(`Erro ao ${userToToggle.following ? 'deixar de ' : ''}seguir o usuário:`, error);
+    }
+  };
   
-    const renderUser = ({ item }) => {
-      // Definindo estilos dinamicamente
-      const followButtonStyles = [styles.followButton, item.following ? styles.followingButton : {}];
-      const followButtonTextStyles = [styles.followButtonText, item.following ? styles.followingButtonText : {}];
-  
-      return (
-        <View style={styles.userItem}>
-          <Image source={item.avatar} style={styles.avatar} />
-          <Text style={styles.userName}>{item.name}</Text>
-          <TouchableOpacity 
-            style={followButtonStyles} 
-            onPress={() => toggleFollow(item.id)}
-          >
-            <Text style={followButtonTextStyles}>{item.following ? 'seguindo' : 'seguir'}</Text>
-          </TouchableOpacity>
-        </View>
-      );
-    };
+  const renderUser = ({ item }) => {
+    // Estilos dinâmicos
+    const followButtonStyles = [styles.followButton, item.following ? styles.followingButton : {}];
+    const followButtonTextStyles = [styles.followButtonText, item.following ? styles.followingButtonText : {}];
   
     return (
-        <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
+      <View style={styles.userItem}>
+        <Image source={item.avatar} style={styles.avatar} />
+        <Text style={styles.userName}>{item.name}</Text>
+        <TouchableOpacity
+          style={followButtonStyles}
+          onPress={() => toggleFollow(item.id)}
+        >
+          <Text style={followButtonTextStyles}>{item.following ? 'seguindo' : 'seguir'}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
         <Text style={styles.headerText}>Atividades</Text>
         <View style={styles.searchContainer}>
-       
           <TextInput
             style={styles.searchInput}
             value={searchQuery}
-            onChangeText={(text) => setSearchQuery(text)}
+            onChangeText={(text) => {
+              setSearchQuery(text);
+              fetchUsers(text);
+            }}
+            placeholder="Buscar usuários"
           />
-            <TouchableOpacity >
-              <Icon name="search-outline" size={20} color={'black'} style={styles.searchIcon} />
-            </TouchableOpacity>
+          <TouchableOpacity>
+            <Icon name="search-outline" size={20} color={'black'} style={styles.searchIcon} />
+          </TouchableOpacity>
         </View>
-        </View>
+      </View>
 
-        <FlatList
-            data={filterUsers(searchQuery)}
-            renderItem={renderUser}
-            keyExtractor={item => item.id}
-            style={styles.usersList}
-        />
+      <FlatList
+        data={users}
+        renderItem={renderUser}
+        keyExtractor={item => item.id}
+        style={styles.usersList}
+      />
 
-        <Navbar selectedScreen={'Atividade'} navigation={navigation} />
-      
-      </SafeAreaView>
-    );
-  };
+      <Navbar selectedScreen={'Atividade'} navigation={navigation} />
+    </SafeAreaView>
+  );
+};
+
+
 
 const styles = StyleSheet.create({
     container: {

@@ -9,7 +9,6 @@ import Interesse from '../pages/Interesse/index';
 import Feed from '../pages/Feed/index';
 import Atividade from '../pages/Atividade/index';
 import Explore from '../pages/Explore/index'
-import Pesquisa from '../pages/Pesquisa/index'
 import Detalhamento from '../pages/Detalhamento Evento/index'
 import DetalhamentoFui from '../pages/Detalhamento Evento/indexFui'
 import PerfilOutro from '../pages/PerfilOutro/index';
@@ -24,6 +23,11 @@ export default function Routes(){
             component={Login}
             options={{headerShown: false}}/>
         <Stack.Screen
+            name='Atividade'
+            component={Atividade}
+            options={{headerShown: false}}/>
+        
+        <Stack.Screen
             name='DetalhamentoFui'
             component={DetalhamentoFui}
             options={{headerShown: false}}/>  
@@ -31,13 +35,7 @@ export default function Routes(){
             name='Detalhamento'
             component={Detalhamento}
             options={{headerShown: false}}/>
-          
-        <Stack.Screen
-            name='Pesquisa'
-            component={Pesquisa}
-            options={{headerShown: false}}/>    
 
-        
         <Stack.Screen
             name='Feed'
             component={Feed}
@@ -71,10 +69,7 @@ export default function Routes(){
             component={Explore}
             options={{headerShown: false}}/>
         
-        <Stack.Screen
-            name='Atividade'
-            component={Atividade}
-            options={{headerShown: false}}/>
+        
         <Stack.Screen
             name='PerfilOutro'
             component={PerfilOutro}
