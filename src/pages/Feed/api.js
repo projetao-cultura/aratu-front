@@ -13,7 +13,6 @@ export const getEventosPopulares = async () => {
 export const getEventosRecomendados = async (userId) => {
   try {
     const response = await api.get(`/eventos/feed/recomendados-para-voce/${userId}`);
-    // console.log(response.data)
     return response.data;
   } catch (error) {
     console.error('Erro ao obter eventos:', error);
@@ -41,7 +40,6 @@ export const getEventosCategoria = async () => {
 export const getUserInfo = async (userId) => {
   try {
     const response = await api.get(`/usuarios/${userId}/expand`);
-    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error('Erro ao obter eventos:', error);

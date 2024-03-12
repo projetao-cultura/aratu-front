@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar.js';
 import {
   View,
@@ -14,91 +14,74 @@ import ClockImage from '../../assets/Clock.png';
 import NewImage from '../../assets/Clock1.png';
 import { useNavigation } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/Ionicons';
+import { formatarNomeCategoria} from '../Feed/helper.js'
+import { getEvento, getEventosParecidos } from './api';
 
 
 
-const EventDetailsScreen = () => {
+const EventDetailsScreen = ({ route }) => {
+
+  const { eventId } = route.params;
+  const [eventosParecidos, setEventosParecidos] = useState([]);
+  const [ eventData, setEvento] = useState({
+    titulo: '',
+    hora: '',
+    local: '',
+    banner: '',
+    descricao: '',
+    ing: '',
+    contato: '',
+    categoria: [],
+    querem_ir: []
+  });
+  
+
+  useEffect(() => {
+    getEvento(eventId)
+      .then((evento) => {
+  
+        const categoriaFormatada = formatarNomeCategoria(evento.categoria)
+
+        const formattedEventData = {
+          titulo: evento.nome,
+          hora: evento.data_hora,
+          local: evento.local,
+          banner: evento.banner,
+          descricao: evento.descricao,
+          ing: evento.onde_comprar_ingressos,
+          contato: evento.organizador,
+          categoria: categoriaFormatada,
+          querem_ir: evento.usuarios_que_querem_ir
+        }
+
+        // Atualizando o estado com os dados formatados
+        setEvento(formattedEventData)
+
+        if (evento.categoria) {
+          getEventosParecidos(evento.categoria)
+            .then((eventos) => setEventosParecidos(eventos))
+            .catch((error) => console.error('Erro ao carregar eventos por interesse:', error));
+        }
+
+      })
+      .catch((error) => console.error('Erro ao carregar eventos por interesse:', error));
+
+    // getEventosParecidos(eventData.categoria)
+    //   .then((eventos) => setEventosParecidos(eventos))
+    //   .catch((error) => console.error('Erro ao carregar eventos por interesse:', error));
+
+  }, []);
+
+  // console.log(eventData)
   // Suponha que estas são suas URLs de imagem, você vai substituir com as reais
   const navigation = useNavigation();
 
-  const img  = require('../../assets/ImgEvent.png') 
-
-  const [evento] = useState([
-    {
-      titulo: 'Carvalheira na Ladeira',
-      tag: ['CARNAVAL', 'SHOW'],
-      hora: '01/03/2025 • 13:00 à 04/03/2025 • 23:59',
-      local: 'Parque Memorial Arcoverde, Olinda - PE',
-      banner: img, // Substitua pela sua imagem de banner local
-      descricao: 'Depois de quatro dias no nosso lugar mágico, e uma vontade danada de viver tudo novamente, só existe um jeito de fazer essa tristeza de quarta-feira passar: deixando a sua presença no #CarvalheiraNaLadeira2025 mais que CERTA',
-      ing: 'https://www.sympla.com.br/evento/carvalheira-na-ladeira-2025/2339071',
-      contato: 'contato@carvalheira.com.br',
-    },
-    // ... outros objetos de evento
-  ]);
-
-  const imgQueremIr  = require('../../assets/fotoPerfil.png') 
-
-  const [queremIr] = useState([
-    {
-      querIr: imgQueremIr,
-    },
-    {
-      querIr: imgQueremIr,
-    },
-    {
-      querIr: imgQueremIr,
-    },
-    {
-      querIr: imgQueremIr,
-    },
-    {
-      querIr: imgQueremIr,
-    },
-    {
-      querIr: imgQueremIr,
-    },
-    {
-      querIr: imgQueremIr,
-    },
-    {
-      querIr: imgQueremIr,
-    }
-  ])
-
-
-  const bannerSimilarEvent = { uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-
-  const [eventParecido] = useState([
-    {
-      banner: bannerSimilarEvent,
-      nomeEvento: 'Evento X'
-    },
-    {
-      banner: bannerSimilarEvent,
-      nomeEvento: 'Evento X'
-    },
-    {
-      banner: bannerSimilarEvent,
-      nomeEvento: 'Evento X'
-    },
-    {
-      banner: bannerSimilarEvent,
-      nomeEvento: 'Evento X'
-    },
-    {
-      banner: bannerSimilarEvent,
-      nomeEvento: 'Evento X'
-    },
-  ])
-
-
   const onPressContact = () => {
-    Linking.openURL('mailto:${evento[0].contato}');
+    Linking.openURL('mailto:${eventData.contato}');
   };
 
   const onPressTickets = () => {
-    Linking.openURL(evento[0].ing);
+    Linking.openURL(eventData.ing);
   };
 
   
@@ -113,25 +96,25 @@ const EventDetailsScreen = () => {
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.container}>
-        <Image source={evento[0].banner} style={styles.eventImage} />
+        <Image source={{uri: eventData.banner}} style={styles.eventImage} />
         
         <View style={styles.content}>
-          <Text style={styles.eventTitle}>{evento[0].titulo}</Text>
+          <Text style={styles.eventTitle}>{eventData.titulo}</Text>
           
           <View style={styles.tagContainer}>
-          {evento[0].tag.map((tag, index) => (
-            <Text key={index} style={styles.tag}>{tag}</Text>
-          ))}
-        </View>
+            {Array.isArray(eventData.categoria) ? eventData.categoria.map((categoria, index) => (
+              <Text key={index} style={styles.tag}>{categoria}</Text>
+            )) : <Text style={styles.tag}>{eventData.categoria}</Text>}
+          </View>
 
           <View style={styles.dateLocationContainer}>
             <Image source={require('../../assets/Clock2.png')} style={styles.clockImg} />
-            <Text style={styles.dateText}>{evento[0].hora}</Text>
+            <Text style={styles.dateText}>{eventData.hora}</Text>
             
           </View>
           <View style={styles.dateLocationContainer}>
             <Image source={require('../../assets/Location.png')} style={styles.clockImg} />
-            <Text style={styles.locationText}>{evento[0].local}</Text>
+            <Text style={styles.locationText}>{eventData.local}</Text>
           </View>
 
           <TouchableOpacity
@@ -143,7 +126,7 @@ const EventDetailsScreen = () => {
         </TouchableOpacity>
 
           <Text style={styles.sectionTitle}>Descrição</Text>
-          <Text style={styles.descriptionText}>{evento[0].descricao}</Text>
+          <Text style={styles.descriptionText}>{eventData.descricao}</Text>
 
 
           <View style={styles.ticketsContainer}>
@@ -171,12 +154,12 @@ const EventDetailsScreen = () => {
         <View style={styles.queremIrContainer}>
             <Text style={styles.sectionTitle2}>QUEREM IR</Text>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
-              {queremIr.map((item, index) => (
+              {eventData.querem_ir.map((item, index) => (
                 <Image
                   key={index} // É importante usar uma key única para cada elemento na lista para ajudar o React a identificar quais itens mudaram.
                   style={styles.imageIcon}
                   resizeMode="cover"
-                  source={item.querIr}
+                  source={ {uri: item.foto_perfil}}
                 />
               ))}
             </ScrollView>
@@ -185,14 +168,14 @@ const EventDetailsScreen = () => {
           
           <Text style={styles.sectionTitle3}>Eventos parecidos</Text>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
-            {eventParecido.map((evento, index) => (
+            {eventosParecidos.map((evento, index) => (
               <View key={index} style={styles.event}>
                 <Image
                   style={styles.imageIcon2}
                   resizeMode="cover"
-                  source={evento.banner}
+                  source={{uri: evento.banner}}
                 />
-                <Text style={styles.eventText}>{evento.nomeEvento}</Text>
+                <Text style={styles.eventText}>{evento.nome}</Text>
               </View>
             ))}
           </ScrollView>

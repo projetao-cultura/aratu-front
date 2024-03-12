@@ -20,15 +20,44 @@ export default function Feed() {
   const [eventosAmigos, setEventosAmigos] = useState([]);
   const [eventosCategoria, setEventosCategoria] = useState([]);
   const [tituloCategoriaAleatoria, setTituloCategoriaAleatoria] = useState('');
-  const [userInfo, setUserInfo] = useState('');
-  
+  const [userInfo, setUserInfo] = useState({
+    id: 0,
+    nome: '',
+    email: '',
+    telefone: '',
+    biografia: '',
+    foto_perfil: '',
+    categorias_interesse: [],
+    amigos: [],
+    eventos_quero_ir: [],
+    eventos_fui: []
+  });
+
   
   useEffect(() => {
     if (user && user.id) {
       //carregar informações do usuário
       getUserInfo(user.id)
-        .then((userInfo) => setUserInfo(userInfo))
-        .catch((error) => console.error('Erro ao carregar eventos por interesse:', error));
+      .then((userInfo) => {
+        // Mapeando os dados para o formato desejado
+        const formattedUserInfo = {
+          id: userInfo.id,
+          nome: userInfo.nome,
+          email: userInfo.email,
+          telefone: userInfo.telefone,
+          biografia: userInfo.biografia,
+          foto_perfil: userInfo.foto_perfil,
+          categorias_interesse: userInfo.categorias_interesse,
+          amigos: userInfo.amigos,
+          eventos_quero_ir: userInfo.eventos_quero_ir,
+          eventos_fui: userInfo.eventos_fui
+        };
+
+        // Atualizando o estado com os dados formatados
+        setUserInfo(formattedUserInfo);
+      })
+      .catch((error) => console.error('Erro ao carregar informações do usuário:', error));
+
       // Carregar eventos por interesse do usuário
       getEventosPopulares()
         .then((eventos) => setEventosPopulares(eventos))
@@ -62,6 +91,7 @@ export default function Feed() {
 
   }, [user.id]);
 
+
   return (
     <View style={styles.container}>
       <View style={styles.profileRectangle}>
@@ -75,7 +105,7 @@ export default function Feed() {
           </View>
           <View style={styles.ellipse}>
             {/* Use Image component to display the background image */}
-            <Image source={require('../../assets/fotoPerfil.png')} style={{ width: '100%', height: '100%', borderRadius: 35 }} />
+            <Image source={{ uri: userInfo.foto_perfil }} style={{ width: '100%', height: '100%', borderRadius: 35 }} />
           </View>
         </View>
       </View>
@@ -83,7 +113,7 @@ export default function Feed() {
       <View style={styles.scrollViewContainer}>
         <ScrollView scrollEventThrottle={16} style={styles.scrollView}>
 
-          <View>
+          <View style={{ marginBottom: 20 }}>
             <Text style={styles.titleCarrosel}>
               Eventos populares
             </Text>
@@ -94,7 +124,7 @@ export default function Feed() {
                     key={`populares-${category.id}`} // Chave única
                     imageUri={category.banner}
                     name= {category.nome}
-                    onPress = {() => navigation.navigate('Detalhamento')}
+                    onPress = {() => navigation.navigate('Detalhamento', { eventId: category.id })}
                   />
                 ))}          
               </ScrollView>
@@ -119,29 +149,30 @@ export default function Feed() {
             </View>
           </View>
           
-          <View>
-          {userInfo.amigos.length === 0 && (
-            <View>
-              <Text style={styles.titleCarrosel}>
-                Popular entre amigos
-              </Text>
-              <View style={{ height: 130 }}>
-                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                  {eventosAmigos.map((category, index) => (
-                    <CardFeed
-                      key={`amigos-${category.id}`} // Chave única
-                      imageUri={category.banner}
-                      name={category.nome}
-                      onPress={() => navigation.navigate('Detalhamento')}
-                    />
-                  ))}
-                </ScrollView>
+          <View style={styles.container}>
+            {/* Se userInfo estiver carregado e houver amigos */}
+            {userInfo && userInfo.amigos.length > 0 && (
+              <View>
+                <Text style={styles.titleCarrosel}>
+                  Popular entre amigos
+                </Text>
+                <View style={{ height: 130 }}>
+                  <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    {eventosAmigos.map((category, index) => (
+                      <CardFeed
+                        key={`amigos-${category.id}`} // Chave única
+                        imageUri={category.banner}
+                        name={category.nome}
+                        onPress={() => navigation.navigate('Detalhamento')}
+                      />
+                    ))}
+                  </ScrollView>
+                </View>
               </View>
-            </View>
-          )}
+            )}
           </View>
 
-          <View>
+          <View style={styles.container}>
             <Text style={styles.titleCarrosel}>
               {tituloCategoriaAleatoria}
             </Text>
