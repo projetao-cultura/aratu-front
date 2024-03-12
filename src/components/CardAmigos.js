@@ -50,14 +50,15 @@ const CardAmigos = ({ id }) => {
           {amigo ? amigo.nome : "Amigo"}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {id !== user.id &&
+        (<TouchableOpacity
           style={[styles.followContentBlock, { backgroundColor: isFollowing ? colors.aratuBlue : colors.aratuRed }]}
           onPress={handleButtonClick}
         >
           <Text style={styles.followText}>
             {isFollowing ? 'Seguindo' : 'Seguir'}
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity>)}
       </View>
       <View style={styles.dividerLineContentBlock} />
     </View>
