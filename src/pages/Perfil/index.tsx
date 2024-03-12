@@ -10,8 +10,6 @@ import colors from '../../assets/colors/colors.js';
 import { useUser } from '../../UserContext'; 
 import { getEventosEAmigos, handleSairDaConta } from './api';
 
-
-
 export default function Perfil() {
 
   const navigation = useNavigation();
@@ -26,8 +24,6 @@ export default function Perfil() {
       .then((userInfo) => setUsuario(userInfo))
       .catch((error) => console.error('Erro ao carregar usuário:', error));
   }, []);
-
-  console.log(usuario);
 
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -126,13 +122,12 @@ export default function Perfil() {
           usuario.eventos_quero_ir.map((evento) => (
             <TouchableOpacity
               key={evento.id}
-              onPress = {() => navigation.navigate('Detalhamento', {id: evento.id})}
+              onPress = {() => navigation.navigate('Detalhamento', {eventId: evento.id})}
             >
               <CardPerfil
-                imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} // Substitua 'evento.imagem' pelo caminho correto da imagem
+                imageUri={evento.banner} // Substitua 'evento.imagem' pelo caminho correto da imagem
                 name={evento.nome}
                 time={evento.data_hora}
-                rating={null} // Substitua 'evento.avaliacao' pela avaliação real do evento
                 local={evento.local}
               />
             </TouchableOpacity>
@@ -147,13 +142,12 @@ export default function Perfil() {
           usuario.eventos_fui.map((evento) => (
             <TouchableOpacity
               key={evento.id}
-              onPress={() => navigation.navigate('DetalhamentoFui', {id: evento.id})}
+              onPress={() => navigation.navigate('DetalhamentoFui', {eventId: evento.id})}
             >
               <CardPerfil
-                imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} // Substitua 'evento.imagem' pelo caminho correto da imagem
+                imageUri={evento.banner} // Substitua 'evento.imagem' pelo caminho correto da imagem
                 name={evento.nome}
                 time={evento.data_hora}
-                rating={5} // Substitua 'evento.avaliacao' pela avaliação real do evento
                 local={evento.local}
               />
             </TouchableOpacity>

@@ -66,7 +66,7 @@ class CardPerfil extends Component {
 
 
   render() {
-    const { imageUri, name, time, rating, local } = this.props;
+    const { imageUri, name, time, local } = this.props;
 
     return (
       <View style={styles.container}>

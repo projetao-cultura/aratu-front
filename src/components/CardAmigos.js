@@ -3,21 +3,40 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import colors from '../assets/colors/colors.js';
 import { useNavigation } from '@react-navigation/native';
 import { getAmigo } from '../pages/PerfilOutro/api';
+import { toggleFollow, estouSeguindoFulano } from '../pages/Perfil/api';
+import { useUser } from '../../UserContext'; 
 
 const CardAmigos = ({ id }) => {
   const navigation = useNavigation();
   const [isFollowing, setIsFollowing] = useState(true);
+  const { user } = useUser();
 
   const [amigo, setAmigo] = useState();
 
   useEffect(() => {
-    getAmigo(id)
-      .then((userInfo) => setAmigo(userInfo))
-      .catch((error) => console.error('Erro ao carregar usuário:', error));
+    const fetchData = async () => {
+      try {
+        const userInfo = await getAmigo(id);
+        setAmigo(userInfo);
+  
+        const result = await estouSeguindoFulano(user, userInfo.id);
+        setIsFollowing(result);
+      } catch (error) {
+        console.error('Erro ao carregar usuário ou verificar seguimento:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleButtonClick = () => {
-    setIsFollowing(!isFollowing);
+    try {
+      toggleFollow(user, amigo.id);
+      setIsFollowing(!isFollowing);
+    } catch (error) {
+      console.error('Erro ao seguir/deseguir:', error);
+    }
+    
   };
 
   return (

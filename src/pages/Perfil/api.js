@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Alert } from 'react-native';
-import { useUser } from '../../UserContext';
 
 const BASE_URL = 'https://aratu-api.fly.dev';
 //const { user, setUser } = useUser();
@@ -85,17 +84,30 @@ export const handleSairDaConta = (setUser, navigation) => {
   );
 };
 
-
-export const toggleFollow = async (following, userId, friendId) => {
+export const toggleFollow = async (userInfo, friendId) => {
 
   try {
+    const following = userInfo.amigos.some(seguido => seguido.id === friendId);
     if (following) {
-      await axios.delete(`${BASE_URL}/usuarios/${userId}/amigos/${friendId}`)
+      await axios.delete(`${BASE_URL}/usuarios/${userInfo.id}/amigos/${friendId}`)
     }else{
-      await axios.post(`${BASE_URL}/usuarios/${userId}/amigos/${friendId}`)
+      await axios.post(`${BASE_URL}/usuarios/${userInfo.id}/amigos/${friendId}`)
     }
 
   } catch (error) {
     console.error(`Erro ao ${following ? 'deixar de ' : ''}seguir o usuário:`, error);
+  }
+};
+
+export const estouSeguindoFulano = async (userInfo, friendId) => {
+  try {
+    const following = userInfo.amigos.some(seguido => seguido.id === friendId);
+    if (following) {
+      return true;
+    }else{
+      return false;
+    }
+  } catch (error) {
+    console.error(`Erro`, error);
   }
 };
