@@ -28,16 +28,24 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     marginTop: '7%',
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'center',
-    height: '30%',
+    height: 50, // Altura do searchContainer
     width: '95%',
     backgroundColor: colors.aratuDarkBeige,
-    borderRadius: 50,
+    borderRadius: 25, // Metade da altura para garantir um círculo
   },
-  searchIcon: {
-    paddingHorizontal: 15, 
+  
+  searchInput: {
+    flex: 1,
+    paddingLeft: 15, // Adicionando espaço para o texto no TextInput
   },
+  
+  searchIconContainer: {
+    paddingHorizontal: 15, // Espaçamento horizontal para o ícone
+  },
+  
   scrollViewContainer: {
     top: '17.5%',
     width: '100%',
