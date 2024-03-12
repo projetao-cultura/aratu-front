@@ -111,3 +111,20 @@ export const estouSeguindoFulano = async (userInfo, friendId) => {
     console.error(`Erro`, error);
   }
 };
+
+export const acharAvaliacaoDoEvento = async (avaliacoes, eventoId) => {
+  if (avaliacoes.length > 0) {
+    // Procura a avaliação correspondente ao evento com o ID fornecido
+    const avaliacao = avaliacoes.find(
+      (avaliacao) => avaliacao.evento_id === eventoId
+    );
+
+    // Se encontrou uma avaliação correspondente, retorna o valor da avaliação
+    if (avaliacao) {
+      return avaliacao.avaliacao;
+    }
+  }
+
+  // Se não encontrou uma avaliação correspondente, retorna null
+  return null;
+};

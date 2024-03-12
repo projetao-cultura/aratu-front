@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -7,7 +7,7 @@ import Navbar from '../../components/Navbar.js';
 import CardPerfil from '../../components/CardPerfil.js';
 import CardAmigos from '../../components/CardAmigos.js';
 import { getAmigo } from './api';
-import { toggleFollow, estouSeguindoFulano } from '../Perfil/api';
+import { toggleFollow, estouSeguindoFulano, acharAvaliacaoDoEvento } from '../Perfil/api';
 import { useUser } from '../../UserContext'; 
 
 import colors from '../../assets/colors/colors.js';
@@ -123,7 +123,7 @@ export default function PerfilOutro({ route }) {
         </View>
   
         {activeButton === 'queroIr' && (
-          <>
+          <ScrollView>
 
           {amigo &&
           amigo.eventos_quero_ir.map((evento) => (
@@ -135,16 +135,17 @@ export default function PerfilOutro({ route }) {
                 imageUri={evento.banner} // Substitua 'evento.imagem' pelo caminho correto da imagem
                 name={evento.nome}
                 time={evento.data_hora}
+                rating={acharAvaliacaoDoEvento(amigo.avaliacoes, evento.id)}
                 local={evento.local}
               />
             </TouchableOpacity>
           ))}
          
-        </>
+        </ScrollView>
         )}
   
         {activeButton === 'jaFui' && (
-          <>
+          <ScrollView>
           {amigo &&
           amigo.eventos_fui.map((evento) => (
             <TouchableOpacity
@@ -155,18 +156,19 @@ export default function PerfilOutro({ route }) {
                 imageUri={evento.banner} 
                 name={evento.nome}
                 time={evento.data_hora}
+                rating={acharAvaliacaoDoEvento(amigo.avaliacoes, evento.id)}
                 local={evento.local}
               />
             </TouchableOpacity>
           ))}
-        </>
+        </ScrollView>
         )}
   
         </>)}
   
   
         {activeButtonTab === 'amigos' && (
-        <>
+        <ScrollView>
 
 {amigo &&
   amigo.amigos.map((amigo2) => (
@@ -177,7 +179,7 @@ export default function PerfilOutro({ route }) {
   ))
 }
   
-        </>)}
+        </ScrollView>)}
   
   <Navbar selectedScreen={'Profile'} navigation={navigation} />
   

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, Modal, Button, FlatList } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Modal, ScrollView } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,7 +8,7 @@ import CardPerfil from '../../components/CardPerfil.js';
 import CardAmigos from '../../components/CardAmigos.js';
 import colors from '../../assets/colors/colors.js';
 import { useUser } from '../../UserContext'; 
-import { getEventosEAmigos, handleSairDaConta } from './api';
+import { getEventosEAmigos, handleSairDaConta, acharAvaliacaoDoEvento } from './api';
 
 export default function Perfil() {
 
@@ -76,8 +76,8 @@ export default function Perfil() {
           <View style={styles.profileContainer}>
             <View style={styles.profileInfo}>
               <Image source={{ uri: usuario ? usuario.foto_perfil : "https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2020/03/Chico-Science.jpg" }} style={styles.profileImage} />
-              <Text style={styles.username}>{usuario ? usuario.nome : "undefined"}</Text>
-              <Text style={styles.bio}>{usuario ? usuario.biografia? usuario.biografia : "" : "undefined"}</Text>
+              <Text style={styles.username}>{usuario ? usuario.nome : ""}</Text>
+              <Text style={styles.bio}>{usuario ? usuario.biografia? usuario.biografia : "" : ""}</Text>
             </View>
   
             <View style={styles.containerStats}>
@@ -116,7 +116,7 @@ export default function Perfil() {
         </View>
   
         {activeButton === 'queroIr' && (
-          <>
+          <ScrollView>
 
           {usuario &&
           usuario.eventos_quero_ir.map((evento) => (
@@ -128,16 +128,17 @@ export default function Perfil() {
                 imageUri={evento.banner} // Substitua 'evento.imagem' pelo caminho correto da imagem
                 name={evento.nome}
                 time={evento.data_hora}
+                rating={acharAvaliacaoDoEvento(usuario.avaliacoes, evento.id)}
                 local={evento.local}
               />
             </TouchableOpacity>
           ))}
          
-        </>
+        </ScrollView>
         )}
   
         {activeButton === 'jaFui' && (
-          <>
+          <ScrollView>
           {usuario &&
           usuario.eventos_fui.map((evento) => (
             <TouchableOpacity
@@ -148,18 +149,19 @@ export default function Perfil() {
                 imageUri={evento.banner} // Substitua 'evento.imagem' pelo caminho correto da imagem
                 name={evento.nome}
                 time={evento.data_hora}
+                rating={acharAvaliacaoDoEvento(usuario.avaliacoes, evento.id)}
                 local={evento.local}
               />
             </TouchableOpacity>
           ))}
-        </>
+        </ScrollView>
         )}
   
         </>)}
   
   
         {activeButtonTab === 'amigos' && (
-        <>
+        <ScrollView>
 
 {usuario &&
   usuario.amigos.map((amigo) => (
@@ -170,7 +172,7 @@ export default function Perfil() {
   ))
 }
   
-        </>)}
+        </ScrollView>)}
   
   <Navbar selectedScreen={'Profile'} navigation={navigation} />
   
