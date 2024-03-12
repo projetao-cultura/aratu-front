@@ -4,7 +4,7 @@ import colors from '../assets/colors/colors.js';
 import { useNavigation } from '@react-navigation/native';
 import { getAmigo } from '../pages/PerfilOutro/api';
 import { toggleFollow, estouSeguindoFulano } from '../pages/Perfil/api';
-import { useUser } from '../../UserContext'; 
+import { useUser } from '../UserContext'; 
 
 const CardAmigos = ({ id }) => {
   const navigation = useNavigation();

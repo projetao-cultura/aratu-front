@@ -77,7 +77,7 @@ class CardPerfil extends Component {
         <View style={styles.headerContentBlock}>
           <Text style={{ fontFamily: 'Inter', fontWeight: 'bold', color: 'black' }}>{name}</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 5 }}>
-            {rating? this.renderStars(rating) : <Text style={{ fontFamily: 'Inter', color: 'gray' }}>{local}</Text>}
+            {/* {rating? this.renderStars(rating) : <Text style={{ fontFamily: 'Inter', color: 'gray' }}>{local}</Text>} */}
           </View>
         </View>
         <Text style={styles.timeContentBlock}>{this.formatTime(time)}</Text>
