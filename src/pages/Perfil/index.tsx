@@ -8,12 +8,14 @@ import CardPerfil from '../../components/CardPerfil.js';
 import CardAmigos from '../../components/CardAmigos.js';
 import colors from '../../assets/colors/colors.js';
 import { useUser } from '../../UserContext'; 
-import { getEventosEAmigos } from './api';
+import { getEventosEAmigos, handleSairDaConta } from './api';
+
+
 
 export default function Perfil() {
 
   const navigation = useNavigation();
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const [usuario, setUsuario] = useState();
 
   useEffect(() => {
@@ -66,7 +68,7 @@ export default function Perfil() {
           <TouchableOpacity style={[styles.modalBotao, { backgroundColor: colors.aratuGreen }]} onPress={() => {setModalVisible(false); navigation.navigate('PerfilAlterarSenha');}}>
             <Text style={styles.modalButtonText}>Alterar senha</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.modalBotao, { backgroundColor: colors.aratuRed }]}>
+          <TouchableOpacity style={[styles.modalBotao, { backgroundColor: colors.aratuRed }]} onPress={() => {handleSairDaConta(setUser, navigation)}}>
             <Text style={styles.modalButtonText}>Sair da conta</Text>
           </TouchableOpacity>
           </View>
@@ -124,7 +126,7 @@ export default function Perfil() {
           usuario.eventos_quero_ir.map((evento) => (
             <TouchableOpacity
               key={evento.id}
-              onPress={() => navigation.navigate('Detalhamento')}
+              onPress = {() => navigation.navigate('Detalhamento', {id: evento.id})}
             >
               <CardPerfil
                 imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} // Substitua 'evento.imagem' pelo caminho correto da imagem
@@ -145,7 +147,7 @@ export default function Perfil() {
           usuario.eventos_fui.map((evento) => (
             <TouchableOpacity
               key={evento.id}
-              onPress={() => navigation.navigate('DetalhamentoFui')}
+              onPress={() => navigation.navigate('DetalhamentoFui', {id: evento.id})}
             >
               <CardPerfil
                 imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'} // Substitua 'evento.imagem' pelo caminho correto da imagem
