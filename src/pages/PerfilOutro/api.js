@@ -27,3 +27,4 @@ export const getAmigo = async (usuarioId) => {
 //     throw error;
 //   }
 // };
+

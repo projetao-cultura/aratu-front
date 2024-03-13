@@ -26,7 +26,6 @@ export default function Routes(){
             name='Atividade'
             component={Atividade}
             options={{headerShown: false}}/>
-        
         <Stack.Screen
             name='DetalhamentoFui'
             component={DetalhamentoFui}
@@ -35,13 +34,10 @@ export default function Routes(){
             name='Detalhamento'
             component={Detalhamento}
             options={{headerShown: false}}/>
-
         <Stack.Screen
             name='Feed'
             component={Feed}
             options={{headerShown: false}}/>  
-        
-        
         <Stack.Screen
             name='Cadastro'
             component={Cadastro}
@@ -50,7 +46,6 @@ export default function Routes(){
             name='Perfil'
             component={Perfil}
             options={{headerShown: false}}/>
-    
         <Stack.Screen
             name='PerfilEditar'
             component={PerfilEditar}
@@ -59,7 +54,6 @@ export default function Routes(){
             name='PerfilAlterarSenha'
             component={PerfilAlterarSenha}
             options={{headerShown: false}}/>
-    
         <Stack.Screen
             name='Interesse'
             component={Interesse}
@@ -68,8 +62,6 @@ export default function Routes(){
             name='Explore'
             component={Explore}
             options={{headerShown: false}}/>
-        
-        
         <Stack.Screen
             name='PerfilOutro'
             component={PerfilOutro}

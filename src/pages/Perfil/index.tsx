@@ -166,19 +166,20 @@ export default function Perfil() {
   
   
         {activeButtonTab === 'amigos' && (
-            <ScrollView style={{width: '100%'}}>
-            <View style={{alignItems: 'center'}}>
 
-          {usuario &&
-            usuario.amigos.map((amigo) => (
-              <CardAmigos
-                key={amigo.id}
-                id={amigo.id}
-              />
-            ))
-          }
-          </View>
-          </ScrollView>)}
+    <ScrollView style={{width: '100%'}}>
+    <View style={{alignItems: 'center'}}>
+
+{usuario &&
+  usuario.amigos.map((amigo) => (
+    <CardAmigos
+      key={amigo.id}
+      id={amigo.id}
+    />
+  ))
+}
+</View>
+        </ScrollView>)}
   
   </View>
   <Navbar selectedScreen={'Profile'} navigation={navigation} />

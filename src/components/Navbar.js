@@ -26,7 +26,7 @@ const Navbar = ({ selectedScreen, navigation }) => {
                 selectedScreen === 'Atividade' && { backgroundColor: colors.aratuRed }]} 
         onPress={() => navigation.navigate('Atividade')}
       >
-        <Icon name="heart-outline" size={20} color={selectedScreen === 'Likes' ? 'white' : 'black'} />
+        <Icon name="heart-outline" size={20} color={selectedScreen === 'Atividade' ? 'white' : 'black'} />
       </TouchableOpacity>
       <TouchableOpacity 
         style={[styles.bottomNavCircle, 
