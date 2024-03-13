@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     width: 222,
     height: 18,
     left: 0, // Aligns text to the left
-    top: 39, // Adjust top value as needed
+    top: 10, // Adjust top value as needed
     fontFamily: 'Inter',
     fontStyle: 'normal',
     fontWeight: '400',
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     borderRadius: 103 / 2,
   },
   scrollViewContainer: {
-    marginTop: '50%',
+    marginTop: '34%',
     width: '100%',
   },
   titleCarrosel: {
@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: '100%',
+    marginBottom: 60
   },
   bottomNavbar: {
     position: 'absolute',
