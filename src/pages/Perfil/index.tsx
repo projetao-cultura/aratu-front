@@ -166,6 +166,7 @@ export default function Perfil() {
   
   
         {activeButtonTab === 'amigos' && (
+
     <ScrollView style={{width: '100%'}}>
     <View style={{alignItems: 'center'}}>
 
