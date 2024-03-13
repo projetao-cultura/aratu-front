@@ -1,35 +1,76 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import colors from '../assets/colors/colors.js';
 import { useNavigation } from '@react-navigation/native';
+import { getAmigo } from '../pages/PerfilOutro/api';
+import { toggleFollow, estouSeguindoFulano, getEventosEAmigos } from '../pages/Perfil/api';
+import { useUser } from '../UserContext'; 
 
-const CardAmigos = ({ imageUri, name, follow }) => {
+const CardAmigos = ({ id }) => {
   const navigation = useNavigation();
-  const [isFollowing, setIsFollowing] = useState(follow);
+  const [isFollowing, setIsFollowing] = useState();
+  const { user } = useUser();
+
+  const [usuario, setUsuario] = useState();
+
+  const [amigo, setAmigo] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userInfo = await getAmigo(id);
+        setAmigo(userInfo);
+
+        const logadoInfo = await getEventosEAmigos(user.id);
+        setUsuario(logadoInfo);
+  
+        const result = await estouSeguindoFulano(logadoInfo, userInfo.id);
+        setIsFollowing(result);
+      } catch (error) {
+        console.error('Erro ao carregar usuário ou verificar seguimento:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleButtonClick = () => {
-    setIsFollowing(!isFollowing);
+    try {
+      toggleFollow(usuario, amigo.id);
+      setIsFollowing(!isFollowing);
+    } catch (error) {
+      console.error('Erro ao seguir/deseguir:', error);
+    }
+    
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.contentBlock}>
         <View style={styles.contentBlockImage}>
-          <Image source={{ uri: imageUri }} style={styles.image} />
+          <Image source={{ uri: amigo ? amigo.foto_perfil : "https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2020/03/Chico-Science.jpg" }} style={styles.image} />
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('PerfilOutro')} style={styles.headerContentBlock}>
+        <TouchableOpacity  onPress={() => {
+    if (user.id === amigo.id) {
+      navigation.navigate('Perfil');
+    } else {
+      console.log("o id do amigo clicado é " + amigo.id)
+      navigation.navigate('PerfilOutro', { id: amigo.id });
+    }
+  }} style={styles.headerContentBlock}>
           <Text>
-            {name}
+          {amigo ? amigo.nome : "Amigo"}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {id !== user.id &&
+        (<TouchableOpacity
           style={[styles.followContentBlock, { backgroundColor: isFollowing ? colors.aratuBlue : colors.aratuRed }]}
           onPress={handleButtonClick}
         >
           <Text style={styles.followText}>
             {isFollowing ? 'Seguindo' : 'Seguir'}
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity>)}
       </View>
       <View style={styles.dividerLineContentBlock} />
     </View>

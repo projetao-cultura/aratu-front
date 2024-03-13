@@ -9,7 +9,6 @@ import Interesse from '../pages/Interesse/index';
 import Feed from '../pages/Feed/index';
 import Atividade from '../pages/Atividade/index';
 import Explore from '../pages/Explore/index'
-import Pesquisa from '../pages/Pesquisa/index'
 import Detalhamento from '../pages/Detalhamento Evento/index'
 import DetalhamentoFui from '../pages/Detalhamento Evento/indexFui'
 import PerfilOutro from '../pages/PerfilOutro/index';
@@ -24,6 +23,10 @@ export default function Routes(){
             component={Login}
             options={{headerShown: false}}/>
         <Stack.Screen
+            name='Atividade'
+            component={Atividade}
+            options={{headerShown: false}}/>
+        <Stack.Screen
             name='DetalhamentoFui'
             component={DetalhamentoFui}
             options={{headerShown: false}}/>  
@@ -31,19 +34,10 @@ export default function Routes(){
             name='Detalhamento'
             component={Detalhamento}
             options={{headerShown: false}}/>
-          
-        <Stack.Screen
-            name='Pesquisa'
-            component={Pesquisa}
-            options={{headerShown: false}}/>    
-
-        
         <Stack.Screen
             name='Feed'
             component={Feed}
             options={{headerShown: false}}/>  
-        
-        
         <Stack.Screen
             name='Cadastro'
             component={Cadastro}
@@ -52,7 +46,6 @@ export default function Routes(){
             name='Perfil'
             component={Perfil}
             options={{headerShown: false}}/>
-    
         <Stack.Screen
             name='PerfilEditar'
             component={PerfilEditar}
@@ -61,7 +54,6 @@ export default function Routes(){
             name='PerfilAlterarSenha'
             component={PerfilAlterarSenha}
             options={{headerShown: false}}/>
-    
         <Stack.Screen
             name='Interesse'
             component={Interesse}
@@ -69,11 +61,6 @@ export default function Routes(){
         <Stack.Screen
             name='Explore'
             component={Explore}
-            options={{headerShown: false}}/>
-        
-        <Stack.Screen
-            name='Atividade'
-            component={Atividade}
             options={{headerShown: false}}/>
         <Stack.Screen
             name='PerfilOutro'
