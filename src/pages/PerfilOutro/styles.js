@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
+    zIndex: 5000,
   },
   arrowIcon: {
     width: 20,

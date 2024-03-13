@@ -12,6 +12,7 @@ import { formatarNomeCategoria} from './helper.js'
 
 
 
+
 export default function Feed() {
   const navigation = useNavigation();
   const { user, setUser } = useUser();
