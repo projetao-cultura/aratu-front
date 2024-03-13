@@ -64,6 +64,7 @@ const EventDetailsScreen = ({ route }) => {
 
         // Atualizando o estado com os dados formatados
         setEvento(formattedEventData)
+        setButtonActive(evento.quero_ir_state)
 
         if (evento.categoria) {
           getEventosParecidos(evento.categoria)
@@ -87,8 +88,9 @@ const EventDetailsScreen = ({ route }) => {
   };
 
   
-  const [buttonActive, setButtonActive] = useState(eventData.quero_ir_state);
+  const [buttonActive, setButtonActive] = useState(false);
   const [buttonBackgroundColor, setButtonBackgroundColor] = useState('#FFF');
+
 
   const toggleButtonState = () => { //buttom active: false / quero ir state: false
     setButtonActive(!buttonActive); //buttom active: true / quero ir state: false 
@@ -166,7 +168,6 @@ const EventDetailsScreen = ({ route }) => {
                   if (user.id === item.id) {
                     navigation.navigate('Perfil');
                   } else {
-                    console.log("o id do amigo clicado é " + item.id)
                     navigation.navigate('PerfilOutro', { id: item.id });
                   }}}>
                   <Image

@@ -16,7 +16,7 @@ import NewImage from '../../assets/check1.png';
 import CardFeed from '../../components/CardFeed.js';
 import { useNavigation } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/Ionicons';
-import { getEvento, getEventosParecidos } from './api';
+import { getEvento, getEventosParecidos, setJaFuiButtom, setAvaliacao } from './api';
 import { useUser } from '../../UserContext';
 import { formatarNomeCategoria} from '../Feed/helper.js'
 import { formatarData } from './helper.js';
@@ -99,6 +99,7 @@ const EventDetailsScreen = ({ route }) => {
   const [eventosParecidos, setEventosParecidos] = useState([]);
   const { user, setUser } = useUser();
   const [ eventData, setEvento] = useState({
+    id: 0,
     titulo: '',
     horaInicio: '',
     horaFim: '',
@@ -110,7 +111,8 @@ const EventDetailsScreen = ({ route }) => {
     avaliacao: 0,
     categoria: [],
     ja_foram: [],
-    quero_ir_state: false
+    avaliacoes: [],
+    fui_state: false
   });
 
   useEffect(() => {
@@ -120,6 +122,7 @@ const EventDetailsScreen = ({ route }) => {
         const categoriaFormatada = formatarNomeCategoria(evento.categoria)
 
         const formattedEventData = {
+          id: evento.id,
           titulo: evento.nome,
           horaInicio: evento.data_hora,
           horaFim: evento.data_fim,
@@ -131,11 +134,13 @@ const EventDetailsScreen = ({ route }) => {
           avaliacao: evento.avaliacao,
           categoria: categoriaFormatada,
           ja_foram: evento.usuarios_que_foram,
-          quero_ir_state: evento.quero_ir_state
+          avaliacoes: evento.avaliacoes,
+          fui_state: evento.fui_state
         }
 
         // Atualizando o estado com os dados formatados
         setEvento(formattedEventData)
+        setButtonActive(evento.fui_state)
 
         if (evento.categoria) {
           getEventosParecidos(evento.categoria)
@@ -146,11 +151,6 @@ const EventDetailsScreen = ({ route }) => {
       })
       .catch((error) => console.error('Erro ao carregar eventos por interesse:', error));
   }, []);
-
-
-
-
-
 
 
   const renderStars = (currentRating) => {
@@ -181,7 +181,10 @@ const renderRating = () => {
 
 const handleRating = (newRating) => {
     // Update the user's individual rating
-    setRating(newRating);
+    setAvaliacao(newRating, eventData.id, user.id)
+
+    //set avaliacao em api.js
+    //set estado da média
 
     // Calculate the new average rating
     const totalRatingSum = averageRating * ratingCount + newRating;
@@ -200,69 +203,10 @@ const handleRating = (newRating) => {
       setModalVisible(true);
     };
 
-const handleForam = () => {
-  
-  const usuariosQueForam = eventData.ja_foram;
-  const avaliacoes = eventData.avaliacao; // Certifica-se de que avaliacoes seja um array, mesmo que eventData.avaliacao seja null ou undefined
-  
-
-  // Cria um mapa de avaliações por ID de usuário para facilitar a busca
-  const avaliacoesPorUsuarioId = {};
-  for (const avaliacao of avaliacoes) {
-    const { usuario_id, avaliacao: nota } = avaliacao;
-    avaliacoesPorUsuarioId[usuario_id] = nota;
-  }
-
-  // Mapeia os usuários que foram e adiciona a avaliação correspondente, se existir
-  const usuariosComAvaliacao = usuariosQueForam.map(usuario => {
-    const avaliacao = avaliacoesPorUsuarioId[usuario.id];
-    return { ...usuario, avaliacao: avaliacao || null };
-  });
-  console.log(usuariosComAvaliacao)
-
-  return usuariosComAvaliacao;
-}
-
-
 
   const navigation = useNavigation();
 
-  const imgQueremIr  = require('../../assets/fotoPerfil.png') 
-
-  const [queremIr] = useState([
-    {
-      querIr: imgQueremIr,
-      nota:4
-    },
-    {
-      querIr: imgQueremIr,
-      nota:3
-    },
-    {
-      querIr: imgQueremIr,
-      nota: 5
-    },
-    {
-      querIr: imgQueremIr,
-      nota: 2
-    },
-    {
-      querIr: imgQueremIr,
-      nota:4
-    },
-    {
-      querIr: imgQueremIr,
-      nota:1
-    },
-    {
-      querIr: imgQueremIr,
-      nota: 5
-    },
-    {
-      querIr: imgQueremIr,
-      nota: 3
-    },
-  ])
+ 
 
   const StarRating = ({ rating }) => {
     const maxRating = [1, 2, 3, 4, 5];
@@ -280,38 +224,32 @@ const handleForam = () => {
     );
   };
 
-  const bannerSimilarEvent = { uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-
-  const [eventParecido] = useState([
-    {
-      banner: bannerSimilarEvent,
-      nomeEvento: 'Evento X'
-    },
-    {
-      banner: bannerSimilarEvent,
-      nomeEvento: 'Evento X'
-    },
-    {
-      banner: bannerSimilarEvent,
-      nomeEvento: 'Evento X'
-    },
-    {
-      banner: bannerSimilarEvent,
-      nomeEvento: 'Evento X'
-    },
-    {
-      banner: bannerSimilarEvent,
-      nomeEvento: 'Evento X'
-    },
-  ])
 
   const [buttonActive, setButtonActive] = useState(false);
   const [buttonBackgroundColor, setButtonBackgroundColor] = useState('#FFF');
 
-  const toggleButtonState = () => {
-    setButtonActive(!buttonActive);
-    setButtonBackgroundColor(buttonActive ? '#FFF' : '#E8E8E8'); // Mude a cor de fundo conforme necessário
+  const toggleButtonState = () => { //buttom active: false / quero ir state: false
+    setButtonActive(!buttonActive); //buttom active: true / quero ir state: false 
+    setJaFuiButtom(buttonActive, eventId, user.id) //buttom active: true / quero ir state no banco: true / quero ir state local: false
+    setButtonBackgroundColor(buttonActive ? '#FFFAF1' : '#FFFAF1'); // Mude a cor de fundo conforme necessário
   };
+
+
+  const handleAvaliacao = (usuarios, avaliacoes) => {
+   
+    const usuariosAvaliacoes = []
+
+    for (usuario of usuarios){
+      for(avaliacao of avaliacoes){
+        if (avaliacao.usuario_id === usuario.id) {
+          usuariosAvaliacoes.push({avaliacao: avaliacao.avaliacao, usuario_id: usuario.id, foto_perfil: usuario.foto_perfil})
+        }
+      }
+    }
+    
+    return usuariosAvaliacoes
+  }
+
 
   return (
     <View style={styles.mainContainer}>
@@ -344,7 +282,9 @@ const handleForam = () => {
           <TouchableOpacity
           style={[styles.button, { backgroundColor: buttonBackgroundColor }]} // Aplica a cor de fundo dinamicamente
           onPress={() => {
-            handleOpenRating();
+            if (!buttonActive) {
+              handleOpenRating();
+            }
             toggleButtonState();
           }}        >
           <Image style={styles.clockImg2}source={buttonActive ? NewImage : ClockImage}/> 
@@ -366,15 +306,22 @@ const handleForam = () => {
         </View>
         <View style={styles.queremIrContainer}>
             <Text style={styles.sectionTitle2}>Foram</Text>
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
-              {handleForam().map((item, index) => (
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.foramScroll}>
+              {handleAvaliacao(eventData.ja_foram, eventData.avaliacoes).map((item, index) => (
                 <View key={index} style={styles.listItemContainer}>
-                  <Image
-                    style={styles.imageIcon}
-                    resizeMode="cover"
-                    source={item.querIr}
-                  />
-                  <StarRating rating={item.nota} />
+                  <TouchableOpacity key={index} onPress={() =>  {
+                  if (user.id === item.usuario_id) {
+                    navigation.navigate('Perfil');
+                  } else {
+                    navigation.navigate('PerfilOutro', { id: item.usuario_id });
+                  }}}>
+                    <Image
+                      style={styles.imageIcon}
+                      resizeMode="cover"
+                      source={{uri: item.foto_perfil}}
+                    />
+                    <StarRating rating={item.avaliacao} />
+                  </TouchableOpacity>
                 </View>
               ))}
             </ScrollView>
@@ -410,8 +357,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f6efe4',
-    marginBottom: 60, // Isso deve ser igual ou maior que a altura da BottomNavbar
-
+    marginBottom: 5, // Isso deve ser igual ou maior que a altura da BottomNavbar
   },
   starsContainer:{
     flexDirection:'row'
@@ -526,8 +472,13 @@ const styles = StyleSheet.create({
     marginLeft:5,
   },
 
+  foramScroll:{
+    marginBottom: 10,
+    marginLeft:25,
+  },
+
   sectionTitle2: {
-    marginLeft: 10,
+    marginLeft: 20,
     fontSize: 15,
     marginTop: 4,
   },

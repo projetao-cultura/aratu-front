@@ -20,21 +20,39 @@ export const getEventosParecidos = async (categoria) => {
       throw error;
     }};
 
-export const setQueroIrButtom = async (buttom, eventId, userId) => { // buttom: true
+export const setQueroIrButtom = async (buttom, eventId, userId) => { 
   try {
     if (!buttom) {
-      const response = await api.post(`/usuarios/${userId}/fui/${eventId}`); // seta estado como true
-      console.log(response.data)
-      console.log('quero_ir_state setando como true')
+      await api.post(`/usuarios/${userId}/quero_ir/${eventId}`); // seta estado como true
     }
     else{
-      const response = await api.delete(`/usuarios/${userId}/fui/${eventId}`); // seta estado como false
-      console.log(response.data)
-      console.log('quero_ir_state setando como false')
+      await api.delete(`/usuarios/${userId}/quero_ir/${eventId}`); // seta estado como false
     }
   } catch (error) {
-    console.log(buttom, eventId, userId)
-    console.log(error.data)
     console.error('Erro ao setar quero ir:', error);
     throw error;
   }};
+
+  export const setJaFuiButtom = async (buttom, eventId, userId) => {
+    try {
+      if (!buttom) {
+        await api.post(`/usuarios/${userId}/fui/${eventId}`); // seta estado como true
+      }
+      else{
+        await api.delete(`/usuarios/${userId}/fui/${eventId}`); // seta estado como false
+      }
+    } catch (error) {
+      console.error('Erro ao setar quero ir:', error);
+      throw error;
+    }};
+  
+    export const setAvaliacao = async (userAvaliacao, eventId, userId) => {
+      try {
+        console.log(userAvaliacao, eventId, userId)
+        const response = await api.post(`/usuarios/${userId}/avaliar-evento/${eventId}`, {}, { params: {avaliacao: userAvaliacao}});
+        return response.data;
+      } catch (error) {
+        console.error('Erro ao obter eventos por interesse:', error);
+        throw error;
+      }
+    };

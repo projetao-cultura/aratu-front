@@ -15,5 +15,5 @@ function formatarData(dataISO) {
 }
 
 export {
-    formatarData
+    formatarData,
 }
