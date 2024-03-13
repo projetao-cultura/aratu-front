@@ -71,8 +71,9 @@ const styles = StyleSheet.create({
   dataContainer: {
     alignItems: 'flex-start',
     marginTop: 5,
-    height: '30%',
+    height: 'auto',
     width: '80%',
+    marginBottom: 10, 
   },
   label: {
     marginTop: 20,
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: 40,
     height: '5%',
     width: '80%',
   },

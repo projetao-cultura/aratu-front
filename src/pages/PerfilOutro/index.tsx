@@ -1,22 +1,57 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/Ionicons';
 import Navbar from '../../components/Navbar.js';
 import CardPerfil from '../../components/CardPerfil.js';
 import CardAmigos from '../../components/CardAmigos.js';
+import { getAmigo } from './api';
+import { toggleFollow, estouSeguindoFulano, acharAvaliacaoDoEvento, getEventosEAmigos } from '../Perfil/api';
+import { useUser } from '../../UserContext'; 
 
 import colors from '../../assets/colors/colors.js';
 
-export default function PerfilOutro() {
+export default function PerfilOutro({ route }) {
 
-  const [following, setFollowing] = useState(true); // State to track if following or not
+  const [amigo, setAmigo] = useState();
+  const [usuario, setUsuario] = useState();
+  const { user } = useUser();
+  const { id } = route.params;
+  const [isFollowing, setIsFollowing] = useState(); // State to track if following or not
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userInfo = await getAmigo(id);
+        setAmigo(userInfo);
+
+        const logadoInfo = await getEventosEAmigos(user.id);
+        setUsuario(logadoInfo);
+  
+        const result = await estouSeguindoFulano(logadoInfo, userInfo.id);
+        setIsFollowing(result);
+      } catch (error) {
+        console.error('Erro ao carregar usuário ou verificar seguimento:', error);
+      }
+    };
+
+    fetchData();
+  }, [id]); // Detecta mudanças no parâmetro "id" da rota
 
   // Function to handle button click
   const handleButtonClick = () => {
-    setFollowing(!following); // Toggle the following state
+    if(amigo){
+      try {
+        toggleFollow(usuario, amigo.id);
+        const result = estouSeguindoFulano(usuario, amigo.id);
+        setIsFollowing(result);
+      } catch (error) {
+        console.error('Erro ao seguir/deseguir:', error);
+      }
+    }
   };
+
   const navigation = useNavigation();
     const [activeButton, setActiveButton] = useState('queroIr'); // State to track active button
     const [activeButtonTab, setActiveButtonTab] = useState('atividades'); // State to track active button
@@ -31,18 +66,19 @@ export default function PerfilOutro() {
   
     return (
       <View style={styles.container}>
-        <View style={styles.profileRectangle}>
-          <View style={styles.topNavbar}>
+        <View style={styles.topNavbar}>
             <Icon name="arrow-back" size={30} color="#000" />
             <Text style={styles.logo}>aratu</Text>
-            <Icon name="build-outline" size={30} color="#000" />
+            <Icon name="build-outline" size={30} color="#ECDDC7" />
           </View>
+        <View style={styles.profileRectangle}>
+          
   
           <View style={styles.profileContainer}>
             <View style={styles.profileInfo}>
-              <Image source={{ uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1' }} style={styles.profileImage} />
-              <Text style={styles.username}>Thiago Botelho</Text>
-              <Text style={styles.bio}>Aii que delicia</Text>
+              <Image source={{ uri: amigo ? amigo.foto_perfil : "https://www.tenhomaisdiscosqueamigos.com/wp-content/uploads/2020/03/Chico-Science.jpg" }} style={styles.profileImage} />
+              <Text style={styles.username}>{amigo ? amigo.nome : ""}</Text>
+              <Text style={styles.bio}>{amigo ? amigo.biografia : ""}</Text>
             </View>
   
             <View style={styles.containerStats}>
@@ -50,35 +86,36 @@ export default function PerfilOutro() {
                 handleTabClick('atividades');
                 handleAtividadeClick('queroIr');
               }} style={styles.item}>
-                <Text style={styles.number}>20</Text>
+                <Text style={styles.number}>{amigo ? amigo.eventos_quero_ir.length : 0}</Text>
                 <Text style={styles.text}>quero ir</Text>
               </TouchableOpacity>    
               <TouchableOpacity onPress={() => {
                 handleTabClick('atividades');
                 handleAtividadeClick('jaFui');
               }} style={styles.item}>
-                <Text style={styles.number}>378</Text>
+                <Text style={styles.number}>{amigo ? amigo.eventos_fui.length : 0}</Text>
                 <Text style={styles.text}>já fui</Text>
               </TouchableOpacity>    
               <TouchableOpacity onPress={() => handleTabClick('amigos')} style={styles.item}>
-                <Text style={styles.numberAmigo}>3</Text>
+                <Text style={styles.numberAmigo}>{amigo ? amigo.amigos.length : 0}</Text>
                 <Text style={styles.textAmigo}>amigos</Text>
               </TouchableOpacity>           
             </View>
           </View>
         </View>
 
-        <View style={[styles.friendFollowButton, { backgroundColor: following ? colors.aratuBlue : colors.aratuRed }]}>
+        <View style={[styles.friendFollowButton, { backgroundColor: isFollowing ? colors.aratuBlue : colors.aratuRed }]}>
         <TouchableOpacity
           onPress={handleButtonClick} // Pass the handleButtonClick function to onPress
         >
           <Text style={styles.friendFollowButtonText}>
-            {following ? 'Seguindo' : 'Seguir'} {/* Display the text based on the following state */}
+            {isFollowing ? 'Seguindo' : 'Seguir'} {/* Display the text based on the following state */}
           </Text>
         </TouchableOpacity>
         </View>
-  
-  {activeButtonTab === 'atividades' && (
+        <View style={{width: '100%', alignItems: 'center'}}>
+ 
+        {activeButtonTab === 'atividades' && (
         <>
   
         <View style={styles.segmentedControlStructure}>
@@ -91,56 +128,70 @@ export default function PerfilOutro() {
         </View>
   
         {activeButton === 'queroIr' && (
-          <>
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Homem da Madrugada" time="2024-03-01" rating="null"
-                                      /> 
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Home" time="2024-03-01" rating="null"
-                                      />
-  
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Home" time="2024-03-01" rating="null"
-                                      />
-  
-        </>
+        <ScrollView style={{width: '100%'}}>
+        <View style={{alignItems: 'center'}}>
+
+          {amigo &&
+          amigo.eventos_quero_ir.map((evento) => (
+            <TouchableOpacity
+              key={evento.id}
+              onPress={() => navigation.navigate('Detalhamento', {eventId: evento.id})}
+            >
+              <CardPerfil
+                imageUri={evento.banner} // Substitua 'evento.imagem' pelo caminho correto da imagem
+                name={evento.nome}
+                time={evento.data_hora}
+                idEvento={evento.id}
+                local={evento.local}
+              />
+            </TouchableOpacity>
+          ))}
+         
+         </View>
+        </ScrollView>
         )}
   
         {activeButton === 'jaFui' && (
-          <>
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Homem da Madrugada" time="2024-03-01" rating="5"
-                                      />
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Home" time="2024-03-01" rating="3"
-                                      />
-  
-          <CardPerfil imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Home" time="2024-03-01" rating="4"
-                                      />
-        </>
+        <ScrollView style={{width: '100%'}}>
+        <View style={{alignItems: 'center'}}>
+          {amigo &&
+          amigo.eventos_fui.map((evento) => (
+            <TouchableOpacity
+              key={evento.id}
+              onPress={() => navigation.navigate('DetalhamentoFui', {eventId: evento.id})}
+            >
+              <CardPerfil
+                imageUri={evento.banner} 
+                name={evento.nome}
+                time={evento.data_hora}
+                idEvento={evento.id}
+                local={evento.local}
+              />
+            </TouchableOpacity>
+          ))}
+       </View>
+        </ScrollView>
         )}
   
         </>)}
   
   
         {activeButtonTab === 'amigos' && (
-        <>
-  
-          <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Rodrigo Medeiros" follow="true"
-                                      />
-          <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Maria Andrade" follow="true"
-                                      />
-  
-          <CardAmigos imageUri={'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
-                                          name="Isabela Boscov" follow="true"
-                                      />
-  
-        </>)}
-  
-  <Navbar selectedScreen={'Explore'} navigation={navigation} />
+       <ScrollView style={{width: '100%'}}>
+       <View style={{alignItems: 'center'}}>
+
+{amigo &&
+  amigo.amigos.map((amigo2) => (
+    <CardAmigos
+      key={amigo2.id}
+      id={amigo2.id}
+    />
+  ))
+}
+</View>
+        </ScrollView>)}
+        </View>
+  <Navbar selectedScreen={'Profile'} navigation={navigation} />
   
   
         
