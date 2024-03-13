@@ -85,14 +85,14 @@ export default function Perfil() {
                 handleTabClick('atividades');
                 handleAtividadeClick('queroIr');
               }} style={styles.item}>
-                <Text style={styles.number}>{usuario ? usuario.eventos_fui.length : 0}</Text>
+                <Text style={styles.number}>{usuario ? usuario.eventos_quero_ir.length : 0}</Text>
                 <Text style={styles.text}>quero ir</Text>
               </TouchableOpacity>    
               <TouchableOpacity onPress={() => {
                 handleTabClick('atividades');
                 handleAtividadeClick('jaFui');
               }} style={styles.item}>
-                <Text style={styles.number}>{usuario ? usuario.eventos_quero_ir.length : 0}</Text>
+                <Text style={styles.number}>{usuario ? usuario.eventos_fui.length : 0}</Text>
                 <Text style={styles.text}>já fui</Text>
               </TouchableOpacity>    
               <TouchableOpacity onPress={() => handleTabClick('amigos')} style={styles.item}>

@@ -8,7 +8,7 @@ import { useUser } from '../UserContext';
 
 const CardAmigos = ({ id }) => {
   const navigation = useNavigation();
-  const [isFollowing, setIsFollowing] = useState(true);
+  const [isFollowing, setIsFollowing] = useState();
   const { user } = useUser();
 
   const [amigo, setAmigo] = useState();

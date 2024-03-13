@@ -17,7 +17,7 @@ export default function PerfilOutro({ route }) {
   const [amigo, setAmigo] = useState();
   const { user } = useUser();
   const { id } = route.params;
-  const [isFollowing, setIsFollowing] = useState(true); // State to track if following or not
+  const [isFollowing, setIsFollowing] = useState(); // State to track if following or not
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,7 +40,8 @@ export default function PerfilOutro({ route }) {
     if(amigo){
       try {
         toggleFollow(user, amigo.id);
-        setIsFollowing(!isFollowing);
+        const result = estouSeguindoFulano(user, amigo.id);
+        setIsFollowing(result);
       } catch (error) {
         console.error('Erro ao seguir/deseguir:', error);
       }

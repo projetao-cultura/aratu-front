@@ -87,13 +87,15 @@ export const handleSairDaConta = (setUser, navigation) => {
 export const toggleFollow = async (userInfo, friendId) => {
 
   try {
-    const following = userInfo.amigos.some(seguido => seguido.id === friendId);
-    if (following) {
-      await axios.delete(`${BASE_URL}/usuarios/${userInfo.id}/amigos/${friendId}`)
+    if (userInfo.amigos){
+      if (userInfo.amigos.some(seguido => seguido.id === friendId)) {
+        await axios.delete(`${BASE_URL}/usuarios/${userInfo.id}/amigos/${friendId}`)
+      }else{
+        await axios.post(`${BASE_URL}/usuarios/${userInfo.id}/amigos/${friendId}`)
+      }
     }else{
       await axios.post(`${BASE_URL}/usuarios/${userInfo.id}/amigos/${friendId}`)
     }
-
   } catch (error) {
     console.error(`Erro ao ${following ? 'deixar de ' : ''}seguir o usuário:`, error);
   }
@@ -101,12 +103,12 @@ export const toggleFollow = async (userInfo, friendId) => {
 
 export const estouSeguindoFulano = async (userInfo, friendId) => {
   try {
-    const following = userInfo.amigos.some(seguido => seguido.id === friendId);
-    if (following) {
-      return true;
-    }else{
-      return false;
+    if (userInfo.amigos){
+      if (userInfo.amigos.some(seguido => seguido.id === friendId);) {
+        return true;
+      }
     }
+    return false;
   } catch (error) {
     console.error(`Erro`, error);
   }
@@ -114,17 +116,13 @@ export const estouSeguindoFulano = async (userInfo, friendId) => {
 
 export const acharAvaliacaoDoEvento = async (avaliacoes, eventoId) => {
   if (avaliacoes.length > 0) {
-    // Procura a avaliação correspondente ao evento com o ID fornecido
     const avaliacao = avaliacoes.find(
       (avaliacao) => avaliacao.evento_id === eventoId
     );
 
-    // Se encontrou uma avaliação correspondente, retorna o valor da avaliação
     if (avaliacao) {
       return avaliacao.avaliacao;
     }
   }
-
-  // Se não encontrou uma avaliação correspondente, retorna null
   return null;
 };
