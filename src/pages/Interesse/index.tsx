@@ -8,33 +8,38 @@ import api from '../../services/APIServices';
 interface Category {
   key: string;
   link: string;
+  categoria: string;
 }
 
 const categories: Category[] = [
-  { key: 'Carnaval', link: 'https://static-00.iconduck.com/assets.00/party-popper-emoji-2045x2048-3cdxvcsw.png' },
-  { key: 'Infantil', link: 'https://symbl-world.akamaized.net/i/webp/4f/c36fa4d73da1fcc3952556fe34055d.webp' },
-  { key: 'Teatro', link: 'https://images.emojiterra.com/google/android-12l/512px/1f3ad.png' },
-  { key: 'Cinema', link: 'https://images.emojiterra.com/google/android-12l/512px/1f37f.png' },
-  { key: 'Circo', link: 'https://images.emojiterra.com/google/android-12l/512px/1f3aa.png' },
-  { key: 'Gastronomia', link: 'https://images.emojiterra.com/google/android-12l/512px/1f354.png' },
-  { key: 'Esportes', link: 'https://i.pinimg.com/originals/f6/ee/a0/f6eea0e9c5ec8b67cb29ac2a436a0d88.png' },
-  { key: 'Shows', link: 'https://images.emojiterra.com/google/android-12l/512px/1f3b8.png' },
-  { key: 'Religião', link: 'https://images.emojiterra.com/google/android-oreo/512px/1f64f.png' },
-  { key: 'Comédia', link: 'https://www.imagensempng.com.br/wp-content/uploads/2021/08/01-44.png' },
-  { key: 'Educação', link: 'https://images.emojiterra.com/mozilla/512px/1f393.png' },
-  { key: 'Artes', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png' },
+  { key: 'Carnaval', link: 'https://static-00.iconduck.com/assets.00/party-popper-emoji-2045x2048-3cdxvcsw.png', categoria: "CARNAVAL" },
+  { key: 'Infantil', link: 'https://symbl-world.akamaized.net/i/webp/4f/c36fa4d73da1fcc3952556fe34055d.webp', categoria: "INFANTIL" },
+  // { key: 'Teatro', link: 'https://images.emojiterra.com/google/android-12l/512px/1f3ad.png' },
+  { key: 'Cinema', link: 'https://images.emojiterra.com/google/android-12l/512px/1f37f.png', categoria: "ARTE_CINEMA_LAZER"  },
+  // { key: 'Circo', link: 'https://images.emojiterra.com/google/android-12l/512px/1f3aa.png' },
+  { key: 'Gastronomia', link: 'https://images.emojiterra.com/google/android-12l/512px/1f354.png', categoria: "GASTRONOMIA" },
+  { key: 'Esportes', link: 'https://i.pinimg.com/originals/f6/ee/a0/f6eea0e9c5ec8b67cb29ac2a436a0d88.png', categoria: "ESPORTES" },
+  { key: 'Shows', link: 'https://images.emojiterra.com/google/android-12l/512px/1f3b8.png', categoria: "FESTAS_SHOWS" },
+  { key: 'Religião', link: 'https://images.emojiterra.com/google/android-oreo/512px/1f64f.png', categoria: "RELIGIAO_ESPIRITUALIDADE" },
+  // { key: 'Comédia', link: 'https://www.imagensempng.com.br/wp-content/uploads/2021/08/01-44.png' },
+  { key: 'Educação', link: 'https://images.emojiterra.com/mozilla/512px/1f393.png' , categoria: "CONGRESSOS_PALESTRAS" },
+  // { key: 'Artes', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png',  },
+  { key: 'Moda', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png', categoria: "MODA_BELEZA" },
+  { key: 'Saúde', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png', categoria: "SAUDE_BEM_ESTAR" },
+  { key: 'Games', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png', categoria: "GAMES_GEEK" },
+  { key: 'Pride', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png', categoria: "PRIDE" }
 ];
 
 const Interesse = () => {
   const navigation = useNavigation();
   const { user, setUser } = useUser();
 
-  const toggleCategory = (key: string) => {
+  const toggleCategory = (categoria: string) => {
     setUser((prevUser) => ({
       ...prevUser,
       categorias: {
         ...prevUser.categorias,
-        [key]: !prevUser.categorias?.[key],
+        [categoria]: !prevUser.categorias?.[categoria],
       },
     }));
   };
@@ -56,7 +61,7 @@ const Interesse = () => {
         ativo: true,
         foto_perfil: "https://i.imgur.com/JUf7jx3.jpeg",
         senha: user.senha,
-        categorias_interesse: Object.keys(user.categorias || {}).filter(key => user.categorias?.[key]),
+        categorias_interesse: Object.keys(user.categorias || {}).filter(categoria => user.categorias?.[categoria]),
       });
 
       console.log('Dados vindos do post:');
@@ -88,9 +93,9 @@ const Interesse = () => {
             key={category.key}
             style={[
               styles.categoryButton,
-              user.categorias?.[category.key] ? styles.selectedCategory : {},
+              user.categorias?.[category.categoria] ? styles.selectedCategory : {},
             ]}
-            onPress={() => toggleCategory(category.key)}
+            onPress={() => toggleCategory(category.categoria)}
           >
             <Image source={{ uri: category.link }} style={styles.img} />
             <Text style={styles.buttonText}>{category.key}</Text>

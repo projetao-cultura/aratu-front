@@ -1,10 +1,8 @@
-import axios from 'axios';
+import api from '../../services/APIServices';
 
-const BASE_URL = 'https://aratu-api.fly.dev';
-
-export const getEventosPorInteresse = async (usuarioId) => {
+export const getEventosPopulares = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/usuarios/eventos-de-interesse/${usuarioId}`);
+    const response = await api.get(`/eventos/feed/populares`);
     return response.data;
   } catch (error) {
     console.error('Erro ao obter eventos por interesse:', error);
@@ -12,12 +10,38 @@ export const getEventosPorInteresse = async (usuarioId) => {
   }
 };
 
-export const getEventosProvisorio = async () => {
+export const getEventosRecomendados = async (userId) => {
   try {
-    const response = await axios.get(`${BASE_URL}/eventos/feed-provisorio`);
+    const response = await api.get(`/eventos/feed/recomendados-para-voce/${userId}`);
     return response.data;
   } catch (error) {
     console.error('Erro ao obter eventos:', error);
     throw error;
-  }
-};
+  }};
+
+export const getEventosAmigos = async (userId) => {
+  try {
+    const response = await api.get(`/eventos/feed/popular-entre-amigos/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao obter eventos:', error);
+    throw error;
+  }};
+
+export const getEventosCategoria = async () => {
+  try {
+    const response = await api.get(`/eventos/feed/categoria_aleatoria`);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao obter eventos:', error);
+    throw error;
+  }};
+
+export const getUserInfo = async (userId) => {
+  try {
+    const response = await api.get(`/usuarios/${userId}/expand`);
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao obter eventos:', error);
+    throw error;
+  }};
