@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Navbar from '../../components/Navbar.js';
 import {
   View,
@@ -12,114 +12,126 @@ import {
 import colors from '../../assets/colors/colors.js';
 import ClockImage from '../../assets/Clock.png';
 import NewImage from '../../assets/Clock1.png';
-import CardFeed from '../../components/CardFeed.js';
 import { useNavigation } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/Ionicons';
-import { formatarNomeCategoria} from '../Feed/helper.js'
-import { getEvento, getEventosParecidos, setQueroIrButtom } from './api';
-import { formatarData } from './helper.js';
-import { useUser } from '../../UserContext';
 
 
 
-const EventDetailsScreen = ({ route }) => {
-
-  const { eventId } = route.params;
-  const [eventosParecidos, setEventosParecidos] = useState([]);
-  const { user, setUser } = useUser();
-  const [ eventData, setEvento] = useState({
-    titulo: '',
-    horaInicio: '',
-    horaFim: '',
-    local: '',
-    banner: '',
-    descricao: '',
-    ing: '',
-    contato: '',
-    categoria: [],
-    querem_ir: [],
-    quero_ir_state: false
-  });
-  
-
-  useEffect(() => {
-    getEvento(eventId, user.id)
-      .then((evento) => {
-  
-        const categoriaFormatada = formatarNomeCategoria(evento.categoria)
-
-        const formattedEventData = {
-          titulo: evento.nome,
-          horaInicio: evento.data_hora,
-          horaFim: evento.data_fim,
-          local: evento.local,
-          banner: evento.banner,
-          descricao: evento.descricao,
-          ing: evento.onde_comprar_ingressos,
-          contato: evento.organizador,
-          categoria: categoriaFormatada,
-          querem_ir: evento.usuarios_que_querem_ir,
-          quero_ir_state: evento.quero_ir_state
-        }
-
-        // Atualizando o estado com os dados formatados
-        setEvento(formattedEventData)
-        setButtonActive(evento.quero_ir_state)
-
-        if (evento.categoria) {
-          getEventosParecidos(evento.categoria)
-            .then((eventos) => setEventosParecidos(eventos))
-            .catch((error) => console.error('Erro ao carregar eventos por interesse:', error));
-        }
-
-      })
-      .catch((error) => console.error('Erro ao carregar eventos por interesse:', error));
-  }, []);
-
+const EventDetailsScreen = () => {
   // Suponha que estas são suas URLs de imagem, você vai substituir com as reais
   const navigation = useNavigation();
 
+  const img  = require('../../assets/ImgEvent.png') 
+
+  const [evento] = useState([
+    {
+      titulo: 'Carvalheira na Ladeira',
+      tag: ['CARNAVAL', 'SHOW'],
+      hora: '01/03/2025 • 13:00 à 04/03/2025 • 23:59',
+      local: 'Parque Memorial Arcoverde, Olinda - PE',
+      banner: img, // Substitua pela sua imagem de banner local
+      descricao: 'Depois de quatro dias no nosso lugar mágico, e uma vontade danada de viver tudo novamente, só existe um jeito de fazer essa tristeza de quarta-feira passar: deixando a sua presença no #CarvalheiraNaLadeira2025 mais que CERTA',
+      ing: 'https://www.sympla.com.br/evento/carvalheira-na-ladeira-2025/2339071',
+      contato: 'contato@carvalheira.com.br',
+    },
+    // ... outros objetos de evento
+  ]);
+
+  const imgQueremIr  = require('../../assets/fotoPerfil.png') 
+
+  const [queremIr] = useState([
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    },
+    {
+      querIr: imgQueremIr,
+    }
+  ])
+
+
+  const bannerSimilarEvent = { uri: 'https://images.pexels.com/photos/14481773/pexels-photo-14481773.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'}
+
+  const [eventParecido] = useState([
+    {
+      banner: bannerSimilarEvent,
+      nomeEvento: 'Evento X'
+    },
+    {
+      banner: bannerSimilarEvent,
+      nomeEvento: 'Evento X'
+    },
+    {
+      banner: bannerSimilarEvent,
+      nomeEvento: 'Evento X'
+    },
+    {
+      banner: bannerSimilarEvent,
+      nomeEvento: 'Evento X'
+    },
+    {
+      banner: bannerSimilarEvent,
+      nomeEvento: 'Evento X'
+    },
+  ])
+
+
   const onPressContact = () => {
-    Linking.openURL('mailto:${eventData.contato}');
+    Linking.openURL('mailto:${evento[0].contato}');
   };
 
   const onPressTickets = () => {
-    Linking.openURL(eventData.ing);
+    Linking.openURL(evento[0].ing);
   };
 
   
   const [buttonActive, setButtonActive] = useState(false);
   const [buttonBackgroundColor, setButtonBackgroundColor] = useState('#FFF');
 
-
-  const toggleButtonState = () => { //buttom active: false / quero ir state: false
-    setButtonActive(!buttonActive); //buttom active: true / quero ir state: false 
-    setQueroIrButtom(buttonActive, eventId, user.id) //buttom active: true / quero ir state no banco: true / quero ir state local: false
-    setButtonBackgroundColor(buttonActive ? '#FFFAF1' : '#FFFAF1'); // Mude a cor de fundo conforme necessário
+  const toggleButtonState = () => {
+    setButtonActive(!buttonActive);
+    setButtonBackgroundColor(buttonActive ? '#FFF' : '#E8E8E8'); // Mude a cor de fundo conforme necessário
   };
 
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.container}>
-        <Image source={{uri: eventData.banner}} style={styles.eventImage} />
+        <Image source={evento[0].banner} style={styles.eventImage} />
         
         <View style={styles.content}>
-          <Text style={styles.eventTitle}>{eventData.titulo}</Text>
+          <Text style={styles.eventTitle}>{evento[0].titulo}</Text>
           
           <View style={styles.tagContainer}>
-            {Array.isArray(eventData.categoria) ? eventData.categoria.map((categoria, index) => (
-              <Text key={index} style={styles.tag}>{categoria}</Text>
-            )) : <Text style={styles.tag}>{eventData.categoria}</Text>}
-          </View>
-        
+          {evento[0].tag.map((tag, index) => (
+            <Text key={index} style={styles.tag}>{tag}</Text>
+          ))}
+        </View>
+
           <View style={styles.dateLocationContainer}>
             <Image source={require('../../assets/Clock2.png')} style={styles.clockImg} />
-            <Text style={styles.dateText}>{`${formatarData(eventData.horaInicio)} à ${formatarData(eventData.horaFim)}`}</Text>
+            <Text style={styles.dateText}>{evento[0].hora}</Text>
             
           </View>
           <View style={styles.dateLocationContainer}>
             <Image source={require('../../assets/Location.png')} style={styles.clockImg} />
-            <Text style={styles.locationText}>{eventData.local}</Text>
+            <Text style={styles.locationText}>{evento[0].local}</Text>
           </View>
 
           <TouchableOpacity
@@ -130,12 +142,9 @@ const EventDetailsScreen = ({ route }) => {
           <Text style={styles.buttonText}>QUERO IR</Text>
         </TouchableOpacity>
 
-        {eventData.descricao && (
-          <View>
-            <Text style={styles.sectionTitle}>Descrição</Text>
-            <Text style={styles.descriptionText}>{eventData.descricao}</Text>
-          </View>
-        )}
+          <Text style={styles.sectionTitle}>Descrição</Text>
+          <Text style={styles.descriptionText}>{evento[0].descricao}</Text>
+
 
           <View style={styles.ticketsContainer}>
             <Text style={styles.ticketsText}>INGRESSOS</Text>
@@ -157,63 +166,34 @@ const EventDetailsScreen = ({ route }) => {
               </View>
             </View>
           </View>
+          
         </View>
-
-        {eventData && eventData.querem_ir.length > 0 && (
-          <View style={styles.queremIrContainer}>
+        <View style={styles.queremIrContainer}>
             <Text style={styles.sectionTitle2}>QUEREM IR</Text>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
-              {eventData.querem_ir.map((item, index) => (
-                <TouchableOpacity key={index} onPress={() =>  {
-                  if (user.id === item.id) {
-                    navigation.navigate('Perfil');
-                  } else {
-                    navigation.navigate('PerfilOutro', { id: item.id });
-                  }}}>
-                  <Image
-                    style={styles.imageIcon}
-                    resizeMode="cover"
-                    source={{ uri: item.foto_perfil }}
-                  />
-                </TouchableOpacity>
+              {queremIr.map((item, index) => (
+                <Image
+                  key={index} // É importante usar uma key única para cada elemento na lista para ajudar o React a identificar quais itens mudaram.
+                  style={styles.imageIcon}
+                  resizeMode="cover"
+                  source={item.querIr}
+                />
               ))}
             </ScrollView>
+
           </View>
-        )}
           
           <Text style={styles.sectionTitle3}>Eventos parecidos</Text>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
-            {eventosParecidos.map((evento, index) => (
-              <CardFeed
-                key={`populares-${evento.id}`} // Chave única
-                imageUri={evento.banner}
-                name= {evento.nome}
-                onPress={() => {
-                  getEvento(evento.id) // Passa o ID do evento clicado
-                    .then((eventoClicado) => {
-                      // Formatar os dados do evento clicado, se necessário
-                      const categoriaFormatada = formatarNomeCategoria(eventoClicado.categoria);
-          
-                      const formattedEventData = {
-                        titulo: eventoClicado.nome,
-                        horaInicio: eventoClicado.data_hora,
-                        horaFim: eventoClicado.data_fim,
-                        local: eventoClicado.local,
-                        banner: eventoClicado.banner,
-                        descricao: eventoClicado.descricao,
-                        ing: eventoClicado.onde_comprar_ingressos,
-                        contato: eventoClicado.organizador,
-                        categoria: categoriaFormatada,
-                        querem_ir: eventoClicado.usuarios_que_querem_ir,
-                        quero_ir_state: eventoClicado.quero_ir_state
-                      };
-          
-                      // Atualizar o estado com os dados do evento clicado
-                      setEvento(formattedEventData);
-                    })
-                    .catch((error) => console.error('Erro ao carregar o evento clicado:', error));
-                }}
-              />
+            {eventParecido.map((evento, index) => (
+              <View key={index} style={styles.event}>
+                <Image
+                  style={styles.imageIcon2}
+                  resizeMode="cover"
+                  source={evento.banner}
+                />
+                <Text style={styles.eventText}>{evento.nomeEvento}</Text>
+              </View>
             ))}
           </ScrollView>
 
@@ -287,7 +267,7 @@ const styles = StyleSheet.create({
   },
   dateText: {
     color: '#555',
-    paddingLeft:10,
+    paddingLeft:10 
   },
   locationText: {
     paddingLeft:10,
@@ -397,7 +377,6 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     fontSize: 20,
     marginTop: 15,
-    marginBottom: 10
   },
   event:{
     

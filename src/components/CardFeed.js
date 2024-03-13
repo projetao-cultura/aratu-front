@@ -11,7 +11,7 @@ class CardFeed extends Component {
             style={{ flex: 3, width: null, height: null, resizeMode: 'cover' }}
           />
         </View>
-        <View style={{ flex: 1.5, paddingLeft: 7, paddingTop: 5}}>
+        <View style={{ flex: 1, paddingLeft: 7, paddingTop: 5 }}>
           <Text>{this.props.name}</Text>
         </View>
       </TouchableOpacity>
