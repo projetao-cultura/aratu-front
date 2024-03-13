@@ -141,7 +141,7 @@ export default function PerfilOutro({ route }) {
                 imageUri={evento.banner} // Substitua 'evento.imagem' pelo caminho correto da imagem
                 name={evento.nome}
                 time={evento.data_hora}
-                rating={acharAvaliacaoDoEvento(amigo.avaliacoes, evento.id)}
+                idEvento={evento.id}
                 local={evento.local}
               />
             </TouchableOpacity>
@@ -164,7 +164,7 @@ export default function PerfilOutro({ route }) {
                 imageUri={evento.banner} 
                 name={evento.nome}
                 time={evento.data_hora}
-                rating={acharAvaliacaoDoEvento(amigo.avaliacoes, evento.id)}
+                idEvento={evento.id}
                 local={evento.local}
               />
             </TouchableOpacity>
