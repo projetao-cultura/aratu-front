@@ -66,6 +66,7 @@ export const toggleFollow = async (userId, user, users, setUsers, setFriends, fr
 };
 
 export const fetchActivities = async (user, setActivities) => {
+  const img = require('../../assets/foto2Perfil.png');
     if (user && user.id) {
       try {
         const responseAmigos = await axios.get(`https://aratu-api.fly.dev/usuarios/${user.id}/expand`);
@@ -82,22 +83,31 @@ export const fetchActivities = async (user, setActivities) => {
             user: dataAmigo.nome,
             action: `Foi para ${evento.nome}`,
             time: getTimeSince(evento.data_hora),
-            avatar: { uri: dataAmigo.foto_perfil },
+            avatar: dataAmigo.foto_perfil && dataAmigo.foto_perfil !== '' ? { uri: dataAmigo.foto_perfil } : img,
           }));
     
           allActivities.push(...eventsActivities);
     
-          const ratingsActivities = dataAmigo.avaliacoes.map(avaliacao => ({
-            id: `rating-${avaliacao.id}`,
+          const ratingsActivities = dataAmigo.eventos_fui.map(evento => ({
+            id: `rating-${evento.id}`,
             user: dataAmigo.nome,
-            action: `Avaliou ${avaliacao.nome} com ${avaliacao.estrelas} estrelas`,
-            time: getTimeSince(avaliacao.data_hora),
-            avatar: { uri: dataAmigo.foto_perfil },
+            action: `Avaliou ${evento.nome} com ${evento.avaliacao} estrelas`,
+            time: getTimeSince(evento.data_hora),
+            avatar: dataAmigo.foto_perfil && dataAmigo.foto_perfil !== '' ? { uri: dataAmigo.foto_perfil } : img,
           }));
     
           allActivities.push(...ratingsActivities);
         }
-    
+        // Ordena as atividades do mais novo ao mais antigo
+        allActivities.sort((a, b) => {
+          // Usando uma expressão regular para extrair a parte numérica de strings como "53d", "1234d", etc.
+          const daysA = parseInt(a.time.match(/\d+/)[0], 10);
+          const daysB = parseInt(b.time.match(/\d+/)[0], 10);
+        
+          // Ordenar do menor número de dias para o maior (mais novo para o mais antigo)
+          return daysA - daysB;
+        });
+        
         setActivities(allActivities);
       } catch (error) {
         console.error('Erro ao buscar atividades:', error);

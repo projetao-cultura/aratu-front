@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, SafeAreaView, TextInput } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, SafeAreaView, TextInput, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Navbar from '../../components/Navbar.js';
 import { useNavigation } from '@react-navigation/native';
@@ -23,7 +23,8 @@ const ActivityScreen = () => {
 
   useEffect(() => {
     fetchActivities(user, setActivities);
-  }, [user]);
+  }, [user, friends]); // Adicionado 'friends' como uma dependência
+  
 
   const handleSearch = (text) => {
     setSearchQuery(text);
@@ -31,14 +32,27 @@ const ActivityScreen = () => {
     fetchUsers(text, user, friends, setUsers, img);
   };
 
+
   const renderUser = ({ item }) => {
     const followButtonStyles = [styles.followButton, item.following ? styles.followingButton : {}];
     const followButtonTextStyles = [styles.followButtonText, item.following ? styles.followingButtonText : {}];
-
+  
     return (
       <View style={styles.userItem}>
-        <Image source={item.avatar} style={styles.avatar} />
-        <Text style={styles.userName}>{item.name}</Text>
+        <TouchableOpacity
+          style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }} // Estilo para alinhar os itens internos
+          onPress={() => {
+            if (user.id === item.id) { // Verifica se o usuário logado é o mesmo que o usuário da lista
+              navigation.navigate('Perfil');
+            } else {
+              console.log("o id do amigo clicado é " + item.id);
+              navigation.navigate('PerfilOutro', { id: item.id }); // Navega para 'PerfilOutro' com o ID do usuário
+            }
+          }}
+        >
+          <Image source={item.avatar} style={styles.avatar} />
+          <Text style={styles.userName}>{item.name}</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={followButtonStyles}
           onPress={() => toggleFollow(item.id, user, users, setUsers, setFriends, friends)}
@@ -48,6 +62,7 @@ const ActivityScreen = () => {
       </View>
     );
   };
+
 
   const renderActivity = ({ item }) => (
     <View style={styles.activityItem1}>
@@ -61,36 +76,36 @@ const ActivityScreen = () => {
   );
 
   return (
+  
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Atividades</Text>
-        <View style={styles.searchContainer}>
-          <TextInput
-            style={styles.searchInput}
-            value={searchQuery}
-            onChangeText={handleSearch}
-            placeholder="Buscar usuários"
-          />
-          <Icon name="search-outline" size={20} color={'black'} style={styles.searchIcon} />
-        </View>
-      </View>
       
-      {isSearchMode ? (
-        <FlatList
-          data={users}
-          renderItem={renderUser}
-          keyExtractor={item => item.id}
-          style={styles.usersList}
-        />
-      ) : (
-        <FlatList
-          data={activities}
-          renderItem={renderActivity}
-          keyExtractor={item => item.id}
-          style={styles.activitiesList}
-        />
-      )}
-
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Atividades</Text>
+          <View style={styles.searchContainer}>
+            <TextInput
+              style={styles.searchInput}
+              value={searchQuery}
+              onChangeText={handleSearch}
+              placeholder="Buscar usuários"
+            />
+            <Icon name="search-outline" size={20} color={'black'} style={styles.searchIcon} />
+          </View>
+        </View>
+        {isSearchMode ? (
+          <FlatList
+            data={users}
+            renderItem={renderUser}
+            keyExtractor={item => item.id}
+            style={styles.usersList}
+          />
+        ) : (
+          <FlatList
+            data={activities}
+            renderItem={renderActivity}
+            keyExtractor={(item, index) => `${item.id}-${item.action}-${index}`}
+            style={styles.activitiesList}
+          />
+        )}
       <Navbar selectedScreen={'Atividade'} navigation={navigation} />
     </SafeAreaView>
   );
@@ -148,6 +163,7 @@ const styles = StyleSheet.create({
     marginLeft: 6
   },
   activitiesList: {
+    marginBottom: 50,
     backgroundColor: '#E5E5E5', // Ajuste para a cor de fundo da lista correspondente
   },
   activityItem1: {
@@ -225,46 +241,48 @@ const styles = StyleSheet.create({
     marginLeft: 6
   },
 usersList: {
-backgroundColor: '#E5E5E5',
-},
-userItem: {
-flexDirection: 'row',
-padding: 16,
-borderBottomWidth: 1,
-borderBottomColor: '#FFC690',
-alignItems: 'center',
-justifyContent: 'space-between',
-},
-avatar: {
-width: 50,
-height: 50,
-borderRadius: 25,
-},
-userName: {
-flex: 1,
-marginLeft: 16,
-fontWeight: 'bold',
-},
-followButtonText: {
-fontWeight: 'bold',
-color: '#FFF',
-},
-followingButtonText: {
-color: '#FFF',
-},
-followingButton: {
-backgroundColor: '#086788',
-borderColor: '#FFF',
+  marginBottom: 50,
+  backgroundColor: '#E5E5E5',
+  },
 
-},
-followButton: {
-backgroundColor: '#A41623',
-padding: 8,
-borderRadius: 18,
-borderWidth: 1,
-borderColor: '#FFF',
-},
+  userItem: {
+    flexDirection: 'row',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#FFC690',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  userName: {
+    flex: 1,
+    marginLeft: 16,
+    fontWeight: 'bold',
+  },
+  followButtonText: {
+    fontWeight: 'bold',
+    color: '#FFF',
+  },
+  followingButtonText: {
+    color: '#FFF',
+  },
+  followingButton: {
+    backgroundColor: '#086788',
+    borderColor: '#FFF',
 
-});
+  },
+  followButton: {
+    backgroundColor: '#A41623',
+    padding: 8,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: '#FFF',
+  },
+
+  });
 
 export default ActivityScreen;
