@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -13,8 +13,13 @@ import Navbar from '../../components/Navbar.js';
 import colors from '../../assets/colors/colors.js';
 import ClockImage from '../../assets/check.png';
 import NewImage from '../../assets/check1.png';
+import CardFeed from '../../components/CardFeed.js';
 import { useNavigation } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/Ionicons';
+import { getEvento, getEventosParecidos } from './api';
+import { useUser } from '../../UserContext';
+import { formatarNomeCategoria} from '../Feed/helper.js'
+import { formatarData } from './helper.js';
 
 const RatingModal = ({ visible, onRate, onClose }) => {
     const maxRating = [1, 2, 3, 4, 5];
@@ -85,12 +90,69 @@ const RatingModal = ({ visible, onRate, onClose }) => {
       // ... restante dos seus estilos ...
     });
   
-const EventDetailsScreen = () => {
+const EventDetailsScreen = ({ route }) => {
   const [rating, setRating] = useState(null); // This represents the individual user's rating
   const [averageRating, setAverageRating] = useState(0); // Assuming an initial average rating
   const [ratingCount, setRatingCount] = useState(0); // Assuming there are already 10 ratings for simplicity
   const [modalVisible, setModalVisible] = useState(false);
+  const { eventId } = route.params;
+  const [eventosParecidos, setEventosParecidos] = useState([]);
+  const { user, setUser } = useUser();
+  const [ eventData, setEvento] = useState({
+    titulo: '',
+    horaInicio: '',
+    horaFim: '',
+    local: '',
+    banner: '',
+    descricao: '',
+    ing: '',
+    contato: '',
+    avaliacao: 0,
+    categoria: [],
+    ja_foram: [],
+    quero_ir_state: false
+  });
+
+  useEffect(() => {
+    getEvento(eventId, user.id)
+      .then((evento) => {
   
+        const categoriaFormatada = formatarNomeCategoria(evento.categoria)
+
+        const formattedEventData = {
+          titulo: evento.nome,
+          horaInicio: evento.data_hora,
+          horaFim: evento.data_fim,
+          local: evento.local,
+          banner: evento.banner,
+          descricao: evento.descricao,
+          ing: evento.onde_comprar_ingressos,
+          contato: evento.organizador,
+          avaliacao: evento.avaliacao,
+          categoria: categoriaFormatada,
+          ja_foram: evento.usuarios_que_foram,
+          quero_ir_state: evento.quero_ir_state
+        }
+
+        // Atualizando o estado com os dados formatados
+        setEvento(formattedEventData)
+
+        if (evento.categoria) {
+          getEventosParecidos(evento.categoria)
+            .then((eventos) => setEventosParecidos(eventos))
+            .catch((error) => console.error('Erro ao carregar eventos por interesse:', error));
+        }
+
+      })
+      .catch((error) => console.error('Erro ao carregar eventos por interesse:', error));
+  }, []);
+
+
+
+
+
+
+
   const renderStars = (currentRating) => {
     let stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -110,9 +172,9 @@ const EventDetailsScreen = () => {
 const renderRating = () => {
     return (
         <View style={styles.ratingContainer}>
-            <Text style={styles.numericRating}> {averageRating.toFixed(1)}</Text>
+            <Text style={styles.numericRating}> {eventData.avaliacao}</Text>
 
-            {renderStars(averageRating)}
+            {renderStars(eventData.avaliacao)}
         </View>
     );
 };
@@ -138,21 +200,32 @@ const handleRating = (newRating) => {
       setModalVisible(true);
     };
 
+const handleForam = () => {
+  
+  const usuariosQueForam = eventData.ja_foram;
+  const avaliacoes = eventData.avaliacao; // Certifica-se de que avaliacoes seja um array, mesmo que eventData.avaliacao seja null ou undefined
+  
+
+  // Cria um mapa de avaliações por ID de usuário para facilitar a busca
+  const avaliacoesPorUsuarioId = {};
+  for (const avaliacao of avaliacoes) {
+    const { usuario_id, avaliacao: nota } = avaliacao;
+    avaliacoesPorUsuarioId[usuario_id] = nota;
+  }
+
+  // Mapeia os usuários que foram e adiciona a avaliação correspondente, se existir
+  const usuariosComAvaliacao = usuariosQueForam.map(usuario => {
+    const avaliacao = avaliacoesPorUsuarioId[usuario.id];
+    return { ...usuario, avaliacao: avaliacao || null };
+  });
+  console.log(usuariosComAvaliacao)
+
+  return usuariosComAvaliacao;
+}
+
+
+
   const navigation = useNavigation();
-
-  const img  = require('../../assets/quintaDoGalo.png') 
-
-  const [evento] = useState([
-    {
-      titulo: 'Quinta no Galo 2024',
-      tag: ['CARNAVAL', 'SHOW'],
-      hora: '25/01/2024, 19H00 - 22H30',
-      local: 'Sede do Galo:  Rua da Concórdia, 984 - São José Recife - PE',
-      banner: img, // Substitua pela sua imagem de banner local
-      descricao: 'Não percam a prévia do maior bloco do mundo com o melhor da música e da cultura pernambucana! Apresentações de grupos de fantasias, passistas de frevo, caboclinho, maracatus, bloco lírico e muito mais!',
-    },
-    // ... outros objetos de evento
-  ]);
 
   const imgQueremIr  = require('../../assets/fotoPerfil.png') 
 
@@ -243,16 +316,16 @@ const handleRating = (newRating) => {
   return (
     <View style={styles.mainContainer}>
       <ScrollView style={styles.container}>
-        <Image source={evento[0].banner} style={styles.eventImage} />
+        <Image source={{uri: eventData.banner}} style={styles.eventImage} />
         
         <View style={styles.content}>
-          <Text style={styles.eventTitle}>{evento[0].titulo}</Text>
+          <Text style={styles.eventTitle}>{eventData.titulo}</Text>
           
           <View style={styles.tagAndRatingContainer}>
             <View style={styles.tagContainer}>
-              {evento[0].tag.map((tag, index) => (
-                <Text key={index} style={styles.tag}>{tag}</Text>
-              ))}
+              {Array.isArray(eventData.categoria) ? eventData.categoria.map((categoria, index) => (
+                <Text key={index} style={styles.tag}>{categoria}</Text>
+              )) : <Text style={styles.tag}>{eventData.categoria}</Text>}
             </View>
             {/* Display the stars based on the rating if it exists */}
               {renderRating()}
@@ -260,12 +333,12 @@ const handleRating = (newRating) => {
 
           <View style={styles.dateLocationContainer}>
             <Image source={require('../../assets/Clock2.png')} style={styles.clockImg} />
-            <Text style={styles.dateText}>{evento[0].hora}</Text>
+            <Text style={styles.dateText}>{`${formatarData(eventData.horaInicio)} à ${formatarData(eventData.horaFim)}`}</Text>
             
           </View>
           <View style={styles.dateLocationContainer}>
             <Image source={require('../../assets/Location.png')} style={styles.clockImg} />
-            <Text style={styles.locationText}>{evento[0].local}</Text>
+            <Text style={styles.locationText}>{eventData.local}</Text>
           </View>
 
           <TouchableOpacity
@@ -282,15 +355,19 @@ const handleRating = (newRating) => {
             onRate={handleRating}
             onClose={() => setModalVisible(false)}
         />
-          <Text style={styles.sectionTitle}>Descrição</Text>
-          <Text style={styles.descriptionText}>{evento[0].descricao}</Text>
+        {eventData.descricao && (
+          <View>
+            <Text style={styles.sectionTitle}>Descrição</Text>
+            <Text style={styles.descriptionText}>{eventData.descricao}</Text>
+          </View>
+        )}
 
           
         </View>
         <View style={styles.queremIrContainer}>
             <Text style={styles.sectionTitle2}>Foram</Text>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
-              {queremIr.map((item, index) => (
+              {handleForam().map((item, index) => (
                 <View key={index} style={styles.listItemContainer}>
                   <Image
                     style={styles.imageIcon}
@@ -306,15 +383,13 @@ const handleRating = (newRating) => {
           
           <Text style={styles.sectionTitle3}>Eventos parecidos</Text>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
-            {eventParecido.map((evento, index) => (
-              <View key={index} style={styles.event}>
-                <Image
-                  style={styles.imageIcon2}
-                  resizeMode="cover"
-                  source={evento.banner}
-                />
-                <Text style={styles.eventText}>{evento.nomeEvento}</Text>
-              </View>
+            {eventosParecidos.map((evento, index) => (
+              <CardFeed
+                key={`populares-${evento.id}`} // Chave única
+                imageUri={evento.banner}
+                name= {evento.nome}
+                onPress = {() => navigation.navigate('Detalhamento', { eventId: evento.id })}
+              />
             ))}
           </ScrollView>
 
@@ -444,6 +519,7 @@ const styles = StyleSheet.create({
 
   queremIrContainer: {
     backgroundColor: '#FFF',
+    marginTop:15
   },
   horizontalScroll: {
     marginBottom: 10,
@@ -468,6 +544,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     fontSize: 20,
     marginTop: 15,
+    marginBottom: 10
   },
 
   eventText:{

@@ -12,10 +12,13 @@ import {
 import colors from '../../assets/colors/colors.js';
 import ClockImage from '../../assets/Clock.png';
 import NewImage from '../../assets/Clock1.png';
+import CardFeed from '../../components/CardFeed.js';
 import { useNavigation } from '@react-navigation/native'; 
 import Icon from 'react-native-vector-icons/Ionicons';
 import { formatarNomeCategoria} from '../Feed/helper.js'
-import { getEvento, getEventosParecidos } from './api';
+import { getEvento, getEventosParecidos, setQueroIrButtom } from './api';
+import { formatarData } from './helper.js';
+import { useUser } from '../../UserContext';
 
 
 
@@ -23,35 +26,40 @@ const EventDetailsScreen = ({ route }) => {
 
   const { eventId } = route.params;
   const [eventosParecidos, setEventosParecidos] = useState([]);
+  const { user, setUser } = useUser();
   const [ eventData, setEvento] = useState({
     titulo: '',
-    hora: '',
+    horaInicio: '',
+    horaFim: '',
     local: '',
     banner: '',
     descricao: '',
     ing: '',
     contato: '',
     categoria: [],
-    querem_ir: []
+    querem_ir: [],
+    quero_ir_state: false
   });
   
 
   useEffect(() => {
-    getEvento(eventId)
+    getEvento(eventId, user.id)
       .then((evento) => {
   
         const categoriaFormatada = formatarNomeCategoria(evento.categoria)
 
         const formattedEventData = {
           titulo: evento.nome,
-          hora: evento.data_hora,
+          horaInicio: evento.data_hora,
+          horaFim: evento.data_fim,
           local: evento.local,
           banner: evento.banner,
           descricao: evento.descricao,
           ing: evento.onde_comprar_ingressos,
           contato: evento.organizador,
           categoria: categoriaFormatada,
-          querem_ir: evento.usuarios_que_querem_ir
+          querem_ir: evento.usuarios_que_querem_ir,
+          quero_ir_state: evento.quero_ir_state
         }
 
         // Atualizando o estado com os dados formatados
@@ -65,14 +73,8 @@ const EventDetailsScreen = ({ route }) => {
 
       })
       .catch((error) => console.error('Erro ao carregar eventos por interesse:', error));
-
-    // getEventosParecidos(eventData.categoria)
-    //   .then((eventos) => setEventosParecidos(eventos))
-    //   .catch((error) => console.error('Erro ao carregar eventos por interesse:', error));
-
   }, []);
 
-  // console.log(eventData)
   // Suponha que estas são suas URLs de imagem, você vai substituir com as reais
   const navigation = useNavigation();
 
@@ -85,12 +87,13 @@ const EventDetailsScreen = ({ route }) => {
   };
 
   
-  const [buttonActive, setButtonActive] = useState(false);
+  const [buttonActive, setButtonActive] = useState(eventData.quero_ir_state);
   const [buttonBackgroundColor, setButtonBackgroundColor] = useState('#FFF');
 
-  const toggleButtonState = () => {
-    setButtonActive(!buttonActive);
-    setButtonBackgroundColor(buttonActive ? '#FFF' : '#E8E8E8'); // Mude a cor de fundo conforme necessário
+  const toggleButtonState = () => { //buttom active: false / quero ir state: false
+    setButtonActive(!buttonActive); //buttom active: true / quero ir state: false 
+    setQueroIrButtom(buttonActive, eventId, user.id) //buttom active: true / quero ir state no banco: true / quero ir state local: false
+    setButtonBackgroundColor(buttonActive ? '#FFFAF1' : '#FFFAF1'); // Mude a cor de fundo conforme necessário
   };
 
   return (
@@ -106,10 +109,10 @@ const EventDetailsScreen = ({ route }) => {
               <Text key={index} style={styles.tag}>{categoria}</Text>
             )) : <Text style={styles.tag}>{eventData.categoria}</Text>}
           </View>
-
+        
           <View style={styles.dateLocationContainer}>
             <Image source={require('../../assets/Clock2.png')} style={styles.clockImg} />
-            <Text style={styles.dateText}>{eventData.hora}</Text>
+            <Text style={styles.dateText}>{`${formatarData(eventData.horaInicio)} à ${formatarData(eventData.horaFim)}`}</Text>
             
           </View>
           <View style={styles.dateLocationContainer}>
@@ -125,9 +128,12 @@ const EventDetailsScreen = ({ route }) => {
           <Text style={styles.buttonText}>QUERO IR</Text>
         </TouchableOpacity>
 
-          <Text style={styles.sectionTitle}>Descrição</Text>
-          <Text style={styles.descriptionText}>{eventData.descricao}</Text>
-
+        {eventData.descricao && (
+          <View>
+            <Text style={styles.sectionTitle}>Descrição</Text>
+            <Text style={styles.descriptionText}>{eventData.descricao}</Text>
+          </View>
+        )}
 
           <View style={styles.ticketsContainer}>
             <Text style={styles.ticketsText}>INGRESSOS</Text>
@@ -149,34 +155,64 @@ const EventDetailsScreen = ({ route }) => {
               </View>
             </View>
           </View>
-          
         </View>
-        <View style={styles.queremIrContainer}>
+
+        {eventData && eventData.querem_ir.length > 0 && (
+          <View style={styles.queremIrContainer}>
             <Text style={styles.sectionTitle2}>QUEREM IR</Text>
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
               {eventData.querem_ir.map((item, index) => (
-                <Image
-                  key={index} // É importante usar uma key única para cada elemento na lista para ajudar o React a identificar quais itens mudaram.
-                  style={styles.imageIcon}
-                  resizeMode="cover"
-                  source={ {uri: item.foto_perfil}}
-                />
+                <TouchableOpacity key={index} onPress={() =>  {
+                  if (user.id === item.id) {
+                    navigation.navigate('Perfil');
+                  } else {
+                    console.log("o id do amigo clicado é " + item.id)
+                    navigation.navigate('PerfilOutro', { id: item.id });
+                  }}}>
+                  <Image
+                    style={styles.imageIcon}
+                    resizeMode="cover"
+                    source={{ uri: item.foto_perfil }}
+                  />
+                </TouchableOpacity>
               ))}
             </ScrollView>
-
           </View>
+        )}
           
           <Text style={styles.sectionTitle3}>Eventos parecidos</Text>
           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
             {eventosParecidos.map((evento, index) => (
-              <View key={index} style={styles.event}>
-                <Image
-                  style={styles.imageIcon2}
-                  resizeMode="cover"
-                  source={{uri: evento.banner}}
-                />
-                <Text style={styles.eventText}>{evento.nome}</Text>
-              </View>
+              <CardFeed
+                key={`populares-${evento.id}`} // Chave única
+                imageUri={evento.banner}
+                name= {evento.nome}
+                onPress={() => {
+                  getEvento(evento.id) // Passa o ID do evento clicado
+                    .then((eventoClicado) => {
+                      // Formatar os dados do evento clicado, se necessário
+                      const categoriaFormatada = formatarNomeCategoria(eventoClicado.categoria);
+          
+                      const formattedEventData = {
+                        titulo: eventoClicado.nome,
+                        horaInicio: eventoClicado.data_hora,
+                        horaFim: eventoClicado.data_fim,
+                        local: eventoClicado.local,
+                        banner: eventoClicado.banner,
+                        descricao: eventoClicado.descricao,
+                        ing: eventoClicado.onde_comprar_ingressos,
+                        contato: eventoClicado.organizador,
+                        categoria: categoriaFormatada,
+                        querem_ir: eventoClicado.usuarios_que_querem_ir,
+                        quero_ir_state: eventoClicado.quero_ir_state
+                      };
+          
+                      // Atualizar o estado com os dados do evento clicado
+                      setEvento(formattedEventData);
+                    })
+                    .catch((error) => console.error('Erro ao carregar o evento clicado:', error));
+                }}
+              />
             ))}
           </ScrollView>
 
@@ -250,7 +286,7 @@ const styles = StyleSheet.create({
   },
   dateText: {
     color: '#555',
-    paddingLeft:10 
+    paddingLeft:10,
   },
   locationText: {
     paddingLeft:10,
@@ -360,6 +396,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     fontSize: 20,
     marginTop: 15,
+    marginBottom: 10
   },
   event:{
     

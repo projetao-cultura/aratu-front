@@ -94,10 +94,11 @@ export default function Feed() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.profileRectangle}>
+      
         <View style={styles.topNavbar}>
             <Text style={styles.logo}>aratu</Text>
         </View>
+        <View style={styles.profileRectangle}>
         <View style={styles.profileContainer}>
           <View style={styles.containerText}>
             <Text style={styles.text1}>Olá, <Text style={styles.text1Highlight}>{user.nome}</Text>!</Text>
@@ -111,7 +112,7 @@ export default function Feed() {
       </View>
       
       <View style={styles.scrollViewContainer}>
-        <ScrollView scrollEventThrottle={16} style={styles.scrollView}>
+        <ScrollView scrollEventThrottle={16} style={styles.scrollView} >
 
           <View style={{ marginBottom: 20 }}>
             <Text style={styles.titleCarrosel}>
@@ -131,7 +132,7 @@ export default function Feed() {
             </View>
           </View>
 
-          <View>
+          <View style={{ marginBottom: 20 }}>
             <Text style={styles.titleCarrosel}>
               Recomendados para você
             </Text>
@@ -142,17 +143,17 @@ export default function Feed() {
                       key={`recomendados-${category.id}`} // Chave única
                       imageUri={category.banner}
                       name= {category.nome}
-                      onPress = {() => navigation.navigate('Detalhamento')}
+                      onPress = {() => navigation.navigate('Detalhamento', { eventId: category.id })}
                     />
                 ))}          
               </ScrollView>
             </View>
           </View>
           
-          <View style={styles.container}>
+          <View>
             {/* Se userInfo estiver carregado e houver amigos */}
             {userInfo && userInfo.amigos.length > 0 && (
-              <View>
+              <View style={{ marginBottom: 20 }}>
                 <Text style={styles.titleCarrosel}>
                   Popular entre amigos
                 </Text>
@@ -163,7 +164,7 @@ export default function Feed() {
                         key={`amigos-${category.id}`} // Chave única
                         imageUri={category.banner}
                         name={category.nome}
-                        onPress={() => navigation.navigate('Detalhamento')}
+                        onPress = {() => navigation.navigate('Detalhamento', { eventId: category.id })}
                       />
                     ))}
                   </ScrollView>
@@ -172,7 +173,7 @@ export default function Feed() {
             )}
           </View>
 
-          <View style={styles.container}>
+          <View style={{ marginBottom: 20 }}>
             <Text style={styles.titleCarrosel}>
               {tituloCategoriaAleatoria}
             </Text>
@@ -183,7 +184,7 @@ export default function Feed() {
                     key={`categoria-${category.id}`} // Chave única
                     imageUri={category.banner}
                     name= {category.nome}
-                    onPress = {() => navigation.navigate('Detalhamento')}
+                    onPress = {() => navigation.navigate('Detalhamento', { eventId: category.id })}
                   />
                 ))}          
               </ScrollView>
