@@ -8,7 +8,7 @@ import CardPerfil from '../../components/CardPerfil.js';
 import CardAmigos from '../../components/CardAmigos.js';
 import colors from '../../assets/colors/colors.js';
 import { useUser } from '../../UserContext'; 
-import { getEventosEAmigos, handleSairDaConta, acharAvaliacaoDoEvento } from './api';
+import { getEventosEAmigos, handleSairDaConta } from './api';
 
 export default function Perfil() {
 
@@ -103,6 +103,7 @@ export default function Perfil() {
           </View>
         </View>
   
+        <View style={{width: '100%', alignItems: 'center'}}>
   {activeButtonTab === 'atividades' && (
         <>
   
@@ -116,8 +117,8 @@ export default function Perfil() {
         </View>
   
         {activeButton === 'queroIr' && (
-          <ScrollView>
-
+          <ScrollView style={{width: '100%'}}>
+              <View style={{alignItems: 'center'}}>
           {usuario &&
           usuario.eventos_quero_ir.map((evento) => (
             <TouchableOpacity
@@ -127,18 +128,20 @@ export default function Perfil() {
               <CardPerfil
                 imageUri={evento.banner} // Substitua 'evento.imagem' pelo caminho correto da imagem
                 name={evento.nome}
-                time={evento.data_hora}
-                rating={acharAvaliacaoDoEvento(usuario.avaliacoes, evento.id)}
+                time={evento.data_hora} 
                 local={evento.local}
+                usuario={usuario}
+                idEvento={evento.id}
               />
             </TouchableOpacity>
           ))}
-         
+         </View>
         </ScrollView>
         )}
   
         {activeButton === 'jaFui' && (
-          <ScrollView>
+          <ScrollView style={{width: '100%'}}>
+          <View style={{alignItems: 'center'}}>
           {usuario &&
           usuario.eventos_fui.map((evento) => (
             <TouchableOpacity
@@ -149,11 +152,13 @@ export default function Perfil() {
                 imageUri={evento.banner} // Substitua 'evento.imagem' pelo caminho correto da imagem
                 name={evento.nome}
                 time={evento.data_hora}
-                rating={acharAvaliacaoDoEvento(usuario.avaliacoes, evento.id)}
                 local={evento.local}
+                usuario={usuario}
+                idEvento={evento.id}
               />
             </TouchableOpacity>
           ))}
+          </View>
         </ScrollView>
         )}
   
@@ -161,7 +166,8 @@ export default function Perfil() {
   
   
         {activeButtonTab === 'amigos' && (
-        <ScrollView>
+    <ScrollView style={{width: '100%'}}>
+    <View style={{alignItems: 'center'}}>
 
 {usuario &&
   usuario.amigos.map((amigo) => (
@@ -171,9 +177,10 @@ export default function Perfil() {
     />
   ))
 }
-  
+</View>
         </ScrollView>)}
   
+  </View>
   <Navbar selectedScreen={'Profile'} navigation={navigation} />
   
   

@@ -7,7 +7,7 @@ import Navbar from '../../components/Navbar.js';
 import CardPerfil from '../../components/CardPerfil.js';
 import CardAmigos from '../../components/CardAmigos.js';
 import { getAmigo } from './api';
-import { toggleFollow, estouSeguindoFulano, acharAvaliacaoDoEvento } from '../Perfil/api';
+import { toggleFollow, estouSeguindoFulano, acharAvaliacaoDoEvento, getEventosEAmigos } from '../Perfil/api';
 import { useUser } from '../../UserContext'; 
 
 import colors from '../../assets/colors/colors.js';
@@ -15,6 +15,7 @@ import colors from '../../assets/colors/colors.js';
 export default function PerfilOutro({ route }) {
 
   const [amigo, setAmigo] = useState();
+  const [usuario, setUsuario] = useState();
   const { user } = useUser();
   const { id } = route.params;
   const [isFollowing, setIsFollowing] = useState(); // State to track if following or not
@@ -24,8 +25,11 @@ export default function PerfilOutro({ route }) {
       try {
         const userInfo = await getAmigo(id);
         setAmigo(userInfo);
+
+        const logadoInfo = await getEventosEAmigos(user.id);
+        setUsuario(logadoInfo);
   
-        const result = await estouSeguindoFulano(user, userInfo.id);
+        const result = await estouSeguindoFulano(logadoInfo, userInfo.id);
         setIsFollowing(result);
       } catch (error) {
         console.error('Erro ao carregar usuário ou verificar seguimento:', error);
@@ -33,14 +37,14 @@ export default function PerfilOutro({ route }) {
     };
 
     fetchData();
-  }, []);
+  }, [id]); // Detecta mudanças no parâmetro "id" da rota
 
   // Function to handle button click
   const handleButtonClick = () => {
     if(amigo){
       try {
-        toggleFollow(user, amigo.id);
-        const result = estouSeguindoFulano(user, amigo.id);
+        toggleFollow(usuario, amigo.id);
+        const result = estouSeguindoFulano(usuario, amigo.id);
         setIsFollowing(result);
       } catch (error) {
         console.error('Erro ao seguir/deseguir:', error);
@@ -109,7 +113,7 @@ export default function PerfilOutro({ route }) {
           </Text>
         </TouchableOpacity>
         </View>
-  
+        <View style={{width: '100%', alignItems: 'center'}}>
  
         {activeButtonTab === 'atividades' && (
         <>
@@ -124,7 +128,8 @@ export default function PerfilOutro({ route }) {
         </View>
   
         {activeButton === 'queroIr' && (
-          <ScrollView>
+        <ScrollView style={{width: '100%'}}>
+        <View style={{alignItems: 'center'}}>
 
           {amigo &&
           amigo.eventos_quero_ir.map((evento) => (
@@ -142,11 +147,13 @@ export default function PerfilOutro({ route }) {
             </TouchableOpacity>
           ))}
          
+         </View>
         </ScrollView>
         )}
   
         {activeButton === 'jaFui' && (
-          <ScrollView>
+        <ScrollView style={{width: '100%'}}>
+        <View style={{alignItems: 'center'}}>
           {amigo &&
           amigo.eventos_fui.map((evento) => (
             <TouchableOpacity
@@ -162,6 +169,7 @@ export default function PerfilOutro({ route }) {
               />
             </TouchableOpacity>
           ))}
+       </View>
         </ScrollView>
         )}
   
@@ -169,7 +177,8 @@ export default function PerfilOutro({ route }) {
   
   
         {activeButtonTab === 'amigos' && (
-        <ScrollView>
+       <ScrollView style={{width: '100%'}}>
+       <View style={{alignItems: 'center'}}>
 
 {amigo &&
   amigo.amigos.map((amigo2) => (
@@ -179,9 +188,9 @@ export default function PerfilOutro({ route }) {
     />
   ))
 }
-  
+</View>
         </ScrollView>)}
-  
+        </View>
   <Navbar selectedScreen={'Profile'} navigation={navigation} />
   
   

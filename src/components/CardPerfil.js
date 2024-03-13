@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../assets/colors/colors.js';
+import { acharAvaliacaoDoEvento } from '../pages/Perfil/api';
 
 class CardPerfil extends Component {
   renderStars = rating => {
@@ -65,22 +66,40 @@ class CardPerfil extends Component {
   
 
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      rating: null
+    };
+  }
+  
+  async componentDidMount() {
+    await this.buscarAvaliacao();
+  }
+
+  buscarAvaliacao = async () => {
+    const { usuario, idEvento } = this.props;
+    const rating = await acharAvaliacaoDoEvento(usuario.avaliacoes, idEvento);
+    this.setState({ rating });
+  };
+
   render() {
-    const { imageUri, name, time, rating, local } = this.props;
+    const { imageUri, name, time, local } = this.props;
+    const { rating } = this.state;
 
     return (
       <View style={styles.container}>
-      <View style={styles.contentBlock}>
-        <View style={styles.contentBlockImage}>
-          <Image source={{uri: imageUri}} style={styles.image} />
-        </View>
-        <View style={styles.headerContentBlock}>
-          <Text style={{ fontFamily: 'Inter', fontWeight: 'bold', color: 'black' }}>{name}</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 5 }}>
-            {rating? this.renderStars(rating) : <Text style={{ fontFamily: 'Inter', color: 'gray' }}>{local}</Text>}
+        <View style={styles.contentBlock}>
+          <View style={styles.contentBlockImage}>
+            <Image source={{ uri: imageUri }} style={styles.image} />
           </View>
-        </View>
-        <Text style={styles.timeContentBlock}>{this.formatTime(time)}</Text>
+          <View style={styles.headerContentBlock}>
+            <Text style={{ fontFamily: 'Inter', fontWeight: 'bold', color: 'black' }}>{name}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 5 }}>
+              {rating ? this.renderStars(rating) : <Text style={{ fontFamily: 'Inter', color: 'gray' }}>{local}</Text>}
+            </View>
+          </View>
+          <Text style={styles.timeContentBlock}>{this.formatTime(time)}</Text>
         </View>
         <View style={styles.dividerLineContentBlock} />
       </View>
