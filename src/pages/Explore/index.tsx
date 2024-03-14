@@ -73,6 +73,10 @@ export default function Feed() {
     fetchInitialData();
   }, []); // O segundo argumento [] garante que a função só seja chamada uma vez, quando o componente é montado
 
+  const handleCardPress = (eventId) => {
+    navigation.navigate('Detalhamento', { eventId });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.exploreRectangle}>
@@ -99,15 +103,17 @@ export default function Feed() {
       </View>
 
       <View style={styles.scrollViewContainer}>
-      <ScrollView scrollEventThrottle={16} style={styles.scrollView} >
-        {eventos.map((category, index) => (
-          <CardExplore
-            key={index}
-            imageUri={category.banner}
-            name={category.nome}
-            description={category.descricao}
-          />
-        ))}
+        <ScrollView scrollEventThrottle={16} style={styles.scrollView} >
+          {eventos.map((category, index) => (
+            <CardExplore
+              key={index}
+              imageUri={category.banner}
+              name={category.nome}
+              description={category.descricao}
+              eventId={category.id}
+              onPress={handleCardPress}
+            />
+          ))}
         </ScrollView>
       </View>
 
