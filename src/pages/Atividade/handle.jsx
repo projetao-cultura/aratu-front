@@ -65,6 +65,14 @@ export const toggleFollow = async (userId, user, users, setUsers, setFriends, fr
   }
 };
 
+const findAvaliacao = (user, eventoId) => {
+  for (evento of user.avaliacoes) {
+    if (evento.evento_id === eventoId){
+      return evento.avaliacao
+    }
+  }
+};
+
 export const fetchActivities = async (user, setActivities) => {
   const img = require('../../assets/foto2Perfil.png');
     if (user && user.id) {
@@ -77,27 +85,51 @@ export const fetchActivities = async (user, setActivities) => {
         for (const amigo of dataAmigos.amigos) {
           const responseAmigo = await axios.get(`https://aratu-api.fly.dev/usuarios/${amigo.id}/expand`);
           const dataAmigo = await responseAmigo.data;
-    
+  
           const eventsActivities = dataAmigo.eventos_fui.map(evento => ({
-            id: `event-${evento.id}`,
+            id: evento.id,
             user: dataAmigo.nome,
+            userId: dataAmigo.id,
             action: `Foi para ${evento.nome}`,
             time: getTimeSince(evento.data_hora),
             avatar: dataAmigo.foto_perfil && dataAmigo.foto_perfil !== '' ? { uri: dataAmigo.foto_perfil } : img,
           }));
     
           allActivities.push(...eventsActivities);
-    
-          const ratingsActivities = dataAmigo.eventos_fui.map(evento => ({
-            id: `rating-${evento.id}`,
+          
+
+          const eventsActivitiesQueroIr = dataAmigo.eventos_quero_ir.map(evento => ({
+            id: evento.id,
             user: dataAmigo.nome,
-            action: `Avaliou ${evento.nome} com ${evento.avaliacao} estrelas`,
+            userId: dataAmigo.id,
+            action: `Quer ir para ${evento.nome}`,
             time: getTimeSince(evento.data_hora),
             avatar: dataAmigo.foto_perfil && dataAmigo.foto_perfil !== '' ? { uri: dataAmigo.foto_perfil } : img,
           }));
-    
-          allActivities.push(...ratingsActivities);
-        }
+          allActivities.push(...eventsActivitiesQueroIr);
+
+          
+          // const ratingsActivities = dataAmigo.eventos_fui.map(evento => {
+          //   if (!dataAmigo.avaliacoes.includes(evento.id)) {
+          //     return {
+          //       id: evento.id,
+          //       user: dataAmigo.nome,
+          //       action: `Avaliou ${evento.nome} com ${findAvaliacao(dataAmigo, evento.id)} estrelas`,
+          //       time: getTimeSince(evento.data_hora),
+          //       avatar: dataAmigo.foto_perfil && dataAmigo.foto_perfil !== '' ? { uri: dataAmigo.foto_perfil } : img
+          //     };
+          //   } else {
+          //     return null; // or any default value if you want
+          //   }
+          // }).filter(Boolean);
+         
+          
+            // allActivities.push(...ratingsActivities);
+            
+          }
+        
+      
+        
         // Ordena as atividades do mais novo ao mais antigo
         allActivities.sort((a, b) => {
           // Usando uma expressão regular para extrair a parte numérica de strings como "53d", "1234d", etc.

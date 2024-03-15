@@ -101,12 +101,14 @@ export default function Feed() {
       <View style={styles.scrollViewContainer}>
       <ScrollView scrollEventThrottle={16} style={styles.scrollView} >
         {eventos.map((category, index) => (
-          <CardExplore
-            key={index}
-            imageUri={category.banner}
-            name={category.nome}
-            description={category.descricao}
-          />
+          <TouchableOpacity onPress = {() => navigation.navigate('Detalhamento', { eventId: category.id })}>
+            <CardExplore
+              key={index}
+              imageUri={category.banner}
+              name={category.nome}
+              description={category.descricao}
+            />
+          </TouchableOpacity>
         ))}
         </ScrollView>
       </View>

@@ -3,6 +3,7 @@ import axios from 'axios';
 const BASE_URL = 'https://aratu-api.fly.dev';
 
 export const getAmigo = async (usuarioId) => {
+  console.log(usuarioId)
   try {
     const response = await axios.get(`${BASE_URL}/usuarios/${usuarioId}/expand`);
     return response.data;

@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Navbar from '../../components/Navbar.js';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '../../UserContext';
+import colors from '../../assets/colors/colors.js';
 
 
 const ActivityScreen = () => {
@@ -134,55 +135,55 @@ const ActivityScreen = () => {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFF7EB', // Ajuste para a cor de fundo correspondente
-      },
-      searchContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        borderRadius: 20,
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        margin: 10,
-        width: '80%',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
-      },
-      searchInput: {
-        flex: 1,
-        marginLeft: 10,
-        marginRight: 10,
-        paddingVertical: 5, // Ajuste a altura conforme necessário
-        fontSize: 16, // Ajuste o tamanho da fonte conforme necessário
-      },
-      header: {
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: 16,
-        backgroundColor: '#DB9F36', // Ajuste para a cor de fundo do cabeçalho correspondente
-      },
-      exploreRectangle: {
-        justifyContent:'center',
-        marginTop: 8,
-        backgroundColor: '#FFF',
-        width: '80%',
-        borderRadius: 12,
-        height: 30,
-        backgroundColor: '#FFF7EB',
-      },
-      headerText: {
-        color: '#000',
-        fontSize: 22,
-        fontWeight: 'bold',
-      },
-      searchIcon: {
-        marginLeft: 6
-      },
+  container: {
+      flex: 1,
+      backgroundColor: '#FFF7EB', // Ajuste para a cor de fundo correspondente
+    },
+    searchContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#fff',
+      borderRadius: 20,
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+      margin: 10,
+      width: '80%',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.22,
+      shadowRadius: 2.22,
+      elevation: 3,
+    },
+    searchInput: {
+      flex: 1,
+      marginLeft: 10,
+      marginRight: 10,
+      paddingVertical: 5, // Ajuste a altura conforme necessário
+      fontSize: 16, // Ajuste o tamanho da fonte conforme necessário
+    },
+    header: {
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 16,
+      backgroundColor: '#DB9F36', // Ajuste para a cor de fundo do cabeçalho correspondente
+    },
+    exploreRectangle: {
+      justifyContent:'center',
+      marginTop: 8,
+      backgroundColor: '#FFF',
+      width: '80%',
+      borderRadius: 12,
+      height: 30,
+      backgroundColor: '#FFF7EB',
+    },
+    headerText: {
+      color: '#000',
+      fontSize: 22,
+      fontWeight: 'bold',
+    },
+    searchIcon: {
+      marginLeft: 6
+    },
   usersList: {
     backgroundColor: '#E5E5E5',
   },

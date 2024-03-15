@@ -67,9 +67,11 @@ export default function PerfilOutro({ route }) {
     return (
       <View style={styles.container}>
         <View style={styles.topNavbar}>
-            <Icon name="arrow-back" size={30} color="#000" />
+            <TouchableOpacity onPress={() => {navigation.goBack()}}>
+              <Icon name="arrow-back" size={30} color="#000" />
+            </TouchableOpacity>
             <Text style={styles.logo}>aratu</Text>
-            <Icon name="build-outline" size={30} color="#ECDDC7" />
+              <Icon name="build-outline" size={30} color="#ECDDC7" />
           </View>
         <View style={styles.profileRectangle}>
           

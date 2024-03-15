@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 50, // Altura do searchContainer
     width: '95%',
-    backgroundColor: colors.aratuDarkBeige,
+    backgroundColor: 'white',
     borderRadius: 25, // Metade da altura para garantir um círculo
   },
   
@@ -47,13 +47,13 @@ const styles = StyleSheet.create({
   },
   
   scrollViewContainer: {
-    top: '17.5%',
+    top: 115,
     width: '100%',
     height: '100%',
     alignItems: 'center',
   },
   filtrosContainer: {
-    top: '17%',
+    top: 115,
     height: '5%',
     justifyContent: 'center',
   },
