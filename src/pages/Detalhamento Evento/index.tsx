@@ -175,6 +175,7 @@ const EventDetailsScreen = ({ route }) => {
                     resizeMode="cover"
                     source={{ uri: item.foto_perfil }}
                   />
+            
                 </TouchableOpacity>
               ))}
             </ScrollView>

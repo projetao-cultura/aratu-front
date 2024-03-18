@@ -74,6 +74,12 @@ export default function Cadastro() {
       // Carrega os contatos
       const contacts = await Contacts.getAll();
 
+      // Atualiza o contexto com os contatos carregados
+      setUser(prevUser => ({
+        ...prevUser,
+        contatos: contacts.map(contact => contact.phoneNumbers[0]?.number)
+      }));
+
       // Navega para a tela de interesse após carregar os contatos
       navigation.navigate('Interesse');
 

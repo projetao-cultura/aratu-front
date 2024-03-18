@@ -42,7 +42,9 @@ export default function Perfil() {
       <View style={styles.container}>
         <View style={styles.topNavbar}>
             {/* Retirar a seta que está com a mesma cor do fundo ↓↓↓↓↓↓↓↓↓*/}
-            <Icon name="arrow-back" size={30} color= {colors.aratuDarkBeige} /> 
+            <TouchableOpacity onPress={() => {navigation.goBack()}}>
+              <Icon name="arrow-back" size={30} color="#000" />
+            </TouchableOpacity>
             <Text style={styles.logo}>aratu</Text>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
               <Icon name="build-outline" size={30} color="#000" />

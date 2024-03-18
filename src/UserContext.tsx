@@ -16,6 +16,7 @@ interface UserData {
   numero: string;
   senha: string;
   categorias?: SelectedCategories;
+  contatos?: string[]; // Adicionando a categoria "contatos"
 }
 
 interface SelectedCategories {
@@ -32,6 +33,7 @@ export function UserProvider({ children }: UserProviderProps) {
     numero: '',
     senha: '',
     categorias: {},
+    contatos: [], // Inicializando a lista de contatos como vazia
   });
 
   return (

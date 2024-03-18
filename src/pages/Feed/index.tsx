@@ -105,10 +105,15 @@ export default function Feed() {
             <Text style={styles.text1}>Olá, <Text style={styles.text1Highlight}>{user.nome}</Text>!</Text>
             <Text style={styles.text2}>Visite e avalie nossos eventos!</Text>
           </View>
+          
           <View style={styles.ellipse}>
+          
+          <TouchableOpacity onPress={() => navigation.navigate('Perfil')}>
             {/* Use Image component to display the background image */}
-            <Image source={{ uri: userInfo.foto_perfil }} style={{ width: '100%', height: '100%', borderRadius: 35 }} />
+            <Image  source={{ uri: userInfo.foto_perfil }} style={{ width: '100%', height: '100%', borderRadius: 35 }} />
+            </TouchableOpacity>
           </View>
+          
         </View>
       </View>
       

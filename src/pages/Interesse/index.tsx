@@ -24,10 +24,10 @@ const categories: Category[] = [
   // { key: 'Comédia', link: 'https://www.imagensempng.com.br/wp-content/uploads/2021/08/01-44.png' },
   { key: 'Educação', link: 'https://images.emojiterra.com/mozilla/512px/1f393.png' , categoria: "CONGRESSOS_PALESTRAS" },
   // { key: 'Artes', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png',  },
-  { key: 'Moda', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png', categoria: "MODA_BELEZA" },
-  { key: 'Saúde', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png', categoria: "SAUDE_BEM_ESTAR" },
-  { key: 'Games', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png', categoria: "GAMES_GEEK" },
-  { key: 'Pride', link: 'https://images.emojiterra.com/google/android-12l/512px/1f5bc.png', categoria: "PRIDE" }
+  { key: 'Moda', link: 'https://images.emojiterra.com/google/noto-emoji/unicode-15/color/512px/1f457.png', categoria: "MODA_BELEZA" },
+  { key: 'Saúde', link: 'https://images.emojiterra.com/google/android-12l/512px/2695.png', categoria: "SAUDE_BEM_ESTAR" },
+  { key: 'Games', link: 'https://images.emojiterra.com/google/android-12l/512px/1f3ae.png', categoria: "GAMES_GEEK" },
+  { key: 'Pride', link: 'https://images.emojiterra.com/google/android-12l/512px/1f308.png', categoria: "PRIDE" }
 ];
 
 const Interesse = () => {
@@ -62,6 +62,7 @@ const Interesse = () => {
         foto_perfil: "https://i.imgur.com/JUf7jx3.jpeg",
         senha: user.senha,
         categorias_interesse: Object.keys(user.categorias || {}).filter(categoria => user.categorias?.[categoria]),
+        lista_contatos: user.contatos
       });
 
       console.log('Dados vindos do post:');
