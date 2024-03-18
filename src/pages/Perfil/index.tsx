@@ -41,7 +41,6 @@ export default function Perfil() {
     return (
       <View style={styles.container}>
         <View style={styles.topNavbar}>
-            {/* Retirar a seta que está com a mesma cor do fundo ↓↓↓↓↓↓↓↓↓*/}
             <TouchableOpacity onPress={() => {navigation.goBack()}}>
               <Icon name="arrow-back" size={30} color="#000" />
             </TouchableOpacity>

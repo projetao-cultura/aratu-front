@@ -65,18 +65,15 @@ const ActivityScreen = () => {
 
 
   const renderActivity = ({ item }) => (
-
-      
-      
+    <TouchableOpacity onPress={() =>  {navigation.navigate('PerfilOutro', { id: item.userId })}}>
       <View style={styles.activityItem1}>
-        
         <Image source={item.avatar} style={styles.avatar1} />
         <View style={styles.textContainer1}>
           <Text style={styles.userName1}>{item.user}</Text>
           <Text style={styles.action1}>{item.action}</Text>
         </View>
       </View>
-   
+    </TouchableOpacity>
   );
   
 

@@ -152,7 +152,7 @@ const EventDetailsScreen = ({ route }) => {
               <View style={styles.ticketsContainerNeto2}>
                 <TouchableOpacity onPress={onPressContact}>
                 <Text style={styles.contactText}>Mais Informações:</Text>
-                  <Text style={styles.contactText2}>contatopalhacochocolate.com.br</Text>
+                  <Text style={styles.contactText2}>contato@contato.com</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -190,7 +190,7 @@ const EventDetailsScreen = ({ route }) => {
                 imageUri={evento.banner}
                 name= {evento.nome}
                 onPress={() => {
-                  getEvento(evento.id) // Passa o ID do evento clicado
+                  getEvento(evento.id, user.id) // Passa o ID do evento clicado
                     .then((eventoClicado) => {
                       // Formatar os dados do evento clicado, se necessário
                       const categoriaFormatada = formatarNomeCategoria(eventoClicado.categoria);

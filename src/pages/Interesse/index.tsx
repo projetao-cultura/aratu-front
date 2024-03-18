@@ -64,7 +64,6 @@ const Interesse = () => {
         categorias_interesse: Object.keys(user.categorias || {}).filter(categoria => user.categorias?.[categoria]),
         lista_contatos: user.contatos
       });
-
       console.log('Dados vindos do post:');
       console.log(response.data);
       
